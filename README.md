@@ -34,6 +34,10 @@ When you click a risk, its description shows numbered references to the list und
 
 It is my working map and not an official ELIXIR document. It deals with honest mistakes; misconduct is out of scope.
 
+## Seen a risk that isn't here?
+
+[Open an issue](https://github.com/MichaLie/agent-risk-atlas/issues/new) and tell me what happened, or what you think could happen. I'm most interested in cases from your own work. Issues are public, so leave out anything confidential.
+
 ## How it was made
 
 Drafted with AI agents (Claude, by Anthropic), then checked and edited by me. Three of the cited works have authors at Anthropic: the study on analysts following an agent's suggestions (F1), the study on skill formation (G2) and ImpossibleBench (C6).

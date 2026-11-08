@@ -95,6 +95,8 @@ header.top .thesis b{color:var(--ink);font-weight:600}
 .cap .ex{margin:1px 0 0;font-size:16px;line-height:1.34;font-style:italic;color:#3B4A53}
 .cap .ex span{font-style:normal;color:var(--muted)}
 .cap .hint b{color:var(--ink)}
+/* fit guard: captions were fitted with Helvetica Neue; on a computer with a wider font (Aptos, Segoe UI) the script steps the text down */
+.cap.s1>div{zoom:.95} .cap.s2>div{zoom:.9} .cap.s3>div{zoom:.85}
 .tag{display:inline-block;font:600 11px var(--f);padding:1px 7px;border-radius:999px;background:var(--cell);color:var(--muted);margin-right:6px}
 
 #lines{position:absolute;inset:0;width:1600px;height:900px;pointer-events:none;z-index:2}
@@ -213,6 +215,20 @@ function defaultCaption(){
     <p class="hint">One person's working map, incomplete and not an ELIXIR guideline. Numbered references are listed below the wall.</p></div>`;
 }
 
+// Captions were fitted with the fonts on the author's Mac. Another computer may use a wider font, so if the text
+// would come closer than 3 px to the caption's bottom edge, step it down (95%, 90%, 85%) until it fits.
+function fitCaption(){
+  cap.classList.remove('s1', 's2', 's3');
+  for (const step of ['s1', 's2', 's3']){
+    const edge = cap.getBoundingClientRect().bottom - 3 * scale;
+    let low = 0;
+    cap.querySelectorAll('*').forEach(n => { const r = n.getBoundingClientRect(); if (r.height) low = Math.max(low, r.bottom); });
+    if (low <= edge) return;
+    cap.classList.remove('s1', 's2', 's3');
+    cap.classList.add(step);
+  }
+}
+
 function apply(){
   const sel = state.sel ? byId[state.sel] : null;
   const def = state.def ? defById[state.def] : null;
@@ -259,6 +275,7 @@ function apply(){
   } else {
     defaultCaption();
   }
+  fitCaption();
   document.getElementById('status').textContent = status;
   drawLines(sel, def, twinIds);
 }

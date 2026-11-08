@@ -172,6 +172,9 @@ def embed(obj):
     return s.replace("<", "\\u003c").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
 
 
+SITE = "https://michalie.github.io/agent-risk-atlas/"
+
+
 def page(template_name, out_name):
     t = (HERE / "templates" / template_name).read_text(encoding="utf-8")
     if t.count("/*__DATA__*/null") != 1:
@@ -180,6 +183,13 @@ def page(template_name, out_name):
     doc = ("<!doctype html>\n<html lang=\"en\">\n<meta charset=\"utf-8\">\n"
            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
            "<meta name=\"description\" content=\"How research with AI agents goes wrong, who fails, and what protects you.\">\n"
+           # link previews (chat, email, social): title, line and the wall image when someone pastes the address
+           "<meta property=\"og:type\" content=\"website\">\n"
+           f"<meta property=\"og:url\" content=\"{SITE}{'' if out_name == 'index.html' else out_name}\">\n"
+           "<meta property=\"og:title\" content=\"Agent Risk Atlas\">\n"
+           "<meta property=\"og:description\" content=\"How research with AI agents goes wrong, who fails, and what protects you.\">\n"
+           f"<meta property=\"og:image\" content=\"{SITE}preview.png\">\n"
+           "<meta name=\"twitter:card\" content=\"summary_large_image\">\n"
            + body + "\n</html>\n")
     (HERE / "docs").mkdir(exist_ok=True)
     (HERE / "docs" / out_name).write_text(doc, encoding="utf-8")
