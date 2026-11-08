@@ -1,0 +1,153 @@
+<title>Swiss cheese slide · Agent Risk Atlas</title>
+<style>
+/* Layout: one 16:9 slide (1600×900 canvas scaled to the screen). Left: the agent's error. Then three slices
+   (the checks, you, team and field), each with the same number of holes so hole count is not read as weakness.
+   A hole on the path closes only when its risk has a defence of a kind that is switched on (from the data). */
+:root{
+  --page:#EEF1EF; --wall:#FBFCFB; --ink:#13232B; --muted:#55656F; --rule:#D7DDE0;
+  --cheese:#F3D99B; --edge:#C99A3B; --hole:#FBFCFB; --path:#C4463C;
+  --agent:#1F8A87; --loop:#1F8A87; --rep:#E8A33D; --people:#6B5CA5;
+  --f:"Aptos","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif; --fd:"Aptos Display","Aptos","Segoe UI",Arial,sans-serif;
+  --fm:"Aptos Mono",ui-monospace,Menlo,Consolas,monospace; color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.45 var(--f)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--agent);outline-offset:2px}
+#stage{position:relative;width:100%;overflow:hidden}
+#canvas{position:absolute;top:0;left:0;width:1600px;height:900px;transform-origin:0 0;background:var(--wall);padding:26px 40px 20px;display:grid;grid-template-rows:auto auto 1fr auto;gap:10px}
+h1{font:700 34px/1.1 var(--fd);margin:0}
+.sub{margin:6px 0 0;color:var(--muted);font-size:17px}
+.back{float:right;font-size:15px;color:var(--muted);text-decoration:none;margin-top:8px}
+.back:hover{color:var(--ink)}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 26px;align-items:center}
+.ctl .g{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ctl .lab{font:600 13px var(--f);color:var(--muted);margin-right:4px}
+.b{border:1.5px solid var(--rule);background:#fff;border-radius:999px;padding:5px 14px;font-size:16px;cursor:pointer}
+.b[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+svg{width:1520px;height:auto;display:block}
+svg text{font-family:var(--f);fill:var(--ink)}
+.out{font-size:20px;border-top:2px solid var(--rule);padding-top:10px;display:flex;justify-content:space-between;gap:30px;align-items:baseline}
+.out b{color:var(--path)}
+.out small{font-size:14px;color:var(--muted);text-align:right}
+</style>
+
+<div id="stage">
+  <div id="canvas">
+    <div>
+      <a class="back" href="index.html">← Agent Risk Atlas</a>
+      <h1>How an agent's error reaches the paper</h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <div class="ctl">
+      <div class="g" id="paths"><span class="lab">Scenario</span></div>
+      <div class="g" id="steps"><span class="lab">Defences on</span></div>
+    </div>
+    <svg id="svg" viewBox="0 0 1520 625" role="img" aria-labelledby="outcome"></svg>
+    <div class="out"><span id="outcome"></span><small id="credit"></small></div>
+  </div>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const R = Object.fromEntries(DATA.risks.map(r => [r.id, r]));
+const DEF = Object.fromEntries(DATA.defences.map(d => [d.id, d]));
+const P = DATA.paths;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+const STEPS = [
+  {label: 'None', kinds: []},
+  {label: '+ The agent checks', kinds: ['loop']},
+  {label: '+ You think first', kinds: ['loop', 'rep']},
+  {label: '+ People and rules', kinds: ['loop', 'rep', 'people']},
+];
+const LAYERS = [
+  {key: 'checks', label: 'The checks', sub: 'the agent’s checks work here'},
+  {key: 'you', label: 'You', sub: 'thinking first works here'},
+  {key: 'team', label: 'Team and field', sub: 'people and rules work here'},
+];
+const kindWord = {loop: 'the agent checks', rep: 'you think first', people: 'people and rules'};
+let pi = 0, si = 0;
+
+document.getElementById('sub').textContent = 'An error gets through only where the holes line up. Pick a scenario, then switch defences on step by step; a hole closes only if the atlas lists a defence of that kind for it.';
+const reason = DATA.refs.find(r => r.key === 'reason2000');
+document.getElementById('credit').textContent = `Illustrative scenarios after the Swiss cheese model: ${reason.text} Defences are the author's working practice, untested in studies. Agent Risk Atlas v${DATA.meta.version}.`;
+document.getElementById('paths').insertAdjacentHTML('beforeend', P.map((p, i) => `<button type="button" class="b" data-p="${i}">${esc(p.name)}</button>`).join(''));
+document.getElementById('steps').insertAdjacentHTML('beforeend', STEPS.map((s, i) => `<button type="button" class="b" data-s="${i}">${esc(s.label)}</button>`).join(''));
+
+function closer(riskId, kinds){
+  const r = R[riskId];
+  for (const id of r.defences){ if (kinds.includes(DEF[id].kind)) return DEF[id]; }
+  return null;
+}
+
+function draw(){
+  document.querySelectorAll('[data-p]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.p === pi)));
+  document.querySelectorAll('[data-s]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.s === si)));
+  const p = P[pi], kinds = STEPS[si].kinds, o = R[p.origin];
+  const Y = 330, X0 = 470, DX = 340, W = 120, TOP = 120, BOT = 540, SK = 36;
+  let s = '';
+  // origin
+  s += `<rect x="0" y="${Y - 70}" width="300" height="140" rx="14" fill="#fff" stroke="var(--agent)" stroke-width="3"/>`;
+  s += `<text x="150" y="${Y - 30}" text-anchor="middle" font-size="18" fill="var(--muted)">The agent's error</text>`;
+  s += `<text x="150" y="${Y + 4}" text-anchor="middle" font-size="24" font-weight="700">${esc(o.name)}</text>`;
+  s += `<text x="150" y="${Y + 36}" text-anchor="middle" font-size="17" fill="var(--muted)" font-family="var(--fm)">${o.id}</text>`;
+  let stop = -1, stopBy = null;
+  LAYERS.forEach((L, i) => {
+    const x = X0 + i * DX, rid = p[L.key], r = R[rid], c = closer(rid, kinds);
+    if (c && stop < 0){ stop = i; stopBy = {layer: L, risk: r, def: c}; }
+    s += `<polygon points="${x},${TOP + SK} ${x + W},${TOP} ${x + W},${BOT - SK} ${x},${BOT}" fill="var(--cheese)" stroke="var(--edge)" stroke-width="2.5"/>`;
+    const deco = [[0.25, 0.1], [0.7, 0.14], [0.35, 0.27], [0.3, 0.72], [0.72, 0.8], [0.4, 0.93]];
+    deco.forEach(([fx, fy]) => {
+      const hx = x + fx * W, hy = TOP + SK / 2 + fy * (BOT - TOP - SK) - fx * SK;
+      s += `<ellipse cx="${hx}" cy="${hy}" rx="11" ry="16" fill="var(--hole)" stroke="var(--edge)" stroke-width="1.5"/>`;
+    });
+    const hy = Y - SK / 2 + SK / 2;
+    if (c){
+      s += `<ellipse cx="${x + W / 2}" cy="${hy}" rx="26" ry="38" fill="var(--cheese)" stroke="var(--${c.kind})" stroke-width="4" stroke-dasharray="6 5"/>`;
+    } else {
+      s += `<ellipse cx="${x + W / 2}" cy="${hy}" rx="26" ry="38" fill="var(--hole)" stroke="var(--path)" stroke-width="3"/>`;
+    }
+    s += `<text x="${x + W / 2}" y="${TOP - 52}" text-anchor="middle" font-size="16" fill="var(--muted)" font-family="var(--fm)">${r.id}</text>`;
+    s += `<text x="${x + W / 2}" y="${TOP - 26}" text-anchor="middle" font-size="20" font-weight="700" fill="${c ? 'var(--muted)' : 'var(--path)'}">${esc(r.name)}</text>`;
+    s += `<text x="${x + W / 2}" y="${BOT + 40}" text-anchor="middle" font-size="24" font-weight="700">${L.label}</text>`;
+    s += `<text x="${x + W / 2}" y="${BOT + 66}" text-anchor="middle" font-size="16" fill="var(--muted)">${L.sub}</text>`;
+  });
+  s += `<rect x="1400" y="${Y - 60}" width="120" height="120" rx="10" fill="#fff" stroke="var(--rule)" stroke-width="2.5"/>`;
+  s += `<text x="1460" y="${Y + 8}" text-anchor="middle" font-size="22" font-weight="700">the paper</text>`;
+  const endX = stop < 0 ? 1392 : X0 + stop * DX + W / 2 - 20;
+  s += `<line x1="304" y1="${Y}" x2="${endX}" y2="${Y}" stroke="var(--path)" stroke-width="7" stroke-linecap="round"/>`;
+  if (stop < 0){
+    s += `<polygon points="1386,${Y - 16} 1400,${Y} 1386,${Y + 16}" fill="var(--path)"/>`;
+  } else {
+    s += `<line x1="${endX + 6}" y1="${Y - 30}" x2="${endX + 6}" y2="${Y + 30}" stroke="var(--path)" stroke-width="7" stroke-linecap="round"/>`;
+  }
+  document.getElementById('svg').innerHTML = s;
+  document.getElementById('outcome').innerHTML = stop < 0
+    ? `<b>Reaches the paper.</b> No layer on this path has a defence of the kinds switched on.`
+    : `<b>Stopped at “${esc(stopBy.layer.label)}”</b> by “${esc(stopBy.def.name)}” (${kindWord[stopBy.def.kind]}), which answers ${stopBy.risk.id} ${esc(stopBy.risk.name)}.`;
+}
+
+function fit(){
+  let sc = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+  if (window.innerWidth < 760) sc = window.innerWidth / 1600;
+  const c = document.getElementById('canvas');
+  c.style.transform = `scale(${sc})`;
+  c.style.left = Math.max(0, (window.innerWidth - 1600 * sc) / 2) + 'px';
+  document.getElementById('stage').style.height = (900 * sc) + 'px';
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-p],[data-s]'); if (!b) return;
+  if (b.dataset.p !== undefined) pi = +b.dataset.p; else si = +b.dataset.s;
+  draw();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight'){ si = Math.min(3, si + 1); draw(); }
+  if (e.key === 'ArrowLeft'){ si = Math.max(0, si - 1); draw(); }
+  if (e.key === 'ArrowDown'){ pi = (pi + 1) % P.length; draw(); }
+  if (e.key === 'ArrowUp'){ pi = (pi - 1 + P.length) % P.length; draw(); }
+});
+const m = location.hash.match(/^#p(\d)s(\d)$/);
+if (m){ pi = Math.min(+m[1] - 1, P.length - 1); si = Math.min(+m[2], 3); }
+window.addEventListener('resize', fit);
+fit(); draw();
+</script>

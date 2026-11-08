@@ -1,0 +1,402 @@
+# One record per risk. IDs are fixed from version 1.0 (8 Nov 2026): never renumber or reuse one; a retired risk's ID stays unused.
+# Fields: id · name (short, for the wall) · type (A–I) · stage (where the failure arises) · looks_like (one line)
+#         refs (keys in references.yaml) · defences (ids in defences.yaml) · twin (optional: the human failure that often lets it through)
+#         open (optional: true = no defence here convinces the author yet)
+
+# A · Reading the literature (the agent)
+- id: A1
+  name: "Abstracts only"
+  type: A
+  stage: acquire
+  looks_like: "A neat summary built on abstracts; methods and supplements unread, and nothing said about the papers it could not open."
+  refs: [obs-practice]
+  defences: [fulltext, keypapers]
+  example_from: fulltext
+  twin: G1
+- id: A2
+  name: "Invented citations"
+  type: A
+  stage: search
+  looks_like: "A real-looking reference that does not exist, or a real paper that says something else."
+  refs: [walters2023, obs-practice]
+  defences: [fulltext]
+  example: "Check that every reference exists before you cite it: give its DOI or link and quote the sentence that supports the claim."
+  twin: G1
+- id: A3
+  name: "Context swapped"
+  type: A
+  stage: acquire
+  looks_like: "Mouse evidence used for human, a cell line for primary cells, IFN-γ papers cited for IFN-β."
+  refs: [proposal]
+  defences: [fulltext]
+  example: "For each cited claim, state the species, cell type and study type of the source, and flag any that differ from our system."
+- id: A4
+  name: "Confirming search"
+  type: A
+  stage: search
+  looks_like: "You ask for papers that support your result, and the agent finds them, even for an artefact."
+  refs: [obs-demo]
+  defences: [foragainst, brief]
+  example: "Search as hard for papers that contradict my result as for ones that support it, and show me both, even if one side is empty."
+
+# B · Choosing the method (the agent)
+- id: B1
+  name: "Popular, not best"
+  type: B
+  stage: plan
+  looks_like: "The most common method, often a generation behind, presented as the obvious choice."
+  refs: [obs-practice]
+  defences: [options, sincelast]
+  example: "Before choosing a method, show me two to four recent options with their papers and years, not only the most common one. Don't recommend one yet."
+  twin: G4
+- id: B2
+  name: "Tool defaults"
+  type: B
+  stage: plan
+  looks_like: "Whole-genome background, default thresholds and parameters, never shown as choices."
+  refs: [wije2022, timmons2015, obs-demo]
+  defences: [options]
+  example: "Tell me which default settings and thresholds could change the result, and what I could choose instead."
+- id: B3
+  name: "Outdated references"
+  type: B
+  stage: plan
+  looks_like: "Old gene symbols, genome builds or database versions; IDs that silently stop matching."
+  refs: [hgnc]
+  defences: [sincelast]
+  example: "Write down the genome, database and tool versions you used, copied from the tools, and tell me which gene names or IDs did not match."
+  twin: G4
+- id: B4
+  name: "Analysed anyway"
+  type: B
+  stage: plan
+  looks_like: "Treatment confounded with processing day, or three donors carrying the whole comparison, analysed without a flag."
+  refs: [obs-demo]
+  defences: [brief, expert]
+  example: "Before analysing, check the sample sheet for anything else that differs between groups, or too few replicates, and tell me before you go on."
+- id: B5
+  name: "Wrong replicate unit"
+  type: B
+  stage: plan
+  looks_like: "Wells, lanes or cells counted as independent biology; p-values as small as 10⁻¹³¹ (demo, simulated data)."
+  refs: [hurlbert1984, obs-demo]
+  defences: [brief]
+  example: "Before any statistics, ask me what counts as one independent sample (an animal, a donor, a separate culture?) and state the n in every test."
+  twin: F1
+
+# C · Running the analysis (the agent)
+- id: C1
+  name: "Plausible wrong numbers"
+  type: C
+  stage: analyze
+  looks_like: "Nothing crashes: a sign flip, a bad join, swapped labels, numbers that look normal."
+  refs: [obs-practice]
+  defences: [recompute, controls]
+  example_from: recompute
+  twin: G2
+- id: C2
+  name: "The quiet swap"
+  type: C
+  stage: analyze
+  looks_like: "The planned route failed; a subset, a cached file or a dropped covariate was used under the same label."
+  refs: [obs-practice]
+  defences: [declare, recompute]
+  example: "If the planned approach fails, tell me before you switch to anything else, such as a subset of the data or an older file."
+- id: C3
+  name: "Silent data loss"
+  type: C
+  stage: analyze
+  looks_like: "Unmapped IDs, spreadsheet-mangled gene names, filtered rows or dropped samples, never reported."
+  refs: [ziemann2016, proposal]
+  defences: [declare, controls]
+  example: "After each step, tell me how many samples and rows were kept, how many were lost, and why."
+- id: C4
+  name: "Picked by the result"
+  type: C
+  stage: analyze
+  looks_like: "Among many quick re-analyses, the threshold, subset or exclusion that gave significance is the one reported."
+  refs: [proposal]
+  defences: [declare, predict]
+  example: "Write down thresholds and exclusions before you look at the results, and don't change them afterwards without telling me."
+- id: C5
+  name: "Instruction forgotten"
+  type: C
+  stage: across
+  looks_like: "A constraint given early in a long session is lost when the agent's working memory is compacted."
+  refs: [obs-practice]
+  defences: [statusnote]
+  example: "When I give you a rule or decision in the chat, add it to your instructions file straight away and show me what you added."
+- id: C6
+  name: "Weakens its own check"
+  type: C
+  stage: audit
+  looks_like: "A failing test is edited or deleted, or a threshold lowered, until the check passes."
+  refs: [zhong2025, obs-genomics]
+  defences: [knownerror, recompute]
+  example: "If a check fails, leave it as it is and tell me why it failed; change a check or threshold only after I agree."
+  twin: F2
+
+# D · Interpreting and reporting (the agent)
+- id: D1
+  name: "Overstated"
+  type: D
+  stage: write
+  looks_like: "\"Not detected\" becomes \"absent\"; reprocessing counts as replication; a relative change becomes absolute."
+  refs: [obs-practice]
+  defences: [sentaudit]
+  example_from: sentaudit
+- id: D2
+  name: "Badge as verdict"
+  type: D
+  stage: write
+  looks_like: "\"All checks passed\", \"HIGH confidence\", \"COMPLETE\" read as scientific verdicts."
+  refs: [obs-genomics]
+  defences: [sentaudit, knownerror]
+  example: "Instead of 'all checks passed', tell me what each check actually tested and what it did not."
+  twin: F2
+- id: D3
+  name: "Report outruns evidence"
+  type: D
+  stage: write
+  looks_like: "A fluent write-up: caveats vanish, weak signals become specific claims, and the errors sit in tables nobody reopened."
+  refs: [kosmos2025, obs-genomics]
+  defences: [sentaudit, recompute]
+  example: "Before I read the draft, list sentences that say more than the data show, and any caveat from the analysis that went missing."
+  twin: F3
+- id: D4
+  name: "Self-reported success"
+  type: D
+  stage: audit
+  looks_like: "A worker agent reports that all checks passed; a rerun shows several failed."
+  refs: [obs-genomics]
+  defences: [recompute]
+  example: "When you report that checks passed, show me their actual output."
+  twin: F2
+
+# E · The checking system itself
+- id: E1
+  name: "Untested check"
+  type: E
+  stage: audit
+  looks_like: "A check that has never been shown a failure passes everything, calmly."
+  refs: [obs-practice]
+  defences: [knownerror]
+  example_from: knownerror
+  twin: F2
+- id: E2
+  name: "Shared blind spots"
+  type: E
+  stage: audit
+  looks_like: "The auditor runs on the same model and misses what the worker missed; another provider helps but does not remove this."
+  refs: [kim2025, obs-genomics]
+  defences: [humancheck]
+  example_from: humancheck
+  twin: H2
+- id: E3
+  name: "Only code was tested"
+  type: E
+  stage: audit
+  looks_like: "Software tests pass; nothing ever tested whether the claim is true."
+  refs: [obs-genomics]
+  defences: [controls]
+  example: "Code tests only show that the code runs. Also check my positive and negative controls, and tell me if either fails."
+- id: E4
+  name: "A rule is not proof"
+  type: E
+  stage: across
+  looks_like: "The instructions file says it; nothing shows that it happened."
+  refs: [obs-practice]
+  defences: [statusnote]
+  example: "For each rule in my instructions, show me where in the results it was followed, or say that you can't."
+- id: E5
+  name: "Rerun is not validity"
+  type: E
+  stage: handoff
+  looks_like: "Identical numbers from a flawed design."
+  refs: [proposal]
+  defences: [expert]
+  example_from: expert
+
+# F · You, in the moment
+- id: F1
+  name: "Deference"
+  type: F
+  stage: plan
+  looks_like: "The agent's lean becomes your judgment: in one study, with leans set by the researchers, analysts followed the agent 86% of the time, where chance would give about 50%."
+  refs: [anthropic2026]
+  defences: [choose]
+  example_from: choose
+- id: F2
+  name: "Trust up, checks down"
+  type: F
+  stage: audit
+  looks_like: "Confident sign-off while silent defects slip through; you check less after a run of clean results."
+  refs: [dissanayake2026, parasuraman2010]
+  defences: [predict, rerun]
+  example_from: predict
+- id: F3
+  name: "Fluency as truth"
+  type: F
+  stage: audit
+  looks_like: "Professional prose and figures pass review because they read well."
+  refs: [obs-practice]
+  defences: [predict]
+  example: "Show me the key numbers before you show me any written summary."
+- id: F4
+  name: "Illusion of understanding"
+  type: F
+  stage: write
+  looks_like: "Reading the agent's explanation feels like understanding; writing your own shows the gaps."
+  refs: [rozenblit2002, messeri2024]
+  defences: [explain, argument]
+  example_from: explain
+- id: F5
+  name: "Lost the thread"
+  type: F
+  stage: across
+  looks_like: "After a long or unattended run you cannot say what changed, what is uncertain, or what needs you."
+  refs: [obs-practice]
+  defences: [statusnote]
+  example_from: statusnote
+- id: F6
+  name: "Stubbornness"
+  type: F
+  stage: plan
+  looks_like: "Having learned to resist the agent's arguments, you also resist its evidence."
+  refs: [proposal]
+  defences: [choose]
+  example: "When we disagree, show me the evidence (data or a quoted passage), and ask me what result would change my mind."
+- id: F7
+  name: "Approval fatigue"
+  type: F
+  stage: across
+  looks_like: "Twelve approvals in a row; a yes that attaches to nothing in particular."
+  refs: [obs-practice]
+  defences: [questions]
+  example_from: questions
+
+# G · You, over time
+- id: G1
+  name: "Summaries only"
+  type: G
+  stage: acquire
+  looks_like: "You stop opening papers: the agent read the abstracts, you read the agent, and deep reading falls out of practice."
+  refs: [obs-practice]
+  defences: [keypapers]
+  example_from: keypapers
+- id: G2
+  name: "Skill never formed"
+  type: G
+  stage: analyze
+  looks_like: "Learning a new library with AI help left weaker understanding, code reading and debugging; those who asked it conceptual questions kept their learning."
+  refs: [shen2026]
+  defences: [explain, rerun]
+  example: "When I say I'm learning a tool, don't write the code for me: answer my questions and let me write it."
+- id: G3
+  name: "Skill fades"
+  type: G
+  stage: across
+  looks_like: "A skill you had fades because the agent now does that step; how fast is not known."
+  refs: [proposal]
+  defences: [rerun]
+  example_from: rerun
+- id: G4
+  name: "Stale methods"
+  type: G
+  stage: plan
+  looks_like: "Returning to a method after years, you do not know what changed, so you cannot catch it."
+  refs: [proposal]
+  defences: [sincelast, keypapers]
+  example_from: sincelast
+- id: G5
+  name: "Reviewing replaces doing"
+  type: G
+  stage: audit
+  looks_like: "Checking the agent's output feels like doing the analysis, and slowly replaces it."
+  refs: [obs-practice]
+  defences: [explain]
+  example: "Before showing your analysis, ask me to sketch how I would do it, then show me where we differ."
+- id: G6
+  name: "Can't defend the paper"
+  type: G
+  stage: handoff
+  looks_like: "In one editor's interviews about papers headed for desk rejection, authors of 3 of 7 could not answer basic questions about their own paper."
+  refs: [tmlr2026]
+  defences: [explain, argument]
+  example: "Before I submit, ask me the questions a reviewer would ask about this paper, and let me answer without your help."
+- id: G7
+  name: "Reasoning outsourced"
+  type: G
+  stage: write
+  looks_like: "The agent builds the argument and weighs the alternative explanations; you approve the prose and stop practising the reasoning."
+  refs: [lee2025, kosmyna2025, obs-practice]
+  defences: [argument, explain]
+  example_from: argument
+
+# H · Team and field
+- id: H1
+  name: "Shadow learning"
+  type: H
+  stage: across
+  looks_like: "The tasks that built experts are delegated; trainees watch, and the team loses the people who can teach or challenge the work."
+  refs: [beane]
+  defences: [learning]
+  example_from: learning
+- id: H2
+  name: "Monoculture"
+  type: H
+  stage: plan
+  looks_like: "Many labs' independent analyses defer to models that share one prior."
+  refs: [kim2025, messeri2024]
+  defences: [humancheck]
+  example_from: humancheck
+- id: H3
+  name: "Crumple zone"
+  type: H
+  stage: handoff
+  looks_like: "The person who signs carries the blame for a run they could not see."
+  refs: [elish2019]
+  defences: [signoff]
+  no_example: "Approvals are set up where the agent cannot write; an instruction cannot do this."
+- id: H4
+  name: "Generation outscales checking"
+  type: H
+  stage: across
+  looks_like: "Agent output grows much faster than human reading and checking can."
+  refs: [obs-genomics]
+  defences: []
+  open: true
+
+# I · Data, security and governance
+- id: I1
+  name: "Data sent out"
+  type: I
+  stage: across
+  looks_like: "Patient data, unpublished results, or a manuscript or grant you are reviewing, sent to a cloud model; access terms and confidentiality ignored."
+  refs: [proposal]
+  defences: [datatiers]
+  no_example: "Which data may go to which tool is a permission setting, decided before the project."
+- id: I2
+  name: "Prompt injection"
+  type: I
+  stage: acquire
+  looks_like: "Instructions hidden in a paper, a data file or a web page are followed as if you wrote them."
+  refs: [lin2025, greshake2023]
+  defences: [safesetup]
+  example_from: safesetup
+- id: I3
+  name: "Destructive actions"
+  type: I
+  stage: analyze
+  looks_like: "Raw data overwritten or files deleted by a script the agent wrote and ran."
+  refs: [ruan2023]
+  defences: [safesetup]
+  example: "Never overwrite raw data; write outputs to a new folder, and ask me before deleting anything."
+- id: I4
+  name: "Undisclosed AI use"
+  type: I
+  stage: handoff
+  looks_like: "The methods say an AI tool was used, but not for what or how its work was checked."
+  refs: [era2026]
+  defences: [policy]
+  example_from: policy

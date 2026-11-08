@@ -1,0 +1,38 @@
+# Axes and labels for the atlas.
+version: "1.0"
+date: "8 Nov 2026"
+author: "Michaela Liegertová"
+
+who:   # rows: who fails
+  - {id: agent,    label: "The agent",           types: [A, B, C, D]}
+  - {id: checks,   label: "The checks",          types: [E]}
+  - {id: you-now,  label: "You, in the moment",  types: [F]}
+  - {id: you-time, label: "You, over time",      types: [G]}
+  - {id: team,     label: "Team and field",      types: [H]}
+  - {id: data,     label: "Data and governance", types: [I]}
+
+stages:   # columns: the research loop; a risk sits at the step where the failure arises
+  - {id: search,  label: "Search"}
+  - {id: acquire, label: "Acquire"}
+  - {id: plan,    label: "Plan"}
+  - {id: analyze, label: "Analyse"}
+  - {id: audit,   label: "Audit"}
+  - {id: write,   label: "Write"}
+  - {id: handoff, label: "Hand off"}
+  - {id: across,  label: "Across the loop"}
+
+types:
+  A: "Reading the literature"
+  B: "Choosing the method"
+  C: "Running the analysis"
+  D: "Interpreting and reporting"
+  E: "The checking system"
+  F: "You, in the moment"
+  G: "You, over time"
+  H: "Team and field"
+  I: "Data, security and governance"
+
+kinds:   # defence kinds; name + says head each lane of the defence strip
+  loop:   {name: "The agent checks", says: "what you can ask it to run and show you"}
+  rep:    {name: "You think first",  says: "before the agent shows its version"}
+  people: {name: "People and rules", says: "colleagues, experts, lab rules and settings"}

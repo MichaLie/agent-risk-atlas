@@ -1,0 +1,349 @@
+<title>Agent Risk Atlas</title>
+<style>
+/* Layout: a wall, not a website. One fixed 1600×900 canvas (16:9) scaled to the screen like a slide:
+   header, the research-loop grid (steps × who fails), the defence strip, and a caption bar for the spotlight.
+   Notes and the numbered reference list sit below the canvas for readers who scroll.
+   Single light look for projectors; system fonts so it works offline. Colours: teal agent, red checks, amber you, violet team. */
+:root{
+  --page:#EEF1EF; --wall:#FBFCFB; --ink:#13232B; --muted:#55656F; --faint:#A7B2B8; --rule:#D7DDE0; --cell:#F1F4F3;
+  --agent:#1F8A87; --agent-t:#176E6B; --checks:#C4463C; --checks-t:#A3352D;
+  --you-now:#E8A33D; --you-now-t:#8E5C0C; --you-time:#B0761B; --you-time-t:#7A5210;
+  --team:#6B5CA5; --team-t:#56498C; --data:#5F7280; --data-t:#4A5A66;
+  --loop:#1F8A87; --rep:#E8A33D; --people:#6B5CA5; --twin:#13232B;
+  --loop-t:#176E6B; --rep-t:#8E5C0C; --people-t:#56498C;
+  --loop-tint:#E4F1F0; --rep-tint:#FBEFDA; --people-tint:#ECE9F6;
+  --f:"Aptos","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --fd:"Aptos Display","Aptos","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --fm:"Aptos Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.45 var(--f)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--agent);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+#stage{position:relative;width:100%;overflow:hidden}
+#canvas{position:absolute;top:0;left:0;width:1600px;height:900px;transform-origin:0 0;background:var(--wall);
+  display:grid;grid-template-rows:54px auto auto auto minmax(0,1fr);gap:8px;padding:15px 34px 10px}
+
+header.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
+header.top h1{font:700 30px/1 var(--fd);margin:0;letter-spacing:-.01em}
+header.top .sub{margin:5px 0 0;color:var(--muted);font-size:15px}
+header.top .thesis{text-align:right;font-size:15px;color:var(--muted);line-height:1.35}
+header.top .thesis b{color:var(--ink);font-weight:600}
+
+/* grid */
+.grid{display:grid;grid-template-columns:100px repeat(8,minmax(0,1fr));grid-auto-rows:auto;gap:3px;align-content:start;min-height:0}
+.ch{font:600 13px var(--f);color:var(--muted);text-align:center;padding:0 0 3px;border-bottom:2px solid var(--rule)}
+.ch.across{border-bottom-style:dashed}
+.rh{font:700 13px/1.15 var(--f);padding:4px 4px 0 0}
+.cell{background:var(--cell);border-radius:6px;padding:3px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.cell.across{background:transparent;border:1.5px dashed var(--rule)}
+.chip{position:relative;z-index:3;display:flex;gap:6px;align-items:baseline;width:100%;text-align:left;cursor:pointer;
+  background:#fff;border:1px solid var(--rule);border-left:5px solid var(--c);border-radius:6px;
+  padding:3px 5px;font-size:13px;line-height:1.15;transition:color .15s, border-color .15s, box-shadow .15s}
+.chip b{font:600 11px var(--fm);color:var(--muted);flex:none}
+.chip .q{margin-left:auto;flex:none;font:700 11px var(--f);color:#fff;background:var(--muted);border-radius:50%;width:16px;height:16px;display:inline-grid;place-items:center}
+.fade .chip:not(.on):not(.twin):not(.lit){color:#C2CACF;border-color:#E7EBED;border-left-color:#DDE3E6}
+.fade .chip:not(.on):not(.twin):not(.lit) b{color:#CDD4D8}
+.fade .chip:not(.on):not(.twin):not(.lit) .q{background:#D3DADE}
+.chip.on{box-shadow:0 0 0 3px var(--c);background:#fff}
+.chip.twin{box-shadow:0 0 0 2.5px var(--twin)}
+.chip.lit{box-shadow:0 0 0 2.5px var(--k)}
+
+/* the two halves of the wall are named: the grid's corner says "Where it goes wrong", the band above the strip
+   says "What protects you" (the same words as the caption's right column). Title text sits above the lines. */
+.corner{text-wrap:balance;font:700 11px/1.08 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);align-self:end;padding:0 0 3px;border-bottom:2px solid var(--ink)}
+.sect{display:flex;align-items:center;gap:12px;margin-bottom:-4px}
+.sect h2{position:relative;z-index:3;background:var(--wall);margin:0;padding-right:2px;font:700 14.5px/1.2 var(--f);letter-spacing:.07em;text-transform:uppercase;color:var(--ink)}
+.sect span{position:relative;z-index:3;background:var(--wall);padding-right:4px;font-size:14px;line-height:1.2;color:var(--muted)}
+.sect::after{content:"";flex:1;height:2px;background:var(--ink)}
+
+/* defence strip: one lane per kind, so the colour legend is the heading of its own group.
+   Lane widths follow how much text each kind holds, so all three wrap to the same number of lines.
+   Headings sit above the lines (z-index) on their lane's tint, so a line never crosses their text. */
+.strip{display:grid;grid-template-columns:1.62fr 1fr 1.2fr;gap:10px}
+.lane{background:var(--kt);border-radius:8px;padding:5px 9px 6px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.lane h4{position:relative;z-index:3;align-self:flex-start;margin:0;padding-right:6px;background:var(--kt);font:700 13.5px/1.3 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--kd)}
+.lane h4 span{font:500 13px var(--f);letter-spacing:0;text-transform:none;color:var(--ink);margin-left:8px}
+.pills{display:flex;flex-wrap:wrap;gap:3px 5px}
+.pill{position:relative;z-index:3;border:1.5px solid var(--k);background:#fff;border-radius:999px;padding:1px 9px;font-size:12.5px;cursor:pointer;transition:color .15s, border-color .15s, background .15s}
+.fade .pill:not(.on):not(.lit){color:#C2CACF;border-color:#E3E8EA}
+.pill.on,.pill.lit{background:var(--k);color:#fff}
+.pill.rep.on,.pill.rep.lit{color:#2A1A00}
+
+/* caption */
+.cap{--capc:var(--rule);background:#fff;border:1px solid var(--rule);border-left:9px solid var(--capc);border-radius:10px;
+  padding:8px 20px 7px;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;min-height:0;overflow:hidden;align-content:start}
+.cap .lab{font:700 12px var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 0 4px}
+.cap h3{margin:0 0 5px;font:700 21px/1.15 var(--fd)}
+.cap h3 small{font:600 13px var(--fm);color:var(--muted);margin-right:10px;vertical-align:1px}
+/* a selected defence: wider left column (what it is + the example), the risks it covers listed on the right */
+.cap.defcap{grid-template-columns:2.1fr 1fr}
+.cap .cov{display:grid;gap:4px;font-size:16px;line-height:1.3}
+.cap .cov b{font:600 13px var(--fm);color:var(--muted);margin-right:8px}
+.cap p{margin:0 0 5px;font-size:18px;line-height:1.32}
+.cap .meta{font-size:16px;color:var(--muted);line-height:1.35}
+.cap .meta b{color:var(--ink)}
+.cap sup{font-size:11.5px;color:var(--muted)}
+.cap .defs{display:grid;gap:6px;font-size:16px;line-height:1.3;align-content:start}
+.cap .defs div{border-left:4px solid var(--k);padding-left:10px}
+.cap .defs b{display:block;font-size:17px;line-height:1.2}
+.cap .hint{font-size:16px;color:var(--muted);line-height:1.4;margin:0 0 7px}
+/* an example instruction: dark grey italics in quotation marks, under the defence it belongs to, so it reads as a suggestion */
+.cap .ex{margin:1px 0 0;font-size:16px;line-height:1.34;font-style:italic;color:#3B4A53}
+.cap .ex span{font-style:normal;color:var(--muted)}
+.cap .hint b{color:var(--ink)}
+.tag{display:inline-block;font:600 11px var(--f);padding:1px 7px;border-radius:999px;background:var(--cell);color:var(--muted);margin-right:6px}
+
+#lines{position:absolute;inset:0;width:1600px;height:900px;pointer-events:none;z-index:2}
+#lines path{fill:none}
+
+/* notes below the wall */
+.notes{max-width:1040px;margin:0 auto;padding:36px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px));display:grid;gap:22px}
+.notes h2{font:700 22px var(--fd);margin:0 0 6px}
+.notes p{margin:0 0 8px}
+.notes ol{margin:0;padding-left:1.6em;display:grid;gap:5px;font-size:15px}
+.notes .kind{font:600 11px var(--f);color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-left:6px}
+.notes a{color:var(--agent-t)}
+.notes .small{font-size:14px;color:var(--muted)}
+.notes h3{font:700 15px var(--f);letter-spacing:.06em;text-transform:uppercase;margin:14px 0 6px}
+.notes .exl{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:15px}
+</style>
+
+<div id="stage" aria-label="Agent Risk Atlas wall">
+  <div id="canvas">
+    <header class="top">
+      <div>
+        <h1>Agent Risk Atlas</h1>
+        <p class="sub" id="sub"></p>
+      </div>
+      <div class="thesis"><b>Checks protect the result. Thinking first protects you.</b><br><span id="counts"></span></div>
+    </header>
+    <div class="grid" id="grid"></div>
+    <div class="sect" id="sect"></div>
+    <div class="strip" id="strip"></div>
+    <div class="cap" id="cap" aria-live="off"></div>
+    <svg id="lines" aria-hidden="true"></svg>
+  </div>
+</div>
+<p class="sr" role="status" id="status"></p>
+
+<div class="notes">
+  <section>
+    <h2>About</h2>
+    <p id="about"></p>
+    <p class="small" id="howmade"></p>
+  </section>
+  <section>
+    <h2>How to read it</h2>
+    <p>Columns follow the research loop; a risk sits at the step where the failure arises. Rows say who fails. Many are old failures that agents make faster and quieter. Click a risk to see the human failure that often lets it through (dark ring and dashed line) and the defences against it; click a defence to see what it covers; click empty space or press Esc to reset; arrow keys step through the risks. A ? marks an open question: nothing here convinces the author yet. Clicking a risk or a defence also shows an example you could adapt for your agent's instructions. A separate slide shows how an agent's error can pass the layers of checks: <a href="cheese.html">the Swiss cheese slide</a>.</p>
+  </section>
+  <section>
+    <h2>Example instructions</h2>
+    <p>Examples, in plain words, of what to ask your agent. Adapt them; none has been tested. Most ask the agent to show you something, because a rule in a file does not prove it was followed (E4). Two habits help all of them: ask the agent to put its questions together, and to wait for your answer when it asks for your prediction, choice or brief.</p>
+    <div id="examples"></div>
+  </section>
+  <section>
+    <h2>References</h2>
+    <ol id="reflist"></ol>
+  </section>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const M = DATA.meta, R = DATA.risks, DF = DATA.defences, REFS = DATA.refs;
+const byId = Object.fromEntries(R.map(r => [r.id, r]));
+const defById = Object.fromEntries(DF.map(d => [d.id, d]));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+const col = w => `var(--${w})`, colT = w => `var(--${w}-t)`;
+const kcol = k => `var(--${k})`;
+const letsThrough = id => R.filter(r => r.twin === id);
+const state = { sel: null, def: null };
+
+/* ---------- static render (once) ---------- */
+document.getElementById('sub').textContent = 'How research with AI agents goes wrong: who fails, where in the research loop, and what protects you.';
+document.getElementById('counts').textContent = `${R.length} risks · ${DF.length} defences · v${M.version}, ${M.date}`;
+
+const grid = document.getElementById('grid');
+let g = '<div class="corner">Where it goes wrong</div>' + M.stages.map(s => `<div class="ch ${s.id === 'across' ? 'across' : ''}">${esc(s.label)}</div>`).join('');
+for (const w of M.who){
+  g += `<div class="rh" style="color:${colT(w.id)}">${esc(w.label)}</div>`;
+  for (const s of M.stages){
+    const items = R.filter(r => r.who === w.id && r.stage === s.id);
+    g += `<div class="cell ${s.id === 'across' ? 'across' : ''}" role="group" aria-label="${esc(w.label)}, ${esc(s.label)}">` +
+      items.map(r => `<button type="button" class="chip" data-id="${r.id}" style="--c:${col(r.who)}" aria-pressed="false"><b>${r.id}</b><span>${esc(r.name)}</span>${r.open ? '<span class="q" aria-label="open question">?</span>' : ''}</button>`).join('') +
+      '</div>';
+  }
+}
+grid.innerHTML = g;
+
+const words = {2: 'two', 3: 'three', 4: 'four', 5: 'five'}, nk = Object.keys(M.kinds).length;
+document.getElementById('sect').innerHTML = `<h2>What protects you</h2><span>${DF.length} defences in ${words[nk] || nk} groups</span>`;
+const strip = document.getElementById('strip');
+const pill = d => `<button type="button" class="pill ${d.kind}" data-def="${d.id}" style="--k:${kcol(d.kind)}" aria-pressed="false">${esc(d.name)}</button>`;
+strip.innerHTML = Object.entries(M.kinds).map(([k, K]) =>
+  `<div class="lane" role="group" aria-label="${esc(K.name)}: ${esc(K.says)}" style="--k:${kcol(k)};--kt:var(--${k}-tint);--kd:var(--${k}-t)">` +
+  `<h4>${esc(K.name)}<span>${esc(K.says)}</span></h4>` +
+  `<div class="pills">${DF.filter(d => d.kind === k).map(pill).join('')}</div></div>`).join('');
+
+document.getElementById('examples').innerHTML = Object.entries(M.kinds).map(([k, K]) =>
+  `<h3 style="color:var(--${k}-t)">${esc(K.name)}</h3><ul class="exl">${DF.filter(d => d.kind === k).map(d =>
+    `<li><b>${esc(d.name)}.</b> ${d.example ? esc(d.example) : `<i>${esc(d.no_example)}</i>`}</li>`).join('')}</ul>`).join('');
+
+const cite = nums => nums.length ? `<sup>[${nums.map(n => `<a href="#ref-${n}" tabindex="-1" style="color:inherit">${n}</a>`).join(', ')}]</sup>` : '';
+const defHow = d => `<div style="--k:${kcol(d.kind)}"><b>${esc(d.name)}</b>${esc(d.does)}</div>`;
+
+document.getElementById('reflist').innerHTML = REFS.map(r => `<li id="ref-${r.n}" value="${r.n}">${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.text)}</a>` : esc(r.text)}<span class="kind">${esc(r.kind)}</span></li>`).join('');
+document.getElementById('about').innerHTML = `A working map of how research with AI agents goes wrong, by ${esc(M.author)} (version ${esc(M.version)}, ${esc(M.date)}). It is one person's working map, incomplete and not an ELIXIR guideline, and it covers honest mistakes only. Agent-side failures are catalogued in more depth elsewhere<sup>[<a href="#ref-${DATA.cite.fei2026}">${DATA.cite.fei2026}</a>]</sup>; this atlas adds the human and team failures that let them through, and the defences. <b>Defences are the author's working practice; none has been tested in a study yet.</b>`;
+document.getElementById('howmade').textContent = 'How it was made: drafted with AI agents (Claude, by Anthropic), checked and edited by the author. Three cited works have Anthropic authors: the study on analysts following an agent’s lean (F1), the study on skill formation (G2) and ImpossibleBench (C6). Every published source was checked against Crossref, arXiv or the publisher on 7–8 Nov 2026; observations and proposals are labelled as such.';
+
+/* ---------- spotlight ---------- */
+const canvas = document.getElementById('canvas');
+const cap = document.getElementById('cap');
+const svg = document.getElementById('lines');
+let scale = 1;
+
+function defaultCaption(){
+  cap.style.setProperty('--capc', 'var(--rule)');
+  cap.innerHTML = `<div><p class="hint"><b>Click any risk</b> to see what protects against it and an example of what to ask your agent; where known, also the human failure that often lets it through. <b>Click a defence</b> to see what it covers and an example instruction for your agent. Esc or a click on empty space resets.</p>
+    <p class="hint">Columns follow the research loop; each risk sits where the failure arises. Many are old failures that agents make faster and quieter. ? = open question.</p></div>
+    <div><p class="hint"><b>Defences</b> are the author's working practice; none has been tested in a study yet.</p>
+    <p class="hint">One person's working map, incomplete and not an ELIXIR guideline. Numbered references are listed below the wall.</p></div>`;
+}
+
+function apply(){
+  const sel = state.sel ? byId[state.sel] : null;
+  const def = state.def ? defById[state.def] : null;
+  const twinIds = sel ? (sel.twin ? [sel.twin] : letsThrough(sel.id).map(r => r.id)) : [];
+  const litDefs = sel ? sel.defences : [];
+  const litRisks = def ? R.filter(r => r.defences.includes(def.id)).map(r => r.id) : [];
+  canvas.classList.toggle('fade', !!(sel || def));
+  cap.classList.toggle('defcap', !!def && !sel);
+  document.querySelectorAll('.chip').forEach(c => {
+    const id = c.dataset.id;
+    c.classList.toggle('on', id === state.sel);
+    c.classList.toggle('twin', twinIds.includes(id));
+    c.classList.toggle('lit', litRisks.includes(id));
+    if (def) c.style.setProperty('--k', kcol(def.kind));
+    c.setAttribute('aria-pressed', String(id === state.sel));
+  });
+  document.querySelectorAll('.pill').forEach(p => {
+    p.classList.toggle('on', p.dataset.def === state.def);
+    p.classList.toggle('lit', litDefs.includes(p.dataset.def));
+    p.setAttribute('aria-pressed', String(p.dataset.def === state.def));
+  });
+  let status = '';
+  if (sel){
+    const tw = sel.twin ? byId[sel.twin] : null, lets = letsThrough(sel.id);
+    cap.style.setProperty('--capc', col(sel.who));
+    cap.innerHTML = `<div><h3><small>${sel.id} · ${esc(M.types[sel.type])}</small>${esc(sel.name)}</h3>
+      <p>${esc(sel.looks_like)} ${cite(sel.refnums)}</p>
+      ${tw ? `<p class="meta">Often let through by <b>${tw.id} ${esc(tw.name)}</b></p>` : ''}
+      ${lets.length ? `<p class="meta">Often lets through: <b>${lets.map(r => r.id + ' ' + esc(r.name)).join(' · ')}</b></p>` : ''}
+      ${sel.example ? `<p class="ex"><span>For example, tell your agent:</span> “${esc(sel.example)}”</p>`
+        : sel.no_example ? `<p class="ex"><span>No example instruction.</span> ${esc(sel.no_example)}</p>` : ''}</div>
+      <div><p class="lab">${sel.open ? 'Open question' : 'What protects you'}</p>
+      ${sel.open ? '<p class="meta">No defence here convinces the author yet. This one is for discussion.</p>' : `<div class="defs">${sel.defences.map(id => defHow(defById[id])).join('')}</div>`}</div>`;
+    status = `${sel.id} ${sel.name} selected`;
+  } else if (def){
+    const cov = R.filter(r => r.defences.includes(def.id));
+    cap.style.setProperty('--capc', kcol(def.kind));
+    cap.innerHTML = `<div><h3><small>${esc(M.kinds[def.kind].name)} · ${esc(M.kinds[def.kind].says)}</small>${esc(def.name)}</h3><p>${esc(def.does)}</p>
+      ${def.example
+        ? `<p class="ex"><span>For example, tell your agent:</span> “${esc(def.example)}”</p>`
+        : `<p class="ex"><span>No example instruction.</span> ${esc(def.no_example)}</p>`}</div>
+      <div><p class="lab">Protects against</p><div class="cov">${cov.map(r => `<div><b>${r.id}</b>${esc(r.name)}</div>`).join('')}</div></div>`;
+    status = `${def.name} selected, covers ${cov.length}`;
+  } else {
+    defaultCaption();
+  }
+  document.getElementById('status').textContent = status;
+  drawLines(sel, def, twinIds);
+}
+
+function box(el){
+  const r = el.getBoundingClientRect(), c = canvas.getBoundingClientRect();
+  return { x: (r.left - c.left) / scale, y: (r.top - c.top) / scale, w: r.width / scale, h: r.height / scale };
+}
+function drawLines(sel, def, twinIds){
+  /* Lines run behind the chips (z-index) and attach to chip edges, never to the text.
+     Twin links: same column -> loop out to the right of both chips; different columns -> facing side edges.
+     Several links into one chip are spread along its edge. */
+  const E = el => { const b = box(el); return { l: b.x, r: b.x + b.w, t: b.y, b: b.y + b.h, cx: b.x + b.w / 2, cy: b.y + b.h / 2, h: b.h, w: b.w }; };
+  const spread = (i, n, room) => n < 2 ? 0 : Math.max(-room, Math.min(room, (i - (n - 1) / 2) * Math.min(8, (2 * room) / (n - 1))));
+  const chipEl = id => document.querySelector(`.chip[data-id="${id}"]`);
+  const pillEl = id => document.querySelector(`.pill[data-def="${id}"]`);
+  let s = '';
+  const twin = (A, B, oa, ob) => {
+    if (Math.abs(A.cx - B.cx) < Math.min(A.w, B.w) / 2){
+      const x1 = A.r, y1 = A.cy + oa, x2 = B.r, y2 = B.cy + ob;
+      const bulge = Math.min(70, 26 + Math.abs(y2 - y1) * 0.12), xm = Math.max(x1, x2) + bulge;
+      return `M${x1},${y1} C${xm},${y1} ${xm},${y2} ${x2},${y2}`;
+    }
+    const right = B.cx > A.cx;
+    const x1 = right ? A.r : A.l, y1 = A.cy + oa, x2 = right ? B.l : B.r, y2 = B.cy + ob, dx = (x2 - x1) / 2;
+    return `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`;
+  };
+  const down = (A, P, ox, op) => {
+    const x1 = A.cx + ox, y1 = A.b, x2 = P.cx + op, y2 = P.t, ym = (y1 + y2) / 2;
+    return `M${x1},${y1} C${x1},${ym} ${x2},${ym} ${x2},${y2}`;
+  };
+  if (sel){
+    const A = E(chipEl(sel.id));
+    twinIds.forEach((t, i) => {
+      const B = E(chipEl(t));
+      s += `<path d="${twin(A, B, spread(i, twinIds.length, A.h / 2 - 4), 0)}" stroke="var(--twin)" stroke-width="2.5" stroke-dasharray="7 5"/>`;
+    });
+    sel.defences.forEach((id, i) => {
+      const P = E(pillEl(id));
+      s += `<path d="${down(A, P, spread(i, sel.defences.length, A.w / 2 - 12), 0)}" stroke="${kcol(defById[id].kind)}" stroke-width="2"/>`;
+    });
+  } else if (def){
+    const P = E(pillEl(def.id));
+    const cov = R.filter(r => r.defences.includes(def.id));
+    cov.forEach((r, i) => {
+      const A = E(chipEl(r.id));
+      s += `<path d="${down(A, P, 0, spread(i, cov.length, P.w / 2 - 10))}" stroke="${kcol(def.kind)}" stroke-width="2"/>`;
+    });
+  }
+  svg.innerHTML = s;
+}
+
+function fit(){
+  scale = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+  if (window.innerWidth < 760) scale = window.innerWidth / 1600;
+  canvas.style.transform = `scale(${scale})`;
+  canvas.style.left = Math.max(0, (window.innerWidth - 1600 * scale) / 2) + 'px';
+  document.getElementById('stage').style.height = (900 * scale) + 'px';
+  apply();
+}
+
+const order = R.map(r => r.id);
+document.addEventListener('click', e => {
+  const c = e.target.closest('.chip'), p = e.target.closest('.pill');
+  if (c){ state.sel = state.sel === c.dataset.id ? null : c.dataset.id; state.def = null; apply(); return; }
+  if (p){ state.def = state.def === p.dataset.def ? null : p.dataset.def; state.sel = null; apply(); return; }
+  if (e.target.closest('#canvas')){ state.sel = null; state.def = null; apply(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape'){ state.sel = null; state.def = null; apply(); return; }
+  if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !e.target.closest('input')){
+    const i = state.sel ? order.indexOf(state.sel) : -1;
+    const n = e.key === 'ArrowRight' ? (i + 1) % order.length : (i <= 0 ? order.length - 1 : i - 1);
+    state.sel = order[n]; state.def = null; apply();
+    document.querySelector(`.chip[data-id="${state.sel}"]`).focus({ preventScroll: true });
+    e.preventDefault();
+  }
+});
+function fromHash(){
+  const h = decodeURIComponent(location.hash.slice(1));
+  state.sel = byId[h] ? h : null; state.def = defById[h] ? h : null;
+}
+window.addEventListener('hashchange', () => { fromHash(); apply(); });
+window.addEventListener('resize', fit);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+fromHash();
+fit();
+</script>

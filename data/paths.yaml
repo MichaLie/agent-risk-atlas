@@ -1,0 +1,22 @@
+# Swiss cheese paths (illustrative scenarios). origin = the agent's error; then one hole in each layer.
+# A hole closes when its risk has a defence of a kind that is switched on. The build checks every id and layer.
+- name: "Nobody read the paper"
+  origin: A1
+  checks: E2
+  you: G1
+  team: H2
+- name: "\"All checks passed\""
+  origin: D2
+  checks: E1
+  you: F2
+  team: H3
+- name: "Plausible wrong numbers"
+  origin: C1
+  checks: E3
+  you: G2
+  team: H1
+- name: "An artefact made convincing"
+  origin: B2
+  checks: E2
+  you: F3
+  team: H2
