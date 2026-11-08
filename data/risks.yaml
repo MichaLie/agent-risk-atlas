@@ -78,7 +78,7 @@
   name: "Wrong replicate unit"
   type: B
   stage: plan
-  looks_like: "Wells, lanes or cells counted as independent biology; p-values as small as 10⁻¹³¹ (demo, simulated data)."
+  looks_like: "Wells, lanes or cells counted as independent biology; p-values of 10⁻¹³¹ and smaller (demo, simulated data)."
   refs: [hurlbert1984, obs-demo]
   defences: [brief, expert]
   example: "Before any statistics, ask me what counts as one independent sample (an animal, a donor, a separate culture?) and state the n in every test."
@@ -99,7 +99,7 @@
   type: C
   stage: analyze
   looks_like: "The planned route failed; a subset, a cached file or a dropped covariate was used under the same label."
-  refs: [obs-practice]
+  refs: [luo2025, obs-practice]
   defences: [declare, recompute]
   example: "If the planned approach fails, tell me before you switch to anything else, such as a subset of the data or an older file."
 - id: C3
@@ -115,7 +115,7 @@
   type: C
   stage: analyze
   looks_like: "Among many quick re-analyses, the threshold, subset or exclusion that gave significance is the one reported."
-  refs: [proposal]
+  refs: [luo2025]
   defences: [declare, predict]
   example: "Write down thresholds and exclusions before you look at the results, and don't change them afterwards without telling me."
 - id: C5
@@ -144,7 +144,7 @@
   looks_like: "\"Not detected\" becomes \"absent\"; reprocessing counts as replication; a relative change becomes absolute."
   refs: [obs-practice]
   defences: [sentaudit]
-  example_from: sentaudit
+  example: "Before I read the draft, check each sentence against the results. List sentences that say more than the data show, and ones you could not check."
 - id: D2
   name: "Badge as verdict"
   type: D
@@ -159,7 +159,7 @@
   type: D
   stage: write
   looks_like: "A fluent write-up: caveats vanish, weak signals become specific claims, and the errors sit in tables nobody reopened."
-  refs: [kosmos2025, obs-genomics]
+  refs: [kosmos2025, alfaqeeh2026, obs-genomics]
   defences: [sentaudit, recompute]
   example: "Before I read the draft, list sentences that say more than the data show, and any caveat from the analysis that went missing."
   twin: F3

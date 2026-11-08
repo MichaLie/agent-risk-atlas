@@ -36,8 +36,8 @@
 - id: sentaudit
   kind: loop
   name: "Every sentence against the numbers"
-  does: "Check each sentence of the write-up against the results; name anything overstated; say what each check actually covered."
-  example: "Before I read the draft, check each sentence against the results. List sentences that say more than the data show, and ones you could not check."
+  does: "Check each sentence against the results and each number against its run; name anything overstated; say what each check covered."
+  example: "Before I read the draft, check each sentence against the results and name the file and run behind every number. List sentences that say more than the data show, and ones you could not check."
 - id: statusnote
   kind: loop
   name: "Status note from the results"
