@@ -80,7 +80,7 @@
   stage: plan
   looks_like: "Wells, lanes or cells counted as independent biology; p-values as small as 10⁻¹³¹ (demo, simulated data)."
   refs: [hurlbert1984, obs-demo]
-  defences: [brief]
+  defences: [brief, expert]
   example: "Before any statistics, ask me what counts as one independent sample (an animal, a donor, a separate culture?) and state the n in every test."
   twin: F1
 
@@ -91,7 +91,7 @@
   stage: analyze
   looks_like: "Nothing crashes: a sign flip, a bad join, swapped labels, numbers that look normal."
   refs: [obs-practice]
-  defences: [recompute, controls]
+  defences: [recompute, humancheck]
   example_from: recompute
   twin: G2
 - id: C2
@@ -169,7 +169,7 @@
   stage: audit
   looks_like: "A worker agent reports that all checks passed; a rerun shows several failed."
   refs: [obs-genomics]
-  defences: [recompute]
+  defences: [recompute, signoff]
   example: "When you report that checks passed, show me their actual output."
   twin: F2
 
