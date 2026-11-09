@@ -6,13 +6,15 @@ How research with AI agents goes wrong: who fails, at which step, and what prote
 
 ![The atlas wall](docs/preview.png)
 
-I made this for an ELIXIR hands-on training session on AI agents in life-science research. It fits on one screen, so you can project it during a discussion, and it works as a web page afterwards.
+If you use AI agents in your research, or are about to, this is for you. Agents can save you weeks of work, but their errors read as well as facts, and they tend to slip through in the same few ways. The atlas puts those ways on one screen, together with what you can do about each one.
 
-## What's on it
+I made it for an ELIXIR hands-on training session on AI agents in life-science research. Project it to start a discussion with your group, or explore it on your own.
 
-Each box is a risk. The rows say who fails: the agent, the checks around it, you in the moment, you over time, your team and field, and data governance. The columns follow the steps of a research project, from searching the literature to handing the work on.
+## How to read it
 
-Click a risk to see what protects against it and an example of what you could ask your agent. For some risks you also see the human failure that often lets the agent's error through.
+Each box is one risk. The rows show who fails: the agent, the checks around it, you in the moment, you over time, your team and field, and data governance. The columns follow a research project, from searching the literature to handing the work on.
+
+Click a risk to see what protects you against it, and an example of what you could ask your agent. For some risks you will also see the human failure that often lets the agent's error through.
 
 The defences come in three groups:
 
@@ -20,31 +22,31 @@ The defences come in three groups:
 - **You think first:** thinking only you can do, before the agent shows its version.
 - **People and rules:** colleagues, experts, lab rules and settings.
 
-The example requests are in plain words, so adapt them to your own work. The defences and the examples are my working practice. None of them has been tested in a study.
+The example requests are written in plain words, so adapt them to your own work. They and the defences come from my own practice; none of them has been tested in a study yet.
 
-## Using it
+## Finding your way
 
-Click a risk or a defence to highlight it. Esc or a click on empty space clears it, and the arrow keys move from risk to risk. You can link straight to one risk, for example [#B5](https://michalie.github.io/agent-risk-atlas/#B5).
+Click a risk or a defence to highlight it. Press Esc or click on empty space to clear it, and use the arrow keys to move from risk to risk. You can also link to a single risk, for example [#B5](https://michalie.github.io/agent-risk-atlas/#B5).
 
-The Swiss cheese slide takes four example errors and shows where each one is stopped as you switch the groups of defences on, one at a time.
+The Swiss cheese slide takes four example errors and shows where each one is stopped as you switch on the groups of defences, one at a time.
 
-## Sources
+## Where the content comes from
 
-When you click a risk, its description shows numbered references to the list under the wall. Each reference is marked as a published source, my own observation, or my proposal. The published sources were checked against Crossref, arXiv or the publisher in November 2026.
+When you click a risk, its description shows numbered references to the list under the wall. Each reference is marked as a published source, my own observation, or my proposal. I checked the published sources against Crossref, arXiv or the publisher in November 2026.
 
-It is my working map and not an official ELIXIR document. It deals with honest mistakes; misconduct is out of scope.
+This is my working map, not an official ELIXIR document. It is about honest mistakes; misconduct is out of scope.
 
 ## Seen a risk that isn't here?
 
-[Open an issue](https://github.com/MichaLie/agent-risk-atlas/issues/new) and tell me what happened, or what you think could happen. I'm most interested in cases from your own work. Issues are public, so leave out anything confidential.
+Please tell me. [Open an issue](https://github.com/MichaLie/agent-risk-atlas/issues/new) and describe what happened, or what you think could happen. Cases from your own work help most. Issues are public, so leave out anything confidential.
 
 ## How it was made
 
-Drafted with AI agents (Claude, by Anthropic), then checked and edited by me. Three of the cited works have authors at Anthropic: the study on analysts following an agent's suggestions (F1), the study on skill formation (G2) and ImpossibleBench (C6).
+I drafted the atlas with AI agents (Claude, by Anthropic), then checked and edited it myself. Three of the cited works have authors at Anthropic: the study on analysts following an agent's suggestions (F1), the study on skill formation (G2) and ImpossibleBench (C6).
 
-## Changing it
+## Reusing or changing it
 
-The content is in `data/` as plain YAML files. `build.py` checks them and writes the two pages into `docs/`:
+You are welcome to reuse and adapt it under the licence below. The content is in `data/` as plain YAML files. `build.py` checks them and writes the two pages into `docs/`:
 
 ```
 pip install -r requirements.txt
