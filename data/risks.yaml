@@ -115,7 +115,7 @@
   type: C
   stage: analyze
   looks_like: "Among many quick re-analyses, the threshold, subset or exclusion that gave significance is the one reported."
-  refs: [luo2025]
+  refs: [luo2025, proposal]
   defences: [declare, predict]
   example: "Write down thresholds and exclusions before you look at the results, and don't change them afterwards without telling me."
 - id: C5
@@ -389,7 +389,7 @@
   type: I
   stage: analyze
   looks_like: "Raw data overwritten or files deleted by a script the agent wrote and ran."
-  refs: [ruan2023]
+  refs: [ruan2023, obs-practice]
   defences: [safesetup]
   example: "Never overwrite raw data; write outputs to a new folder, and ask me before deleting anything."
 - id: I4

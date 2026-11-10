@@ -1,22 +1,397 @@
-# Swiss cheese paths (illustrative scenarios). origin = the agent's error; then one hole in each layer.
-# A hole closes when its risk has a defence of a kind that is switched on. The build checks every id and layer.
-- name: "Nobody read the paper"
-  origin: A1
-  checks: E2
-  you: G1
-  team: H2
-- name: "\"All checks passed\""
-  origin: D2
-  checks: E1
-  you: F2
-  team: H3
-- name: "Plausible wrong numbers"
-  origin: C1
-  checks: E3
-  you: G2
-  team: H1
-- name: "An artefact made convincing"
-  origin: B2
-  checks: E2
-  you: F3
-  team: H2
+# Companion chains for paths.html:
+#   paper:   7 single-project paths showing how an error or misinterpretation reaches print, and which gate stops it.
+#   deskill: 5 multi-project tracks showing how judgement erodes over time, and how thinking-first habits keep your edge.
+# build.py validates every risk ID against risks.yaml and every defence ID + kind against defences.yaml.
+
+paper:
+  - id: abstracts
+    name: "Context swapped"
+    tag: "Literature misread"
+    origin:
+      risks: [A1, A3]
+      title: "Mouse cell line cited for human donors"
+      text: "Summarising 35 abstracts, the agent cites a mouse RAW264.7 IFN-γ study as evidence for human donor macrophages treated with IFN-β."
+    gates:
+      - layer: checks
+        risks: [E3]
+        open_title: "Link check passes"
+        open_text: "The DOI and journal are real; nothing opened the Methods section to check species, cell type or stimulus."
+        catch:
+          kind: loop
+          defences: [fulltext]
+          how: "Saving full texts and quoting species, cell type and study type flags mouse RAW264.7 ≠ human donor macrophages."
+      - layer: you
+        risks: [G1]
+        open_title: "Read only the summary"
+        open_text: "With 35 papers in the list, you read the agent's neat synthesis and leave the primary PDFs unopened."
+        catch:
+          kind: rep
+          defences: [keypapers]
+          how: "Reading the two load-bearing papers yourself catches the mouse cell-line system on the first page of Methods."
+      - layer: team
+        risks: [H2]
+        open_title: "Recognisable journal"
+        open_text: "Co-authors recognise a familiar immunology citation in the draft and move past it."
+    review:
+      open_title: "Citations taken on trust"
+      open_text: "Referees read for argument flow and rarely pull 35 cited papers to verify species or stimulus in Methods."
+      why_passes: "Plausible immunology citation passes external review."
+    paper_claim:
+      bad: "Introduction and Discussion build a human macrophage IFN-β mechanism on mouse IFN-γ cell-line findings."
+      saved: "Model-system mismatch flagged before drafting; claim grounded in primary human macrophage studies."
+
+  - id: enrichment
+    name: "Enrichment artefact"
+    tag: "Default + confirming search"
+    origin:
+      risks: [B2, A4]
+      title: "Whole-genome background + supporting papers"
+      text: "Over-representation run against ~20,000 human genes flags mTORC1 (q = 0.002); asked for context, the agent finds real mTOR papers."
+    gates:
+      - layer: checks
+        risks: [E3]
+        open_title: "Default never surfaced"
+        open_text: "The script runs cleanly with zero errors; whole-genome background sits hidden inside the tool's default call."
+        catch:
+          kind: loop
+          defences: [options, recompute, foragainst]
+          how: "Surfacing background options and recomputing against tested genes collapses mTORC1 to q = 0.41; counter-search breaks confirmation."
+      - layer: you
+        risks: [F3]
+        open_title: "Fluent story convinces"
+        open_text: "Real mTOR citations plus a crisp metabolic paragraph read like a genuine biological discovery."
+        catch:
+          kind: rep
+          defences: [predict]
+          how: "Your prior prediction (IFN genes up, housekeeping and metabolic sets flat) marks the mTOR hit as suspect at once."
+      - layer: team
+        risks: [E5]
+        open_title: "Table matches code"
+        open_text: "Rerunning the student's script reproduces q = 0.002 identically from the same biased background."
+        catch:
+          kind: people
+          defences: [expert]
+          how: "A bioinformatician checks the universe of tested genes and removes the expression-bias artefact."
+    review:
+      open_title: "Background missing in Methods"
+      open_text: "Methods state 'GO enrichment (FDR < 0.05)' without the gene universe — 95% of surveyed ORA papers passed peer review this way."
+      why_passes: "Standard-looking FDR table satisfies referees."
+    paper_claim:
+      bad: "Paper claims IFN-β transcriptionally reprograms macrophage mTORC1 metabolism — an artefact of expressed-gene bias."
+      saved: "Metabolic artefact dropped at audit; only true interferon programmes enter the manuscript."
+
+  - id: numbers
+    name: "\"All checks passed\""
+    tag: "Wrong-run numbers"
+    origin:
+      risks: [C4, D3]
+      title: "Best cut-off picked & wrong-run number"
+      text: "Across quick re-runs, the significant cut-off is kept and a single-run statistic is copied into the 3-run mean column."
+    gates:
+      - layer: checks
+        risks: [D4, E1]
+        open_title: "Self-reported green badge"
+        open_text: "The worker agent reports \"All checks passed\" without raw output; the value exists in the folder, in another run."
+        catch:
+          kind: loop
+          defences: [sentaudit, declare, knownerror]
+          how: "Tracing every sentence and number to its exact file and run exposes the misattributed column and threshold shift."
+      - layer: you
+        risks: [F2]
+        open_title: "Skimmed after clean runs"
+        open_text: "After ten clean outputs, attention drops; prose and table look polished, so the table files stay closed."
+        catch:
+          kind: rep
+          defences: [predict, rerun]
+          how: "Pre-declared thresholds and a one-step rerun of the headline table catch the discrepant mean immediately."
+      - layer: team
+        risks: [H3]
+        open_title: "Signed from the summary"
+        open_text: "The corresponding author signs off on the clean report without seeing which checks actually ran."
+        catch:
+          kind: people
+          defences: [signoff]
+          how: "Final sign-off outside the agent's write path requires raw check output and run provenance attached."
+    review:
+      open_title: "Referees see only the PDF"
+      open_text: "Reviewers inspect polished tables and prose; intermediate run folders and discarded cut-offs never enter submission."
+      why_passes: "Internal run mismatch is invisible from the manuscript."
+    paper_claim:
+      bad: "Published table mixes statistics from different runs and post-hoc cut-offs; 1 in 20 claims fails audit."
+      saved: "Every reported number matched to its exact run file and pre-stated threshold before review."
+
+  - id: absence
+    name: "\"Not detected\" → absent"
+    tag: "Biological over-claim"
+    origin:
+      risks: [D1, D3]
+      title: "Missed call written up as gene loss"
+      text: "In fragmented assemblies, a conserved gene goes uncalled; the draft reports \"Lineage X lost pathway Y\" and drops coverage limits."
+    gates:
+      - layer: checks
+        risks: [E3]
+        open_title: "Code & table both say zero"
+        open_text: "Software tests pass and the output CSV genuinely shows 0 hits, so automated code and number checks let it pass."
+      - layer: you
+        risks: [F3]
+        open_title: "Exciting evolutionary claim"
+        open_text: "Specific evolutionary loss reads well and fits a tidy adaptive narrative."
+        catch:
+          kind: rep
+          defences: [controls, argument]
+          how: "Your positive control — running the same detection rule on a reference species known to carry the gene — also returns 0 hits and halts the claim."
+      - layer: team
+        risks: [E5]
+        open_title: "Same rule reruns to zero"
+        open_text: "Rerunning the pipeline gives 0 hits again because the search threshold itself is blind."
+        catch:
+          kind: people
+          defences: [expert]
+          how: "A genomics specialist checks assembly completeness and synteny before accepting any absence claim."
+    review:
+      open_title: "No raw contig re-screen"
+      open_text: "Clean presence–absence heatmaps look decisive; referees rarely download raw assemblies to run positive-control searches."
+      why_passes: "Unchecked sensitivity limit passes into print."
+    paper_claim:
+      bad: "Paper announces evolutionary loss of a core pathway that was present on uncalled contigs."
+      saved: "Failed positive-control organism puts the claim on hold before a single paragraph is drafted."
+
+  - id: replicates
+    name: "Wells as replicates"
+    tag: "Pseudoreplication"
+    origin:
+      risks: [B5]
+      title: "144 wells treated as n = 144"
+      text: "Three independent culture plates (48 wells each) are fit in a mixed model testing treatment against well scatter, giving p = 10⁻¹³¹."
+    gates:
+      - layer: checks
+        risks: [E5]
+        open_title: "Independent rerun agrees"
+        open_text: "From the CSV alone, a well looks like a sample; a second agent rerunning the model reproduces p = 10⁻¹³¹."
+      - layer: you
+        risks: [F1]
+        open_title: "Deferred to the model"
+        open_text: "\"Mixed model with random plate effect\" sounds rigorous; in controlled tests, analysts followed an agent's lean 86% of the time."
+        catch:
+          kind: rep
+          defences: [brief]
+          how: "Writing the brief first defines 1 biological unit = 1 culture plate (n = 3) and requires n stated in every test."
+      - layer: team
+        risks: [H3]
+        open_title: "Plot hides the unit"
+        open_text: "Summary curves look clean and tiny p-values are misread as a massive drug effect."
+        catch:
+          kind: people
+          defences: [expert]
+          how: "A statistician or experienced colleague flags well-level degrees of freedom on three plates immediately."
+    review:
+      open_title: "Model wording sounds rigorous"
+      open_text: "Phrases like 'linear mixed model with plate effect' routinely carry well-level pseudoreplication past biology referees."
+      why_passes: "Degrees of freedom go unspotted in review."
+    paper_claim:
+      bad: "Paper reports p < 10⁻¹³⁰ from n = 3 independent cultures by counting technical wells as biology."
+      saved: "Analysis aggregated at plate level (n = 3) before statistics run; honest uncertainty reported."
+
+  - id: labels
+    name: "Swapped donor labels"
+    tag: "Bench-to-file gap"
+    origin:
+      risks: [C1, C3]
+      title: "Two tubes swapped in samples.csv"
+      text: "Donor 2's control and treated labels were swapped when typing samples.csv; three other donors carry the direction, muting fold-changes."
+    gates:
+      - layer: checks
+        risks: [E2]
+        open_title: "Both agents read samples.csv"
+        open_text: "Even a second agent from another provider receives the same sample sheet and reproduces the muted numbers."
+      - layer: you
+        risks: [G2]
+        open_title: "Direction still matches"
+        open_text: "Overall direction still rises across four donors and nothing crashes, so your prediction check sees plausible numbers."
+      - layer: team
+        risks: [H3]
+        open_title: "Nobody reopened bench notes"
+        open_text: "Without a physical tube-to-sheet check, everyone works downstream of the mistyped metadata file."
+        catch:
+          kind: people
+          defences: [humancheck]
+          how: "The colleague who ran the experiment checks samples.csv against the physical lab notebook and catches Donor 2's swap."
+    review:
+      open_title: "Bench notebook out of reach"
+      open_text: "External reviewers never see physical tubes or bench notes; muted four-donor effect sizes look biologically ordinary."
+      why_passes: "No external referee can detect a bench-to-sheet swap."
+    paper_claim:
+      bad: "Paper publishes attenuated effect sizes and misclassified donor responder status that no script could detect."
+      saved: "Bench colleague's five-minute sample-sheet check catches the swapped tubes before downstream work."
+
+  - id: prior
+    name: "Textbook story on noise"
+    tag: "Model prior overrides data"
+    origin:
+      risks: [D3, H2]
+      title: "Expected pathway spun from weak noise"
+      text: "After multiple-testing correction nothing holds, yet nominal p = 0.04 genes are woven into the textbook pathway story."
+    gates:
+      - layer: checks
+        risks: [E2]
+        open_title: "Shared LLM prior nods along"
+        open_text: "Reported p = 0.04 values match the CSV, and an LLM reviewer shares the same textbook expectations."
+      - layer: you
+        risks: [F3, F4]
+        open_title: "Sounds like your field"
+        open_text: "Because the mechanism is canonically plausible, reading the fluent synthesis feels like confirming expected biology."
+        catch:
+          kind: rep
+          defences: [argument, controls]
+          how: "Writing your own claim, ruled-out alternative and main limit — plus a shuffled-label negative control — shows the data carry no signal."
+      - layer: team
+        risks: [H2]
+        open_title: "Co-authors recognise pathway"
+        open_text: "Co-authors skimming the draft see familiar pathway genes and miss that adjusted q-values were flat."
+        catch:
+          kind: people
+          defences: [expert, humancheck]
+          how: "Independent human review of the effect-size distributions stops a null dataset from becoming a positive story."
+    review:
+      open_title: "Shared field expectations"
+      open_text: "Overloaded referees recognise canonical pathway genes and nod along without re-auditing adjusted q-values."
+      why_passes: "Familiar biology lowers reviewer scepticism."
+    paper_claim:
+      bad: "Noise enters the literature as another confirmation of the field's dominant prior."
+      saved: "Reported honestly as a null or underpowered result after controls and argument check."
+
+deskill:
+  - id: reading
+    name: "Deep reading"
+    slide8: "Agent reads abstracts, you read its summary"
+    shortcut:
+      title: "35 papers summarised in two minutes"
+      text: "Between lectures and grant deadlines, letting the agent triage and summarise the literature saves a full afternoon."
+    checks_trap:
+      risks: [A1, F2]
+      title: "Quoted sentences feel complete"
+      text: "Even with full-text checks switched on, clean extracted quotes make opening the actual PDFs feel unnecessary."
+    comfort:
+      risks: [F3, F4]
+      open_title: "Synthesis feels like mastery"
+      open_text: "A crisp table of claims gives the feeling of knowing the literature without wrestling with messy Methods or supplements."
+      break_here:
+        kind: rep
+        defences: [keypapers]
+        how: "Let the agent screen the 35, and read in full the 1–2 primary papers your main decision rests on before seeing its summary."
+    erosion:
+      risks: [G1]
+      open_title: "Deep reading falls out of practice"
+      open_text: "Over months, scanning exclusions, controls and supplement caveats slows down and gets skipped."
+    crunch:
+      risks: [A3, G6]
+      bad: "You build an experiment on a cell-type or dose mismatch hidden in Methods, and struggle when reviewers probe the cited literature."
+      saved: "You keep the agent's triage speed across 35 papers while staying sharp on the primary papers carrying your design."
+
+  - id: methods
+    name: "Choosing methods"
+    slide8: "Agent picks an unsuitable or outdated method"
+    shortcut:
+      title: "Instant analysis plan on request"
+      text: "Asked how to analyse a dataset, the agent proposes a standard pipeline and parameters in seconds."
+    checks_trap:
+      risks: [B1, F2]
+      title: "Clean execution hides stale defaults"
+      text: "Automated checks confirm the code ran and versions were logged, while leaving method suitability untouched."
+    comfort:
+      risks: [F1]
+      open_title: "86% follow the agent's lean"
+      open_text: "When an agent leans toward one defensible choice, experts adopt its lean 86% of the time and experience it as their own call."
+      break_here:
+        kind: rep
+        defences: [choose, brief]
+        how: "State how you ran it last time in your brief, then pick from unranked options with a one-line reason before seeing the agent's view."
+    erosion:
+      risks: [G4]
+      open_title: "Calibration freezes in an older era"
+      open_text: "Returning to a method years later, you miss where field standards moved (backgrounds, shrinkage, pseudobulk)."
+    crunch:
+      risks: [B2, B5]
+      bad: "Outdated defaults or pseudoreplicated models pass your plan review because you stopped weighing trade-offs first."
+      saved: "Every plan gate becomes a two-minute update on current methods, with your own reasoning recorded before the agent's view."
+
+  - id: analysis
+    name: "Analysis & intuition"
+    slide8: "You only approve instead of analysing"
+    shortcut:
+      title: "Working scripts & plots on first try"
+      text: "The agent writes the R or Python pipeline, fixes package errors, and hands back publication-ready figures."
+    checks_trap:
+      risks: [E3, F2]
+      title: "Green tests lower your guard"
+      text: "Recomputation and unit tests catch crashes, steadily raising confidence while silent data joins or sign flips stay plausible."
+    comfort:
+      risks: [F2, F3]
+      open_title: "Reviewing feels like analysing"
+      open_text: "Inspecting finished plots feels productive, yet skips forming a quantitative expectation of direction and scale."
+      break_here:
+        kind: rep
+        defences: [predict, rerun]
+        how: "Write expected direction and rough size before seeing plots; trainees write core code, and PIs rerun one key result in a familiar tool."
+    erosion:
+      risks: [G2, G3]
+      open_title: "Novices don't form skill; PIs lose feel"
+      open_text: "In an RCT, coding with AI cut conceptual and debugging scores (asking questions preserved them); for seniors, number-sense fades."
+    crunch:
+      risks: [C1]
+      bad: "When a swapped join or ten-fold unit error produces normal-looking plots, your gut alarm stays silent."
+      saved: "Prior predictions sharpen your feel for effect sizes, and a one-command rerun keeps the data reachable."
+
+  - id: reasoning
+    name: "Scientific reasoning"
+    slide8: "Agent writes the discussion, you accept it"
+    shortcut:
+      title: "Polished Discussion drafted overnight"
+      text: "Given the tables, the agent connects hits to pathways, weighs caveats, and drafts fluent manuscript prose."
+    checks_trap:
+      risks: [D3, F2]
+      title: "Fact-checked prose still thinks for you"
+      text: "Sentence-to-number audits remove misquoted statistics, yet the causal story and ruled-out alternatives were built by the agent."
+    comfort:
+      risks: [F4]
+      open_title: "Illusion of explanatory depth"
+      open_text: "Reading a coherent explanation feels indistinguishable from understanding — until you try to reconstruct the steps cold."
+      break_here:
+        kind: rep
+        defences: [argument, explain]
+        how: "Before any draft exists, write four lines yourself: the claim, the evidence, the alternative you ruled out, and the main limit."
+    erosion:
+      risks: [G5, G7]
+      open_title: "Editing prose replaces building arguments"
+      open_text: "Across manuscripts, word-level polishing crowds out the hard work of testing competing biological explanations."
+    crunch:
+      risks: [G6]
+      bad: "Authors sign claims they struggle to defend: in 3 of 7 TMLR interviews on flagged submissions, authors failed basic questions on their paper."
+      saved: "The spine of the argument stays unmistakably yours; the agent helps polish wording around reasoning you already own."
+
+  - id: team
+    name: "Training the next expert"
+    slide8: "Tasks that built experts get delegated"
+    shortcut:
+      title: "Junior work automated for speed"
+      text: "Cleaning ugly tables, debugging failed runs, and literature screening move to agents so projects finish in weeks."
+    checks_trap:
+      risks: [F2, H4]
+      title: "Output outscales lab mentorship"
+      text: "Automated pipelines multiply results while removing the small, safe struggles through which students learned how data break."
+    comfort:
+      risks: [G5]
+      open_title: "Even PI reps leave trainees watching"
+      open_text: "Even when the PI writes the brief, predicts, and audits well, PhD students sitting beside the pipeline mainly watch outputs."
+    erosion:
+      risks: [H1]
+      open_title: "Apprenticeship hollows out"
+      open_text: "As documented in robotic surgery training, delegating foundational practice starves the pipeline of future specialists."
+      break_here:
+        kind: people
+        defences: [learning]
+        how: "Before delegating a task, ask who in the lab would have learned from it and protect dedicated hands-on tasks where the agent only answers questions."
+    crunch:
+      risks: [H3]
+      bad: "In two years, fewer lab members have the scar tissue to spot subtle artefacts, challenge the agent, or sign off with real visibility."
+      saved: "Students still earn hands-on diagnostic judgement on protected tasks before orchestrating agents at scale."

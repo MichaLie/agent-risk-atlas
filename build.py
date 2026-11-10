@@ -2,10 +2,11 @@
 
 What it does: reads data/meta.yaml, risks.yaml, defences.yaml, references.yaml and paths.yaml, runs plain
 checks (every problem is listed with its file, record and field), numbers the references in order of first
-use, and writes two self-contained pages into docs/ (served by GitHub Pages):
+use, and writes self-contained pages into docs/ (served by GitHub Pages):
   docs/index.html   the wall: one 16:9 screen, click a risk to spotlight its twin and defences
-  docs/cheese.html  the Swiss cheese slide: four illustrative paths, defences switched on step by step
-Why: one source of truth, so the wall, the slide and the reference list cannot drift apart.
+  docs/paths.html   companion chains: 7 paper error paths + 5 deskilling tracks, defences switched on step by step
+  docs/cheese.html  redirect stub to paths.html so existing links and bookmarks keep working
+Why: one source of truth, so the wall, the companion views and the reference list cannot drift apart.
 Rerun: python3 build.py   (needs PyYAML; see requirements.txt)
 """
 import json
@@ -132,14 +133,113 @@ for w in meta["who"]:
     if not any(r["who"] == w["id"] for r in risks):
         warn(f"meta.yaml: row '{w['label']}' has no risks")
 
-layer_who = {"origin": {"agent"}, "checks": {"checks"}, "you": {"you-now", "you-time"}, "team": {"team"}}
-for i, p in enumerate(paths):
-    for layer, allowed in layer_who.items():
-        rid = p.get(layer)
+def check_risk_list(where, rids):
+    if not isinstance(rids, list) or not rids:
+        err(f"{where}: needs a non-empty list of risk ids")
+        return
+    for rid in rids:
         if rid not in by_id:
-            err(f"paths.yaml '{p.get('name', i + 1)}': {layer} '{rid}' is not a risk id")
-        elif by_id[rid]["who"] not in allowed:
-            err(f"paths.yaml '{p.get('name', i + 1)}': {layer} '{rid}' is in the wrong layer")
+            err(f"{where}: unknown risk '{rid}'")
+
+
+def check_catch_box(where, box):
+    if not isinstance(box, dict):
+        err(f"{where}: must be a mapping")
+        return
+    k = box.get("kind")
+    if k not in meta["kinds"]:
+        err(f"{where}: kind '{k}' must be one of {list(meta['kinds'])}")
+    defs = box.get("defences")
+    if not isinstance(defs, list) or not defs:
+        err(f"{where}: needs a non-empty list of defences")
+    else:
+        for d in defs:
+            if d not in def_by_id:
+                err(f"{where}: unknown defence '{d}'")
+            elif k in meta["kinds"] and def_by_id[d]["kind"] != k:
+                err(f"{where}: defence '{d}' is kind '{def_by_id[d]['kind']}', expected '{k}'")
+    if not box.get("how"):
+        err(f"{where}: missing 'how'")
+
+
+if not isinstance(paths, dict) or not paths.get("paper") or not paths.get("deskill"):
+    err("paths.yaml: needs 'paper' and 'deskill' lists")
+else:
+    seen_p = set()
+    for i, p in enumerate(paths["paper"]):
+        pid = p.get("id", f"#{i + 1}")
+        where = f"paths.yaml paper '{pid}'"
+        for f in ("id", "name", "tag"):
+            if not p.get(f):
+                err(f"{where}: missing '{f}'")
+        if pid in seen_p:
+            err(f"{where}: duplicate id")
+        seen_p.add(pid)
+        orig = p.get("origin") or {}
+        check_risk_list(f"{where} origin", orig.get("risks"))
+        for f in ("title", "text"):
+            if not orig.get(f):
+                err(f"{where} origin: missing '{f}'")
+        gates = p.get("gates") or []
+        if [g.get("layer") for g in gates] != ["checks", "you", "team"]:
+            err(f"{where}: gates must be in order ['checks', 'you', 'team']")
+        for g in gates:
+            gw = f"{where} gate '{g.get('layer')}'"
+            check_risk_list(gw, g.get("risks"))
+            for f in ("open_title", "open_text"):
+                if not g.get(f):
+                    err(f"{gw}: missing '{f}'")
+            if "catch" in g:
+                check_catch_box(f"{gw} catch", g["catch"])
+        rev = p.get("review") or {}
+        for f in ("open_title", "open_text", "why_passes"):
+            if not rev.get(f):
+                err(f"{where} review: missing '{f}'")
+        claim = p.get("paper_claim") or {}
+        for f in ("bad", "saved"):
+            if not claim.get(f):
+                err(f"{where} paper_claim: missing '{f}'")
+
+    seen_d = set()
+    for i, t in enumerate(paths["deskill"]):
+        tid = t.get("id", f"#{i + 1}")
+        where = f"paths.yaml deskill '{tid}'"
+        for f in ("id", "name", "slide8"):
+            if not t.get(f):
+                err(f"{where}: missing '{f}'")
+        if tid in seen_d:
+            err(f"{where}: duplicate id")
+        seen_d.add(tid)
+        sc = t.get("shortcut") or {}
+        for f in ("title", "text"):
+            if not sc.get(f):
+                err(f"{where} shortcut: missing '{f}'")
+        ct = t.get("checks_trap") or {}
+        check_risk_list(f"{where} checks_trap", ct.get("risks"))
+        for f in ("title", "text"):
+            if not ct.get(f):
+                err(f"{where} checks_trap: missing '{f}'")
+        cm = t.get("comfort") or {}
+        check_risk_list(f"{where} comfort", cm.get("risks"))
+        for f in ("open_title", "open_text"):
+            if not cm.get(f):
+                err(f"{where} comfort: missing '{f}'")
+        if "break_here" in cm:
+            check_catch_box(f"{where} comfort break_here", cm["break_here"])
+        er = t.get("erosion") or {}
+        check_risk_list(f"{where} erosion", er.get("risks"))
+        for f in ("open_title", "open_text"):
+            if not er.get(f):
+                err(f"{where} erosion: missing '{f}'")
+        if "break_here" in er:
+            check_catch_box(f"{where} erosion break_here", er["break_here"])
+        if "break_here" not in cm and "break_here" not in er:
+            err(f"{where}: needs break_here on comfort or erosion")
+        cr = t.get("crunch") or {}
+        check_risk_list(f"{where} crunch", cr.get("risks"))
+        for f in ("bad", "saved"):
+            if not cr.get(f):
+                err(f"{where} crunch: missing '{f}'")
 
 # number references in order of first use
 order = []
@@ -147,7 +247,7 @@ for r in risks:
     for k in r.get("refs") or []:
         if k in refs and k not in order:
             order.append(k)
-extra = ["fei2026", "reason2000"]   # cited in the About text and on the Swiss cheese slide
+extra = ["fei2026", "reason2000"]   # cited in the About text and on paths.html
 for k in extra:
     if k in refs and k not in order:
         order.append(k)
@@ -180,13 +280,14 @@ def page(template_name, out_name):
     if t.count("/*__DATA__*/null") != 1:
         sys.exit(f"templates/{template_name}: the data placeholder must appear exactly once")
     body = t.replace("/*__DATA__*/null", embed(data))
+    og_title = "Into the paper & into deskilling · Research with AI agents" if out_name == "paths.html" else "Agent Risk Atlas"
     doc = ("<!doctype html>\n<html lang=\"en\">\n<meta charset=\"utf-8\">\n"
            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
            "<meta name=\"description\" content=\"How research with AI agents goes wrong, who fails, and what protects you.\">\n"
            # link previews (chat, email, social): title, line and the wall image when someone pastes the address
            "<meta property=\"og:type\" content=\"website\">\n"
            f"<meta property=\"og:url\" content=\"{SITE}{'' if out_name == 'index.html' else out_name}\">\n"
-           "<meta property=\"og:title\" content=\"Agent Risk Atlas\">\n"
+           f"<meta property=\"og:title\" content=\"{og_title}\">\n"
            "<meta property=\"og:description\" content=\"How research with AI agents goes wrong, who fails, and what protects you.\">\n"
            f"<meta property=\"og:image\" content=\"{SITE}preview.png\">\n"
            "<meta name=\"twitter:card\" content=\"summary_large_image\">\n"
@@ -203,9 +304,21 @@ def page(template_name, out_name):
 
 
 page("wall.html", "index.html")
-page("cheese.html", "cheese.html")
+page("paths.html", "paths.html")
+
+redirect = (
+    "<!doctype html>\n<html lang=\"en\">\n<meta charset=\"utf-8\">\n"
+    "<title>Redirecting · Agent Risk Atlas</title>\n"
+    f"<link rel=\"canonical\" href=\"{SITE}paths.html\">\n"
+    "<meta http-equiv=\"refresh\" content=\"0; url=paths.html\">\n"
+    "<script>location.replace('paths.html' + (location.hash || '#paper'));</script>\n"
+    "<p style=\"font:16px system-ui,sans-serif;padding:24px\">Moved to "
+    "<a href=\"paths.html\">How it happens · Agent Risk Atlas</a>.</p>\n</html>\n"
+)
+(HERE / "docs" / "cheese.html").write_text(redirect, encoding="utf-8")
+
 for w in warnings:
     print("warning:", w)
 n_twin = sum(1 for r in risks if r["twin"])
 print(f"ok: {len(risks)} risks, {len(defences)} defences, {len(reflist)} references, {n_twin} twin pairs, "
-      f"{len(paths)} paths -> docs/index.html, docs/cheese.html")
+      f"{len(paths['paper'])} paper paths + {len(paths['deskill'])} deskill tracks -> docs/index.html, docs/paths.html, docs/cheese.html")

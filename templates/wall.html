@@ -32,6 +32,9 @@ header.top h1{font:700 30px/1 var(--fd);margin:0;letter-spacing:-.01em}
 header.top .sub{margin:5px 0 0;color:var(--muted);font-size:15px}
 header.top .thesis{text-align:right;font-size:15px;color:var(--muted);line-height:1.35}
 header.top .thesis b{color:var(--ink);font-weight:600}
+header.top .navpill{display:inline-block;font:600 12.5px/1.15 var(--f);color:var(--agent-t);background:var(--loop-tint);border:1px solid #BDDAD8;border-radius:999px;padding:2px 9px;text-decoration:none;margin-right:4px;vertical-align:1px}
+header.top .navpill.amber{color:var(--rep-t);background:var(--rep-tint);border-color:#ECD09C}
+header.top .navpill:hover{filter:brightness(.95);text-decoration:underline}
 
 /* grid */
 .grid{display:grid;grid-template-columns:100px repeat(8,minmax(0,1fr));grid-auto-rows:auto;gap:3px;align-content:start;min-height:0}
@@ -42,7 +45,8 @@ header.top .thesis b{color:var(--ink);font-weight:600}
 .cell.across{background:transparent;border:1.5px dashed var(--rule)}
 .chip{position:relative;z-index:3;display:flex;gap:6px;align-items:baseline;width:100%;text-align:left;cursor:pointer;
   background:#fff;border:1px solid var(--rule);border-left:5px solid var(--c);border-radius:6px;
-  padding:3px 5px;font-size:13px;line-height:1.15;transition:color .15s, border-color .15s, box-shadow .15s}
+  padding:3px 5px;font-size:13px;line-height:1.15}
+.ready .chip{transition:color .15s, border-color .15s, box-shadow .15s}
 .chip b{font:600 11px var(--fm);color:var(--muted);flex:none}
 .chip .q{margin-left:auto;flex:none;font:700 11px var(--f);color:#fff;background:var(--muted);border-radius:50%;width:16px;height:16px;display:inline-grid;place-items:center}
 .fade .chip:not(.on):not(.twin):not(.lit){color:#C2CACF;border-color:#E7EBED;border-left-color:#DDE3E6}
@@ -68,9 +72,12 @@ header.top .thesis b{color:var(--ink);font-weight:600}
 .lane h4{position:relative;z-index:3;align-self:flex-start;margin:0;padding-right:6px;background:var(--kt);font:700 13.5px/1.3 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--kd)}
 .lane h4 span{font:500 13px var(--f);letter-spacing:0;text-transform:none;color:var(--ink);margin-left:8px}
 .pills{display:flex;flex-wrap:wrap;gap:3px 5px}
-.pill{position:relative;z-index:3;border:1.5px solid var(--k);background:#fff;border-radius:999px;padding:1px 9px;font-size:12.5px;cursor:pointer;transition:color .15s, border-color .15s, background .15s}
+.pill{position:relative;z-index:3;border:1.5px solid var(--k);background:#fff;border-radius:999px;padding:1px 9px;font-size:12.5px;cursor:pointer}
+.ready .pill{transition:color .15s, border-color .15s, background .15s}
 .fade .pill:not(.on):not(.lit){color:#C2CACF;border-color:#E3E8EA}
 .pill.on,.pill.lit{background:var(--k);color:#fff}
+.pill.loop.on,.pill.loop.lit{background:var(--loop-t);border-color:var(--loop-t);color:#fff}
+.pill.people.on,.pill.people.lit{background:var(--people-t);border-color:var(--people-t);color:#fff}
 .pill.rep.on,.pill.rep.lit{color:#2A1A00}
 
 /* caption */
@@ -95,12 +102,44 @@ header.top .thesis b{color:var(--ink);font-weight:600}
 .cap .ex{margin:1px 0 0;font-size:16px;line-height:1.34;font-style:italic;color:#3B4A53}
 .cap .ex span{font-style:normal;color:var(--muted)}
 .cap .hint b{color:var(--ink)}
+.jbtn{all:unset;cursor:pointer;border-radius:3px}
+.jbtn:hover{text-decoration:underline;color:var(--agent-t)}
+.jbtn:focus-visible{outline:2px solid var(--agent);outline-offset:2px}
 /* fit guard: captions were fitted with Helvetica Neue; on a computer with a wider font (Aptos, Segoe UI) the script steps the text down */
 .cap.s1>div{zoom:.95} .cap.s2>div{zoom:.9} .cap.s3>div{zoom:.85}
 .tag{display:inline-block;font:600 11px var(--f);padding:1px 7px;border-radius:999px;background:var(--cell);color:var(--muted);margin-right:6px}
 
 #lines{position:absolute;inset:0;width:1600px;height:900px;pointer-events:none;z-index:2}
 #lines path{fill:none}
+
+/* mobile explorer (<760px, e.g. scanning QR code from talk slide) */
+#mview{display:none;padding:18px 16px 8px;background:var(--wall);border-bottom:1px solid var(--rule)}
+.mhdr h1{font:700 25px/1.1 var(--fd);margin:0}
+.mhdr p{margin:5px 0 0;font-size:14.5px;color:var(--muted);line-height:1.38}
+.mhdr .mthesis{margin-top:8px;font-size:14.5px;color:var(--ink);font-weight:600}
+.mnav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 10px}
+.mnav a{display:block;text-align:center;text-decoration:none;font:600 13.5px/1.25 var(--f);padding:9px 10px;border-radius:8px;border:1px solid #BDDAD8;background:var(--loop-tint);color:var(--loop-t)}
+.mnav a.amber{background:var(--rep-tint);border-color:#ECD09C;color:var(--rep-t)}
+.mbar{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 12px}
+.mfbtn{flex:none;border:1.5px solid var(--rule);background:#fff;border-radius:999px;padding:5px 11px;font:600 12.5px/1.15 var(--f);cursor:pointer}
+.mfbtn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.mlist{display:grid;gap:8px;margin-bottom:12px}
+.mcard{background:#fff;border:1px solid var(--rule);border-left:5px solid var(--mc,var(--agent));border-radius:8px;overflow:hidden}
+.mcard>button{width:100%;border:0;background:transparent;padding:11px 12px;display:flex;align-items:baseline;gap:8px;text-align:left;cursor:pointer;font-size:15px;line-height:1.25}
+.mcard>button b{font:600 12.5px var(--fm);color:var(--muted);flex:none}
+.mcard>button .mstage{margin-left:auto;font:600 11.5px var(--f);color:var(--muted);background:var(--cell);padding:2px 7px;border-radius:999px;flex:none}
+.mbody{padding:0 12px 12px;border-top:1px solid var(--cell);font-size:14.5px;line-height:1.4;display:grid;gap:7px}
+.mbody p{margin:8px 0 0}
+.mbody .mex{font-style:italic;color:#3B4A53;background:var(--cell);padding:8px 10px;border-radius:6px;margin-top:2px}
+.mbody .mdefs{display:grid;gap:6px;margin-top:2px}
+.mbody .mdefs div{border-left:3.5px solid var(--k);padding-left:8px;font-size:14px;line-height:1.35}
+.mbody .mdefs b{display:block;font-size:14.5px;line-height:1.25;margin-bottom:1px}
+.mtoggle{display:none;margin:8px auto 0;border:1px solid var(--rule);background:#fff;border-radius:999px;padding:5px 12px;font:600 12.5px var(--f);color:var(--muted);cursor:pointer}
+@media (max-width:759px){
+  body:not(.force-wall) #stage{display:none}
+  body:not(.force-wall) #mview{display:block}
+  .mtoggle{display:inline-block}
+}
 
 /* notes below the wall */
 .notes{max-width:1040px;margin:0 auto;padding:36px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px));display:grid;gap:22px}
@@ -121,7 +160,7 @@ header.top .thesis b{color:var(--ink);font-weight:600}
         <h1>Agent Risk Atlas</h1>
         <p class="sub" id="sub"></p>
       </div>
-      <div class="thesis"><b>Checks protect the result. Thinking first protects you.</b><br><span id="counts"></span></div>
+      <div class="thesis"><b>Checks protect the result. Thinking first protects you.</b><br><a class="navpill" href="paths.html#paper">Into the paper →</a><a class="navpill amber" href="paths.html#deskill">Into deskilling →</a> <span id="counts"></span></div>
     </header>
     <div class="grid" id="grid"></div>
     <div class="sect" id="sect"></div>
@@ -130,6 +169,8 @@ header.top .thesis b{color:var(--ink);font-weight:600}
     <svg id="lines" aria-hidden="true"></svg>
   </div>
 </div>
+<div id="mview" aria-label="Agent Risk Atlas mobile explorer"></div>
+<div style="text-align:center"><button type="button" class="mtoggle" id="mtoggle">Show miniature 16:9 poster instead</button></div>
 <p class="sr" role="status" id="status"></p>
 
 <div class="notes">
@@ -140,7 +181,7 @@ header.top .thesis b{color:var(--ink);font-weight:600}
   </section>
   <section>
     <h2>How to read it</h2>
-    <p>Columns follow the research loop; a risk sits at the step where the failure arises. Rows say who fails. Many are old failures that agents make faster and quieter. Click a risk to see the human failure that often lets it through (dark ring and dashed line) and the defences against it; click a defence to see what it covers; click empty space or press Esc to reset; arrow keys step through the risks. A ? marks an open question: nothing here convinces the author yet. Clicking a risk or a defence also shows an example you could adapt for your agent's instructions. A separate slide shows how an agent's error can pass the layers of checks: <a href="cheese.html">the Swiss cheese slide</a>.</p>
+    <p>Columns follow the research loop; a risk sits at the step where the failure arises. Rows say who fails. Many are old failures that agents make faster and quieter. Click a risk to see the human failure that often lets it through (dark ring and dashed line) and the defences against it; click a defence to see what it covers; click empty space or press Esc to reset; arrow keys step through the risks. A ? marks an open question: nothing here convinces the author yet. Clicking a risk or a defence also shows an example you could adapt for your agent's instructions. A companion page traces seven concrete errors <a href="paths.html#paper">into the paper</a> and five capability tracks <a href="paths.html#deskill">into deskilling</a> as you switch defence groups on.</p>
   </section>
   <section>
     <h2>Example instructions</h2>
@@ -195,16 +236,19 @@ document.getElementById('examples').innerHTML = Object.entries(M.kinds).map(([k,
     `<li><b>${esc(d.name)}.</b> ${d.example ? esc(d.example) : `<i>${esc(d.no_example)}</i>`}</li>`).join('')}</ul>`).join('');
 
 const cite = nums => nums.length ? `<sup>[${nums.map(n => `<a href="#ref-${n}" tabindex="-1" style="color:inherit">${n}</a>`).join(', ')}]</sup>` : '';
-const defHow = d => `<div style="--k:${kcol(d.kind)}"><b>${esc(d.name)}</b>${esc(d.does)}</div>`;
+const defHow = d => `<div style="--k:${kcol(d.kind)}"><b><button type="button" class="jbtn" data-jump-def="${d.id}">${esc(d.name)}</button></b>${esc(d.does)}</div>`;
+const stageLabel = Object.fromEntries(M.stages.map(s => [s.id, s.label]));
+let mfilter = 'all';
 
 document.getElementById('reflist').innerHTML = REFS.map(r => `<li id="ref-${r.n}" value="${r.n}">${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.text)}</a>` : esc(r.text)}<span class="kind">${esc(r.kind)}</span></li>`).join('');
 document.getElementById('about').innerHTML = `A working map of how research with AI agents goes wrong, by ${esc(M.author)} (version ${esc(M.version)}, ${esc(M.date)}). It is one person's working map, incomplete and not an ELIXIR guideline, and it covers honest mistakes only. Agent-side failures are catalogued in more depth elsewhere<sup>[<a href="#ref-${DATA.cite.fei2026}">${DATA.cite.fei2026}</a>]</sup>; this atlas adds the human and team failures that let them through, and the defences. <b>Defences are the author's working practice; none has been tested in a study yet.</b>`;
-document.getElementById('howmade').textContent = 'How it was made: drafted with AI agents (Claude, by Anthropic), checked and edited by the author. Three cited works have Anthropic authors: the study on analysts following an agent’s lean (F1), the study on skill formation (G2) and ImpossibleBench (C6). Every published source was checked against Crossref, arXiv or the publisher on 7–8 Nov 2026; observations and proposals are labelled as such.';
+document.getElementById('howmade').textContent = 'How it was made: drafted with AI agents (Claude, by Anthropic), checked and edited by the author. Three cited works have Anthropic authors: the study on analysts following an agent’s lean (F1), the study on skill formation (G2) and ImpossibleBench (C6). Every published source was checked against Crossref, arXiv or the publisher on 7–10 Nov 2026; observations and proposals are labelled as such.';
 
 /* ---------- spotlight ---------- */
 const canvas = document.getElementById('canvas');
 const cap = document.getElementById('cap');
 const svg = document.getElementById('lines');
+const mview = document.getElementById('mview');
 let scale = 1;
 
 function defaultCaption(){
@@ -219,6 +263,7 @@ function defaultCaption(){
 // would come closer than 3 px to the caption's bottom edge, step it down (95%, 90%, 85%) until it fits.
 function fitCaption(){
   cap.classList.remove('s1', 's2', 's3');
+  if (!cap.getBoundingClientRect().height) return;
   for (const step of ['s1', 's2', 's3']){
     const edge = cap.getBoundingClientRect().bottom - 3 * scale;
     let low = 0;
@@ -227,6 +272,56 @@ function fitCaption(){
     cap.classList.remove('s1', 's2', 's3');
     cap.classList.add(step);
   }
+}
+
+function renderMobile(){
+  const sel = state.sel ? byId[state.sel] : null;
+  const def = state.def ? defById[state.def] : null;
+  if (def && mfilter !== 'defs') mfilter = 'defs';
+  if (sel && mfilter !== 'all' && mfilter !== sel.who) mfilter = 'all';
+
+  const filters = [
+    {id: 'all', label: `All (${R.length})`},
+    ...M.who.map(w => ({id: w.id, label: w.label})),
+    {id: 'defs', label: `Defences (${DF.length})`},
+  ];
+  let h = `<div class="mhdr"><h1>Agent Risk Atlas</h1><p>How research with AI agents goes wrong: who fails, where in the loop, and what protects you.</p>` +
+    `<div class="mthesis">Checks protect the result. Thinking first protects you.</div>` +
+    `<div class="mnav"><a href="paths.html#paper">1 · Into the paper →</a><a class="amber" href="paths.html#deskill">2 · Into deskilling →</a></div></div>` +
+    `<div class="mbar" role="tablist" aria-label="Filter risks or defences">` +
+    filters.map(f => `<button type="button" class="mfbtn" data-mf="${f.id}" aria-pressed="${mfilter === f.id}">${esc(f.label)}</button>`).join('') +
+    `</div><div class="mlist">`;
+
+  if (mfilter === 'defs'){
+    h += DF.map(d => {
+      const open = state.def === d.id;
+      const cov = open ? R.filter(r => r.defences.includes(d.id)) : [];
+      return `<div class="mcard" style="--mc:${kcol(d.kind)}">` +
+        `<button type="button" data-def="${d.id}" aria-expanded="${open}"><span><b>${esc(M.kinds[d.kind].name)}</b> · ${esc(d.name)}</span></button>` +
+        (open ? `<div class="mbody"><p>${esc(d.does)}</p>` +
+          (d.example ? `<div class="mex">“${esc(d.example)}”</div>` : `<div class="mex">${esc(d.no_example)}</div>`) +
+          `<p><b>Protects against:</b> ${cov.map(r => `<button type="button" class="jbtn" data-jump-risk="${r.id}"><b>${r.id}</b> ${esc(r.name)}</button>`).join(' · ')}</p></div>` : '') +
+        `</div>`;
+    }).join('');
+  } else {
+    const items = mfilter === 'all' ? R : R.filter(r => r.who === mfilter);
+    h += items.map(r => {
+      const open = state.sel === r.id;
+      const tw = open && r.twin ? byId[r.twin] : null;
+      const lets = open ? letsThrough(r.id) : [];
+      return `<div class="mcard" style="--mc:${col(r.who)}">` +
+        `<button type="button" data-id="${r.id}" aria-expanded="${open}"><b>${r.id}</b><span>${esc(r.name)}${r.open ? ' (?)' : ''}</span><span class="mstage">${esc(stageLabel[r.stage])}</span></button>` +
+        (open ? `<div class="mbody"><p>${esc(r.looks_like)} ${cite(r.refnums)}</p>` +
+          (tw ? `<p>Often let through by <button type="button" class="jbtn" data-jump-risk="${tw.id}"><b>${tw.id} ${esc(tw.name)}</b></button></p>` : '') +
+          (lets.length ? `<p>Often lets through: ${lets.map(x => `<button type="button" class="jbtn" data-jump-risk="${x.id}"><b>${x.id} ${esc(x.name)}</b></button>`).join(' · ')}</p>` : '') +
+          (r.open ? `<p><i>Open question — for discussion.</i></p>` : `<div class="mdefs">${r.defences.map(id => defHow(defById[id])).join('')}</div>`) +
+          (r.example ? `<div class="mex">“${esc(r.example)}”</div>` : r.no_example ? `<div class="mex">${esc(r.no_example)}</div>` : '') +
+          `</div>` : '') +
+        `</div>`;
+    }).join('');
+  }
+  h += `</div>`;
+  mview.innerHTML = h;
 }
 
 function apply(){
@@ -256,8 +351,8 @@ function apply(){
     cap.style.setProperty('--capc', col(sel.who));
     cap.innerHTML = `<div><h3><small>${sel.id} · ${esc(M.types[sel.type])}</small>${esc(sel.name)}</h3>
       <p>${esc(sel.looks_like)} ${cite(sel.refnums)}</p>
-      ${tw ? `<p class="meta">Often let through by <b>${tw.id} ${esc(tw.name)}</b></p>` : ''}
-      ${lets.length ? `<p class="meta">Often lets through: <b>${lets.map(r => r.id + ' ' + esc(r.name)).join(' · ')}</b></p>` : ''}
+      ${tw ? `<p class="meta">Often let through by <button type="button" class="jbtn" data-jump-risk="${tw.id}"><b>${tw.id} ${esc(tw.name)}</b></button></p>` : ''}
+      ${lets.length ? `<p class="meta">Often lets through: <b>${lets.map(r => `<button type="button" class="jbtn" data-jump-risk="${r.id}">${r.id} ${esc(r.name)}</button>`).join(' · ')}</b></p>` : ''}
       ${sel.example ? `<p class="ex"><span>For example, tell your agent:</span> “${esc(sel.example)}”</p>`
         : sel.no_example ? `<p class="ex"><span>No example instruction.</span> ${esc(sel.no_example)}</p>` : ''}</div>
       <div><p class="lab">${sel.open ? 'Open question' : 'What protects you'}</p>
@@ -270,7 +365,7 @@ function apply(){
       ${def.example
         ? `<p class="ex"><span>For example, tell your agent:</span> “${esc(def.example)}”</p>`
         : `<p class="ex"><span>No example instruction.</span> ${esc(def.no_example)}</p>`}</div>
-      <div><p class="lab">Protects against</p><div class="cov">${cov.map(r => `<div><b>${r.id}</b>${esc(r.name)}</div>`).join('')}</div></div>`;
+      <div><p class="lab">Protects against</p><div class="cov">${cov.map(r => `<div><button type="button" class="jbtn" data-jump-risk="${r.id}"><b>${r.id}</b>${esc(r.name)}</button></div>`).join('')}</div></div>`;
     status = `${def.name} selected, covers ${cov.length}`;
   } else {
     defaultCaption();
@@ -278,6 +373,7 @@ function apply(){
   fitCaption();
   document.getElementById('status').textContent = status;
   drawLines(sel, def, twinIds);
+  renderMobile();
 }
 
 function box(el){
@@ -285,6 +381,7 @@ function box(el){
   return { x: (r.left - c.left) / scale, y: (r.top - c.top) / scale, w: r.width / scale, h: r.height / scale };
 }
 function drawLines(sel, def, twinIds){
+  if (!canvas.getBoundingClientRect().height){ svg.innerHTML = ''; return; }
   /* Lines run behind the chips (z-index) and attach to chip edges, never to the text.
      Twin links: same column -> loop out to the right of both chips; different columns -> facing side edges.
      Several links into one chip are spread along its edge. */
@@ -329,33 +426,57 @@ function drawLines(sel, def, twinIds){
 }
 
 function fit(){
-  scale = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
-  if (window.innerWidth < 760) scale = window.innerWidth / 1600;
+  scale = Math.max(0.1, Math.min(window.innerWidth / 1600, window.innerHeight / 900));
+  if (window.innerWidth < 760) scale = Math.max(0.1, window.innerWidth / 1600);
   canvas.style.transform = `scale(${scale})`;
   canvas.style.left = Math.max(0, (window.innerWidth - 1600 * scale) / 2) + 'px';
   document.getElementById('stage').style.height = (900 * scale) + 'px';
   apply();
 }
 
+function syncHash(){
+  const h = state.sel ? '#' + state.sel : state.def ? '#' + state.def : location.pathname + location.search;
+  history.replaceState(null, '', h);
+}
+
 const order = R.map(r => r.id);
 document.addEventListener('click', e => {
+  const mt = e.target.closest('#mtoggle');
+  if (mt){
+    const fw = document.body.classList.toggle('force-wall');
+    mt.textContent = fw ? 'Back to mobile card view' : 'Show miniature 16:9 poster instead';
+    fit();
+    return;
+  }
+  const mf = e.target.closest('[data-mf]');
+  if (mf){ mfilter = mf.dataset.mf; state.sel = null; state.def = null; syncHash(); renderMobile(); return; }
+  const jr = e.target.closest('[data-jump-risk]'), jd = e.target.closest('[data-jump-def]');
+  if (jr){ state.sel = jr.dataset.jumpRisk; state.def = null; syncHash(); apply(); return; }
+  if (jd){ state.def = jd.dataset.jumpDef; state.sel = null; syncHash(); apply(); return; }
+  const mc = e.target.closest('.mcard>button[data-id]'), md = e.target.closest('.mcard>button[data-def]');
+  if (mc){ state.sel = state.sel === mc.dataset.id ? null : mc.dataset.id; state.def = null; syncHash(); apply(); return; }
+  if (md){ state.def = state.def === md.dataset.def ? null : md.dataset.def; state.sel = null; syncHash(); apply(); return; }
   const c = e.target.closest('.chip'), p = e.target.closest('.pill');
-  if (c){ state.sel = state.sel === c.dataset.id ? null : c.dataset.id; state.def = null; apply(); return; }
-  if (p){ state.def = state.def === p.dataset.def ? null : p.dataset.def; state.sel = null; apply(); return; }
-  if (e.target.closest('#canvas')){ state.sel = null; state.def = null; apply(); }
+  if (c){ state.sel = state.sel === c.dataset.id ? null : c.dataset.id; state.def = null; syncHash(); apply(); return; }
+  if (p){ state.def = state.def === p.dataset.def ? null : p.dataset.def; state.sel = null; syncHash(); apply(); return; }
+  if (e.target.closest('#canvas') && !e.target.closest('#cap') && !e.target.closest('a')){
+    state.sel = null; state.def = null; syncHash(); apply();
+  }
 });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape'){ state.sel = null; state.def = null; apply(); return; }
+  if (e.key === 'Escape'){ state.sel = null; state.def = null; syncHash(); apply(); return; }
   if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !e.target.closest('input')){
     const i = state.sel ? order.indexOf(state.sel) : -1;
     const n = e.key === 'ArrowRight' ? (i + 1) % order.length : (i <= 0 ? order.length - 1 : i - 1);
-    state.sel = order[n]; state.def = null; apply();
-    document.querySelector(`.chip[data-id="${state.sel}"]`).focus({ preventScroll: true });
+    state.sel = order[n]; state.def = null; syncHash(); apply();
+    const el = document.querySelector(`.chip[data-id="${state.sel}"]`);
+    if (el && el.offsetParent) el.focus({ preventScroll: true });
     e.preventDefault();
   }
 });
 function fromHash(){
   const h = decodeURIComponent(location.hash.slice(1));
+  if (h.startsWith('ref-')) return;
   state.sel = byId[h] ? h : null; state.def = defById[h] ? h : null;
 }
 window.addEventListener('hashchange', () => { fromHash(); apply(); });
@@ -363,4 +484,5 @@ window.addEventListener('resize', fit);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 fromHash();
 fit();
+requestAnimationFrame(() => document.body.classList.add('ready'));
 </script>

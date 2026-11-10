@@ -1,0 +1,576 @@
+<title>Into the paper &amp; into deskilling · Research with AI agents</title>
+<style>
+/* Standalone two-mode visual:
+     1. paper   (6 cards): How an error or misinterpretation passes lab gates & peer review into print.
+     2. deskill (5 cards): How judgement erodes across projects — and why automated checks alone leave skill idle.
+   Desktop (>=980px): 1600×900 16:9 slide canvas scaled to the viewport for projection & clean screenshots.
+   Narrow/mobile (<980px): native vertical card stack for phones and split-screen laptops. */
+:root{
+  --page:#EEF1EF; --wall:#FBFCFB; --ink:#13232B; --muted:#55656F; --faint:#9AA7AF; --rule:#D7DDE0; --cell:#F2F5F4;
+  --agent:#1F8A87; --agent-t:#176E6B; --checks:#C4463C; --checks-t:#A3352D;
+  --you-now:#E8A33D; --you-now-t:#8E5C0C; --you-time:#B0761B; --you-time-t:#7A5210;
+  --team:#6B5CA5; --team-t:#56498C; --review:#4E6475;
+  --loop:#176E6B; --rep:#E8A33D; --people:#6B5CA5;
+  --loop-t:#145E5B; --rep-t:#855508; --people-t:#524587;
+  --loop-tint:#E3F2F1; --rep-tint:#FBEFDA; --people-tint:#ECE9F6;
+  --bad:#C4463C; --bad-t:#9E2F26; --bad-tint:#FCECEB;
+  --ok:#1B6E53; --ok-tint:#E3F3EC;
+  --f:"Aptos","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --fd:"Aptos Display","Aptos","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --fm:"Aptos Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.45 var(--f)}
+button{font:inherit;color:inherit}
+a{color:var(--agent-t)}
+:focus-visible{outline:3px solid var(--agent);outline-offset:2px;border-radius:4px}
+
+#stage{position:relative;width:100%;overflow:hidden}
+#canvas{position:absolute;top:0;left:0;width:1600px;height:900px;transform-origin:0 0;background:var(--wall);
+  padding:20px 32px 15px;display:grid;grid-template-rows:auto auto auto minmax(0,1fr) auto;gap:10px}
+
+/* Top bar — completely standalone (zero external clutter on the slide) */
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.hdr h1{font:700 30px/1.08 var(--fd);margin:0;letter-spacing:-.01em}
+.hdr .sub{margin:5px 0 0;color:var(--muted);font-size:15.5px;line-height:1.35}
+.modes{display:inline-flex;background:var(--cell);border:1.5px solid var(--rule);border-radius:10px;padding:3px;gap:3px;flex:none;margin-top:2px}
+.mbtn{border:0;background:transparent;padding:7px 14px;border-radius:7px;font:600 14.5px/1.1 var(--f);color:var(--muted);cursor:pointer}
+.ready .mbtn{transition:background .15s,color .15s}
+.mbtn[aria-selected="true"]{background:var(--ink);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+
+/* Controls: scenarios + defence steps */
+.ctls{display:flex;flex-direction:column;gap:7px;background:var(--cell);border:1px solid var(--rule);border-radius:10px;padding:8px 12px}
+.crow{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.clab{font:700 11.5px/1 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);min-width:96px}
+.sbtn,.dbtn{border:1.5px solid var(--rule);background:#fff;border-radius:999px;padding:4px 10px;font-size:13.5px;line-height:1.2;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.ready .sbtn,.ready .dbtn{transition:border-color .15s,background .15s,color .15s}
+.sbtn .num{font:600 11.5px var(--fm);color:var(--muted)}
+.sbtn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sbtn[aria-pressed="true"] .num{color:#B8C5CC}
+.dbtn .dot{width:9px;height:9px;border-radius:50%;background:var(--dc,var(--muted));flex:none}
+.dbtn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.crow-note{font-size:12.5px;color:var(--muted);margin-left:6px}
+.tag-pill{margin-left:auto;font:600 12px/1 var(--f);color:var(--muted);background:#fff;border:1px solid var(--rule);padding:4px 10px;border-radius:999px}
+
+/* Flow rail above cards */
+.rail{position:relative;height:28px;display:block}
+.rail svg{width:100%;height:28px;display:block;overflow:visible}
+
+/* Card chain: 6 columns in paper mode, 5 columns in deskill mode */
+.cards{display:grid;grid-template-columns:repeat(var(--ncols,6),minmax(0,1fr));gap:10px;min-height:0;align-items:stretch}
+.card{background:#fff;border:1.5px solid var(--rule);border-top:5px solid var(--cc,var(--rule));border-radius:10px;
+  padding:13px 13px;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0}
+.cards.cols-5 .card{padding:15px 16px;gap:9px}
+.ready .card{transition:opacity .18s,border-color .18s,box-shadow .18s}
+.card.stopped-here{border-color:var(--sc);border-top-color:var(--sc);box-shadow:0 0 0 2.5px var(--sc)}
+.card.downstream{opacity:.52;background:#F8FAFA}
+.card.bad-end{border-color:var(--bad);border-top-color:var(--bad);background:#FFFDFD}
+.card.ok-end{border-color:var(--ok);border-top-color:var(--ok)}
+
+.cstep{font:700 11px/1.15 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.card h3{margin:1px 0 0;font:700 18px/1.2 var(--fd);color:var(--ink)}
+.cards.cols-5 .card h3{font-size:19.5px}
+.card .cbody{margin:0;font-size:14.8px;line-height:1.4;color:#24353F}
+.cards.cols-5 .card .cbody{font-size:16px;line-height:1.43}
+
+/* Gate / outcome boxes at bottom of card */
+.gate{margin-top:auto;border-radius:8px;padding:9px 10px;font-size:13.6px;line-height:1.35;display:flex;flex-direction:column;gap:5px}
+.cards.cols-5 .gate{padding:11px 12px;font-size:14.6px;line-height:1.37}
+.gate .glab{font:700 10.5px/1.15 var(--f);letter-spacing:.055em;text-transform:uppercase}
+.gate .dtags{display:flex;flex-wrap:wrap;gap:4px;margin:1px 0}
+.dtag{font:600 12px/1.15 var(--f);padding:2.5px 8px;border-radius:999px;color:inherit;background:rgba(255,255,255,.88);border:1.5px solid currentColor}
+
+.gate.stop-loop{background:var(--loop-tint);color:var(--loop-t);border-left:4px solid var(--loop)}
+.gate.stop-rep{background:var(--rep-tint);color:var(--rep-t);border-left:4px solid var(--rep)}
+.gate.stop-people{background:var(--people-tint);color:var(--people-t);border-left:4px solid var(--people)}
+
+.gate.backup{background:#F7F9F9;color:var(--muted);border:1.5px dashed var(--bc,var(--rule))}
+.gate.backup .glab,.gate.backup .dtag{color:var(--bt,var(--muted))}
+
+.gate.open-pass{background:var(--bad-tint);color:var(--bad-t);border-left:3.5px solid var(--bad)}
+.gate.checks-note{background:var(--loop-tint);color:var(--loop-t);border-left:3.5px solid var(--loop)}
+.gate.quiet{background:var(--cell);color:var(--muted);border-left:3px solid var(--rule)}
+
+.end-bad{margin-top:auto;background:var(--bad-tint);border-left:4px solid var(--bad);border-radius:8px;padding:10px 11px;font-size:14px;line-height:1.38;color:#5C1914}
+.cards.cols-5 .end-bad{padding:12px 13px;font-size:15px}
+.end-bad b{display:block;font:700 11px/1.1 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--bad-t);margin-bottom:4px}
+.end-ok{margin-top:auto;background:var(--ok-tint);border-left:4px solid var(--ok);border-radius:8px;padding:10px 11px;font-size:13.8px;line-height:1.36;color:#124634}
+.cards.cols-5 .end-ok{padding:11px 13px;font-size:14.8px}
+.end-ok b{display:block;font:700 11px/1.1 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--ok);margin-bottom:4px}
+.end-was{margin-top:7px;padding-top:6px;border-top:1px solid rgba(27,110,83,.2);font-size:12.6px;line-height:1.33;color:#2E594A}
+.cards.cols-5 .end-was{font-size:13.4px}
+
+/* Bottom takeaway bar */
+.foot{border-top:2px solid var(--rule);padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;gap:24px}
+.foot .verdict{font-size:17px;line-height:1.3}
+.foot .verdict b.bad{color:var(--bad-t)}
+.foot .verdict b.ok{color:var(--ok)}
+.foot small{font-size:12.8px;color:var(--muted);text-align:right;flex:none}
+
+/* Notes & selected bibliography below the slide */
+.notes{max-width:1040px;margin:0 auto;padding:32px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px));display:grid;gap:22px}
+.notes h2{font:700 22px var(--fd);margin:0 0 6px}
+.notes p{margin:0 0 8px}
+.notes ul{margin:0;padding-left:1.3em;display:grid;gap:5px;font-size:15px}
+.notes .backline{font-size:14.5px;color:var(--muted);padding-top:8px;border-top:1px solid var(--rule)}
+
+/* Responsive native stack below 980px (phones, tablets, split windows) */
+@media (max-width:979px){
+  #stage{height:auto !important;overflow:visible}
+  #canvas{position:static;width:100%;height:auto;transform:none !important;padding:18px 16px 24px;display:flex;flex-direction:column;gap:14px}
+  .hdr{flex-direction:column;align-items:flex-start;gap:12px}
+  .hdr h1{font-size:24px}
+  .modes{width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .mbtn{padding:9px 8px;font-size:13.5px;text-align:center}
+  .clab{min-width:auto;width:100%;margin-bottom:2px}
+  .sbtn,.dbtn{padding:7px 12px;font-size:13.5px}
+  .crow-note{width:100%;margin:2px 0 0}
+  .tag-pill{margin-left:0}
+  .rail{display:none}
+  .cards{grid-template-columns:1fr !important;gap:10px}
+  .card{padding:14px 15px !important}
+  .card.downstream{opacity:.68}
+  .foot{flex-direction:column;gap:8px}
+  .foot small{text-align:left}
+}
+</style>
+
+<div id="stage">
+  <div id="canvas">
+    <header class="hdr">
+      <div>
+        <h1 id="title">How an error or misinterpretation reaches print</h1>
+        <p class="sub" id="sub"></p>
+      </div>
+      <div class="modes" role="tablist" aria-label="View mode">
+        <button type="button" class="mbtn" role="tab" id="tab-paper" data-mode="paper" aria-selected="true">1 · Into the paper (7 cases)</button>
+        <button type="button" class="mbtn" role="tab" id="tab-deskill" data-mode="deskill" aria-selected="false">2 · Into deskilling (5 tracks)</button>
+      </div>
+    </header>
+
+    <div class="ctls">
+      <div class="crow" id="scenarios"></div>
+      <div class="crow" id="steps"></div>
+    </div>
+
+    <div class="rail" aria-hidden="true"><svg id="rail-svg" viewBox="0 0 1536 28" preserveAspectRatio="none"></svg></div>
+
+    <div class="cards" id="cards"></div>
+
+    <div class="foot">
+      <span class="verdict" id="outcome" role="status" aria-live="polite"></span>
+      <small id="credit">Layered defences after Reason (2000). Defences come from working practice, untested in studies.</small>
+    </div>
+  </div>
+</div>
+
+<div class="notes">
+  <section>
+    <h2>How to read these two views</h2>
+    <p><b>1 · Into the paper</b> follows one project from the agent's output through automated checks, your own review, lab co-authors, and external peer review into print. Notice that your three defence switches sit <em>inside the lab</em> (Steps 2–4): peer review is not a switch you control, and referees lack your bench notes, intermediate run folders, and raw data.</p>
+    <p><b>2 · Into deskilling</b> follows repeated projects when the agent is mostly right. Switch on <b>+ The agent checks</b> first: automated checks protect the paper in front of you while leaving your own judgement unused. Only <b>+ You think first</b> and <b>+ People and rules</b> keep human and trainee expertise alive.</p>
+    <p>Keyboard shortcuts: <code>1</code> / <code>2</code> switch between the two views, <code>↑</code> / <code>↓</code> step through cases, and <code>←</code> / <code>→</code> switch defence groups on.</p>
+  </section>
+  <section>
+    <h2>Selected sources behind these cases</h2>
+    <ul id="reflist"></ul>
+    <p class="backline">Can be used standalone or alongside the <a href="index.html">Agent Risk Atlas (46 risks &amp; 25 defences)</a>.</p>
+  </section>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const R = Object.fromEntries(DATA.risks.map(r => [r.id, r]));
+const DEF = Object.fromEntries(DATA.defences.map(d => [d.id, d]));
+const P = DATA.paths;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+
+const STEPS = [
+  {label: 'No defences', kinds: [], dot: '#9AA7AF'},
+  {label: '+ The agent checks', kinds: ['loop'], dot: 'var(--loop)'},
+  {label: '+ You think first', kinds: ['loop', 'rep'], dot: 'var(--rep)'},
+  {label: '+ People and rules', kinds: ['loop', 'rep', 'people'], dot: 'var(--people)'},
+];
+const KIND_WORD = {loop: 'the agent checks', rep: 'you think first', people: 'people and rules'};
+const KIND_COL = {loop: 'var(--loop)', rep: 'var(--rep)', people: 'var(--people)'};
+const KIND_TEXT = {loop: 'var(--loop-t)', rep: 'var(--rep-t)', people: 'var(--people-t)'};
+const STANDALONE_DEF = {predict: 'Predict before seeing results'};
+
+let mode = 'paper', idx = 0, step = 0;
+
+/* Collect only published sources referenced by the stories on this page */
+const usedRiskIds = new Set();
+P.paper.forEach(p => {
+  (p.origin.risks || []).forEach(x => usedRiskIds.add(x));
+  p.gates.forEach(g => (g.risks || []).forEach(x => usedRiskIds.add(x)));
+});
+P.deskill.forEach(t => {
+  [t.checks_trap, t.comfort, t.erosion, t.crunch].forEach(b => (b.risks || []).forEach(x => usedRiskIds.add(x)));
+});
+const usedRefKeys = new Set(['reason2000']);
+usedRiskIds.forEach(id => (R[id] && R[id].refs || []).forEach(k => usedRefKeys.add(k)));
+document.getElementById('reflist').innerHTML = DATA.refs
+  .filter(r => r.kind === 'source' && usedRefKeys.has(r.key))
+  .map(r => `<li><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.text)}</a></li>`)
+  .join('');
+
+function defTags(ids){
+  return `<div class="dtags">${ids.map(id => `<span class="dtag">${esc(STANDALONE_DEF[id] || DEF[id].name)}</span>`).join('')}</div>`;
+}
+
+function drawRail(ncols, stopCard, stopKind, checksPassNode){
+  /* Exact card centres across 1536px inner width with 10px grid gap */
+  const gap = 10, w = (1536 - (ncols - 1) * gap) / ncols, y = 14;
+  const xs = Array.from({length: ncols}, (_, i) => Math.round(w / 2 + i * (w + gap)));
+  let s = '';
+  const activeCol = stopCard < 0 ? 'var(--bad)' : KIND_COL[stopKind];
+  const endIdx = stopCard < 0 ? ncols - 1 : stopCard;
+
+  for (let i = 0; i < ncols - 1; i++){
+    const x1 = xs[i] + 13, x2 = xs[i + 1] - 15;
+    if (i < endIdx){
+      s += `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${activeCol}" stroke-width="4.2" stroke-linecap="round"/>`;
+      s += `<polygon points="${x2 - 2},${y - 5.5} ${x2 + 7},${y} ${x2 - 2},${y + 5.5}" fill="${activeCol}"/>`;
+    } else {
+      s += `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#C6D0D5" stroke-width="2.8" stroke-dasharray="7 6" stroke-linecap="round"/>`;
+    }
+  }
+  xs.forEach((x, i) => {
+    let fill = '#fff', stroke = '#B8C4CA', sw = 2.5;
+    if (i < endIdx){ fill = activeCol; stroke = activeCol; }
+    else if (i === endIdx && stopCard >= 0){ fill = activeCol; stroke = activeCol; sw = 3; }
+    else if (stopCard < 0 && i === ncols - 1){ fill = 'var(--bad)'; stroke = 'var(--bad)'; }
+    if (checksPassNode && i === 1){ stroke = 'var(--loop)'; sw = 3.5; fill = '#fff'; }
+    s += `<circle cx="${x}" cy="${y}" r="8.5" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+    if (i === stopCard){
+      s += `<line x1="${x + 17}" y1="${y - 11}" x2="${x + 17}" y2="${y + 11}" stroke="${activeCol}" stroke-width="5" stroke-linecap="round"/>`;
+    }
+  });
+  document.getElementById('rail-svg').innerHTML = s;
+}
+
+function renderPaper(){
+  const list = P.paper;
+  if (idx >= list.length) idx = 0;
+  const item = list[idx], kinds = STEPS[step].kinds;
+  const cardsEl = document.getElementById('cards');
+  cardsEl.style.setProperty('--ncols', '6');
+  cardsEl.classList.remove('cols-5');
+
+  document.getElementById('title').textContent = 'How an error or misinterpretation reaches print';
+  document.getElementById('sub').textContent =
+    'One project, left to right: pick a case, then switch lab defences on to see what stops it before submission — and why peer review often cannot.';
+
+  document.getElementById('scenarios').innerHTML =
+    `<span class="clab">Case</span>` +
+    list.map((p, i) => `<button type="button" class="sbtn" data-idx="${i}" aria-pressed="${i === idx}"><span class="num">${i + 1}</span>${esc(p.name)}</button>`).join('') +
+    `<span class="tag-pill">${esc(item.tag)}</span>`;
+
+  document.getElementById('steps').innerHTML =
+    `<span class="clab">Lab defences</span>` +
+    STEPS.map((st, i) => `<button type="button" class="dbtn" data-step="${i}" aria-pressed="${i === step}"><span class="dot" style="--dc:${st.dot}"></span>${esc(st.label)}</button>`).join('') +
+    `<span class="crow-note">Steps 2–4 are yours to switch on · Step 5 (peer review) is outside your control</span>`;
+
+  /* Earliest catching lab gate (card index 1, 2, or 3) */
+  let stopGate = -1, stopCatch = null;
+  item.gates.forEach((g, gi) => {
+    if (g.catch && kinds.includes(g.catch.kind) && stopGate < 0){
+      stopGate = gi;
+      stopCatch = g.catch;
+    }
+  });
+  const stopCard = stopGate < 0 ? -1 : stopGate + 1;
+
+  const layerMeta = [
+    {label: '2 · Automated checks', col: 'var(--checks)'},
+    {label: '3 · You, in the loop', col: 'var(--you-now)'},
+    {label: '4 · Lab & co-authors', col: 'var(--team)'},
+  ];
+
+  let html = '';
+  /* Card 1: Origin */
+  html += `<article class="card" style="--cc:var(--agent)">
+    <div class="cstep">1 · The agent's output</div>
+    <h3>${esc(item.origin.title)}</h3>
+    <p class="cbody">${esc(item.origin.text)}</p>
+    <div class="gate quiet"><span class="glab">Looks clean on screen</span><span>Fluent prose or normal-looking numbers leave the step ready to pass on.</span></div>
+  </article>`;
+
+  /* Cards 2–4: Lab Gates */
+  item.gates.forEach((g, gi) => {
+    const isStop = stopGate === gi;
+    const isDown = stopGate >= 0 && gi > stopGate;
+    const isBackup = isDown && g.catch && kinds.includes(g.catch.kind);
+    let gateBox = '';
+    if (isStop){
+      const k = g.catch.kind;
+      gateBox = `<div class="gate stop-${k}">
+        <span class="glab">Stopped here · ${esc(KIND_WORD[k])}</span>
+        ${defTags(g.catch.defences)}
+        <span>${esc(g.catch.how)}</span>
+      </div>`;
+    } else if (isBackup){
+      const k = g.catch.kind;
+      gateBox = `<div class="gate backup" style="--bc:${KIND_COL[k]};--bt:${KIND_TEXT[k]}">
+        <span class="glab">Backup gate active · ${esc(KIND_WORD[k])}</span>
+        ${defTags(g.catch.defences)}
+        <span>${esc(g.catch.how)}</span>
+      </div>`;
+    } else if (!isDown && step > 0 && gi === 0 && kinds.includes('loop')){
+      gateBox = `<div class="gate open-pass"><span class="glab">Passes agent checks</span><span>Automated code and file checks cannot see this flaw; it moves on to you.</span></div>`;
+    } else if (!isDown && step > 1 && gi === 1 && kinds.includes('rep')){
+      gateBox = `<div class="gate open-pass"><span class="glab">Passes solo review</span><span>Direction and numbers still look plausible; needs a bench or colleague check.</span></div>`;
+    } else if (!isDown){
+      gateBox = `<div class="gate open-pass"><span class="glab">Slips through unguarded</span><span>No active defence closes this layer yet.</span></div>`;
+    } else {
+      gateBox = `<div class="gate quiet"><span class="glab">Never reached</span><span>Caught earlier inside the lab.</span></div>`;
+    }
+
+    html += `<article class="card ${isStop ? 'stopped-here' : ''} ${isDown ? 'downstream' : ''}" style="--cc:${layerMeta[gi].col};${isStop ? `--sc:${KIND_COL[g.catch.kind]}` : ''}">
+      <div class="cstep">${esc(layerMeta[gi].label)}</div>
+      <h3>${esc(g.open_title)}</h3>
+      <p class="cbody">${esc(g.open_text)}</p>
+      ${gateBox}
+    </article>`;
+  });
+
+  /* Card 5: Peer review (external — never controlled by author switches) */
+  const revDown = stopGate >= 0;
+  html += `<article class="card ${revDown ? 'downstream' : ''}" style="--cc:var(--review)">
+    <div class="cstep">5 · Peer review</div>
+    <h3>${esc(item.review.open_title)}</h3>
+    <p class="cbody">${esc(item.review.open_text)}</p>
+    ${revDown
+      ? `<div class="gate quiet"><span class="glab">Fixed before submission</span><span>Caught inside the lab — referees never have to guess.</span></div>`
+      : `<div class="gate open-pass"><span class="glab">Passes peer review</span><span>${esc(item.review.why_passes)}</span></div>`}
+  </article>`;
+
+  /* Card 6: Print outcome */
+  if (stopGate < 0){
+    html += `<article class="card bad-end">
+      <div class="cstep">6 · In print</div>
+      <h3>Enters the literature</h3>
+      <div class="end-bad"><b>Published claim</b>${esc(item.paper_claim.bad)}</div>
+    </article>`;
+  } else {
+    html += `<article class="card ok-end">
+      <div class="cstep">6 · Before submission</div>
+      <h3>Caught in time</h3>
+      <div class="end-ok"><b>Protected result</b>${esc(item.paper_claim.saved)}
+        <div class="end-was"><b>Without that gate:</b> ${esc(item.paper_claim.bad)}</div>
+      </div>
+    </article>`;
+  }
+
+  cardsEl.innerHTML = html;
+  drawRail(6, stopCard, stopCatch ? stopCatch.kind : null, step > 0 && stopCard !== 1);
+
+  const out = document.getElementById('outcome');
+  if (stopGate < 0){
+    out.innerHTML = step === 0
+      ? `<b class="bad">Slips past peer review into print.</b> With lab defences off, every layer — including external review — lets “${esc(item.name)}” through.`
+      : `<b class="bad">Still reaches print.</b> ${esc(STEPS[step].label)} alone cannot catch “${esc(item.name)}”, and peer review cannot see what happened in your folder or at the bench.`;
+  } else {
+    const names = stopCatch.defences.map(id => STANDALONE_DEF[id] || DEF[id].name).join(' + ');
+    const stageName = ['Automated checks', 'You, in the loop', 'Lab & co-authors'][stopGate];
+    out.innerHTML = `<b class="ok">Stopped inside the lab at “${stageName}”</b> by <b>${esc(names)}</b> (${esc(KIND_WORD[stopCatch.kind])}) — before submission.`;
+  }
+}
+
+function renderDeskill(){
+  const list = P.deskill;
+  if (idx >= list.length) idx = 0;
+  const item = list[idx], kinds = STEPS[step].kinds;
+  const cardsEl = document.getElementById('cards');
+  cardsEl.style.setProperty('--ncols', '5');
+  cardsEl.classList.add('cols-5');
+
+  document.getElementById('title').textContent = 'How judgement erodes over time — and what keeps your edge';
+  document.getElementById('sub').textContent =
+    'Across repeated projects when the agent is mostly right: watch what happens when you switch on automated checks versus thinking first.';
+
+  document.getElementById('scenarios').innerHTML =
+    `<span class="clab">Skill track</span>` +
+    list.map((p, i) => `<button type="button" class="sbtn" data-idx="${i}" aria-pressed="${i === idx}"><span class="num">${i + 1}</span>${esc(p.name)}</button>`).join('') +
+    `<span class="tag-pill">${esc(item.slide8)}</span>`;
+
+  document.getElementById('steps').innerHTML =
+    `<span class="clab">Lab defences</span>` +
+    STEPS.map((st, i) => `<button type="button" class="dbtn" data-step="${i}" aria-pressed="${i === step}"><span class="dot" style="--dc:${st.dot}"></span>${esc(st.label)}</button>`).join('');
+
+  let stopCard = -1, stopBreak = null;
+  if (item.comfort.break_here && kinds.includes(item.comfort.break_here.kind)){
+    stopCard = 2; stopBreak = item.comfort.break_here;
+  } else if (item.erosion.break_here && kinds.includes(item.erosion.break_here.kind)){
+    stopCard = 3; stopBreak = item.erosion.break_here;
+  }
+
+  const checksOn = kinds.includes('loop');
+  let html = '';
+
+  /* Card 1: Rational shortcut */
+  html += `<article class="card" style="--cc:var(--agent)">
+    <div class="cstep">1 · Rational shortcut (Week 1)</div>
+    <h3>${esc(item.shortcut.title)}</h3>
+    <p class="cbody">${esc(item.shortcut.text)}</p>
+    <div class="gate quiet"><span class="glab">Why everyone starts here</span><span>Delegating saves real hours, and nine times out of ten the output looks solid.</span></div>
+  </article>`;
+
+  /* Card 2: With automated checks */
+  html += `<article class="card" style="--cc:var(--loop)">
+    <div class="cstep">2 · With automated checks</div>
+    <h3>${esc(item.checks_trap.title)}</h3>
+    <p class="cbody">${esc(item.checks_trap.text)}</p>
+    ${checksOn
+      ? `<div class="gate checks-note"><span class="glab">Automated checks active — skill still idle</span><span>Agent checks protect this paper, while cleaner runs make passive approval feel even safer.</span></div>`
+      : `<div class="gate open-pass"><span class="glab">Unchecked speed</span><span>Fast output invites skimming; switching on automated checks cleans the result without exercising your skill.</span></div>`}
+  </article>`;
+
+  /* Card 3: Comfort trap */
+  const c3Stop = stopCard === 2;
+  html += `<article class="card ${c3Stop ? 'stopped-here' : ''}" style="--cc:var(--you-now);${c3Stop ? `--sc:${KIND_COL[stopBreak.kind]}` : ''}">
+    <div class="cstep">3 · Comfort trap (in the moment)</div>
+    <h3>${esc(item.comfort.open_title)}</h3>
+    <p class="cbody">${esc(item.comfort.open_text)}</p>
+    ${c3Stop
+      ? `<div class="gate stop-${stopBreak.kind}">
+          <span class="glab">Ratchet broken · ${esc(KIND_WORD[stopBreak.kind])}</span>
+          ${defTags(stopBreak.defences)}
+          <span>${esc(stopBreak.how)}</span>
+        </div>`
+      : item.comfort.break_here
+        ? `<div class="gate open-pass"><span class="glab">Passive review trap</span><span>Nodding at the agent's version feels like doing the thinking.</span></div>`
+        : `<div class="gate open-pass"><span class="glab">Solo habits stop at the PI</span><span>Your own thinking-first habits keep you sharp while trainees beside you still watch.</span></div>`}
+  </article>`;
+
+  /* Card 4: Quiet erosion */
+  const c4Stop = stopCard === 3;
+  const c4Down = stopCard === 2;
+  html += `<article class="card ${c4Stop ? 'stopped-here' : ''} ${c4Down ? 'downstream' : ''}" style="--cc:${item.erosion.break_here ? 'var(--team)' : 'var(--you-time)'};${c4Stop ? `--sc:${KIND_COL[stopBreak.kind]}` : ''}">
+    <div class="cstep">4 · Quiet erosion (over months)</div>
+    <h3>${esc(item.erosion.open_title)}</h3>
+    <p class="cbody">${esc(item.erosion.open_text)}</p>
+    ${c4Stop
+      ? `<div class="gate stop-${stopBreak.kind}">
+          <span class="glab">Protected · ${esc(KIND_WORD[stopBreak.kind])}</span>
+          ${defTags(stopBreak.defences)}
+          <span>${esc(stopBreak.how)}</span>
+        </div>`
+      : c4Down
+        ? `<div class="gate quiet"><span class="glab">Erosion prevented</span><span>A few minutes of thinking first on each project keeps the skill active.</span></div>`
+        : `<div class="gate open-pass"><span class="glab">Unnoticed between projects</span><span>Nothing crashes while calibration, recall or trainee practice thins out.</span></div>`}
+  </article>`;
+
+  /* Card 5: Crunch moment */
+  if (stopCard < 0){
+    html += `<article class="card bad-end">
+      <div class="cstep">5 · When the bill arrives</div>
+      <h3>Human gate goes hollow</h3>
+      <div class="end-bad"><b>Consequence</b>${esc(item.crunch.bad)}</div>
+    </article>`;
+  } else {
+    html += `<article class="card ok-end">
+      <div class="cstep">5 · Across future projects</div>
+      <h3>Speed kept, edge intact</h3>
+      <div class="end-ok"><b>What stays with you</b>${esc(item.crunch.saved)}
+        <div class="end-was"><b>Without that habit:</b> ${esc(item.crunch.bad)}</div>
+      </div>
+    </article>`;
+  }
+
+  cardsEl.innerHTML = html;
+  drawRail(5, stopCard, stopBreak ? stopBreak.kind : null, checksOn);
+
+  const out = document.getElementById('outcome');
+  if (stopCard < 0){
+    if (step === 0){
+      out.innerHTML = `<b class="bad">Judgement erodes over time.</b> Reviewing fluent output feels productive while “${esc(item.name.toLowerCase())}” quietly weakens.`;
+    } else if (step === 1){
+      out.innerHTML = `<b class="bad">Automated checks do not stop deskilling.</b> Agent checks protect this paper, while your own “${esc(item.name.toLowerCase())}” stays unused.`;
+    } else {
+      out.innerHTML = `<b class="bad">Trainees still watch from the side.</b> Solo PI habits keep you sharp; switch on <b>+ People and rules</b> to protect lab learning.`;
+    }
+  } else {
+    const names = stopBreak.defences.map(id => STANDALONE_DEF[id] || DEF[id].name).join(' + ');
+    out.innerHTML = `<b class="ok">Edge kept on “${esc(item.name)}”</b> by <b>${esc(names)}</b> (${esc(KIND_WORD[stopBreak.kind])}) — a few minutes before the agent shows its version.`;
+  }
+}
+
+function syncHash(){
+  const list = mode === 'paper' ? P.paper : P.deskill;
+  const slug = list[idx] ? list[idx].id : idx + 1;
+  history.replaceState(null, '', `#${mode}/${slug}/${step}`);
+}
+
+function fromHash(){
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (!h) return;
+  if (h === 'paper' || h === 'deskill'){ mode = h; idx = 0; return; }
+  const old = h.match(/^p(\d)s(\d)$/);
+  if (old){
+    const oldMap = {1: 0, 2: 2, 3: 5, 4: 1};
+    mode = 'paper';
+    idx = oldMap[+old[1]] !== undefined ? oldMap[+old[1]] : Math.min(+old[1] - 1, P.paper.length - 1);
+    step = Math.min(+old[2], 3);
+    return;
+  }
+  const parts = h.split('/');
+  if (parts[0] === 'paper' || parts[0] === 'deskill'){
+    mode = parts[0];
+    const list = mode === 'paper' ? P.paper : P.deskill;
+    if (parts[1]){
+      const found = list.findIndex(x => x.id === parts[1]);
+      idx = found >= 0 ? found : Math.max(0, Math.min((+parts[1] || 1) - 1, list.length - 1));
+    }
+    if (parts[2] !== undefined) step = Math.max(0, Math.min(+parts[2] || 0, 3));
+  }
+}
+
+function render(){
+  document.querySelectorAll('.mbtn').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === mode)));
+  if (mode === 'paper') renderPaper(); else renderDeskill();
+}
+
+function fit(){
+  const c = document.getElementById('canvas'), st = document.getElementById('stage');
+  if (window.innerWidth < 980){
+    c.style.transform = 'none';
+    c.style.left = '0px';
+    st.style.height = 'auto';
+    return;
+  }
+  const sc = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+  c.style.transform = `scale(${sc})`;
+  c.style.left = Math.max(0, (window.innerWidth - 1600 * sc) / 2) + 'px';
+  st.style.height = (900 * sc) + 'px';
+}
+
+document.addEventListener('click', e => {
+  const mb = e.target.closest('.mbtn');
+  if (mb){ mode = mb.dataset.mode; idx = 0; render(); syncHash(); fit(); return; }
+  const sb = e.target.closest('[data-idx]');
+  if (sb){ idx = +sb.dataset.idx; render(); syncHash(); fit(); return; }
+  const db = e.target.closest('[data-step]');
+  if (db){ step = +db.dataset.step; render(); syncHash(); fit(); return; }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.target.closest('input,textarea')) return;
+  const list = mode === 'paper' ? P.paper : P.deskill;
+  if (e.key === '1'){ mode = 'paper'; idx = 0; render(); syncHash(); fit(); }
+  else if (e.key === '2'){ mode = 'deskill'; idx = 0; render(); syncHash(); fit(); }
+  else if (e.key === 'ArrowRight'){ step = Math.min(3, step + 1); render(); syncHash(); }
+  else if (e.key === 'ArrowLeft'){ step = Math.max(0, step - 1); render(); syncHash(); }
+  else if (e.key === 'ArrowDown'){ idx = (idx + 1) % list.length; render(); syncHash(); e.preventDefault(); }
+  else if (e.key === 'ArrowUp'){ idx = (idx - 1 + list.length) % list.length; render(); syncHash(); e.preventDefault(); }
+});
+
+window.addEventListener('hashchange', () => { fromHash(); render(); });
+window.addEventListener('resize', fit);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+fromHash();
+render();
+fit();
+requestAnimationFrame(() => document.body.classList.add('ready'));
+</script>
