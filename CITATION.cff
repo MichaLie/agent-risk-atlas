@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use the Agent Risk Atlas, please cite it as below."
 title: "Agent Risk Atlas"
-version: "1.4"
+version: "1.5"
 date-released: 2026-11-11
 authors:
   - family-names: "Liegertová"
@@ -9,7 +9,7 @@ authors:
 license: CC-BY-4.0
 url: "https://michalie.github.io/agent-risk-atlas/"
 repository-code: "https://github.com/MichaLie/agent-risk-atlas"
-abstract: "A one-screen map of how research with AI agents goes wrong: 46 risks by who fails and research step, 25 defences, and plain-language examples of what to ask an agent."
+abstract: "A one-screen map of how research with AI agents goes wrong: 47 risks by who fails and research step, 25 defences, and plain-language examples of what to ask an agent."
 keywords:
   - AI agents
   - research integrity

@@ -1,6 +1,6 @@
 # Reference list. The build numbers these in order of first use, so never write numbers yourself.
 # kind: source (a published work; give url) · observation (the author's first-hand observation) · proposal (reasoned, not yet observed or measured)
-# Every source below was checked against Crossref, arXiv or the publisher's page on 7–10 Nov 2026.
+# Every source below was checked against Crossref, arXiv or the publisher's page on 7–11 Nov 2026.
 
 obs-practice: {kind: observation, text: "Author's observation from building agentic research workflows, 2023–2026."}
 obs-genomics: {kind: observation, text: "Author's observation in a multi-agent genomics project (autonomous AI researcher plus orchestrator agent), 2026."}
@@ -36,3 +36,12 @@ fei2026: {kind: source, text: "Fei Y, et al. How do agents fail on AutoResearch:
 luo2025: {kind: source, text: "Luo Z, Kasirzadeh A, Shah NB. The more you automate, the less you see: hidden pitfalls of autonomous AI scientists. Proc Natl Acad Sci U S A. 2026;123(41):e2610214123.", url: "https://doi.org/10.1073/pnas.2610214123"}
 alfaqeeh2026: {kind: source, text: "Alfaqeeh M, Horani OM, Hourani M, Alfaqeeh H. Beyond fabrication: misattributed numbers in papers written by AI research agents. arXiv:2610.38691 (2026, preprint).", url: "https://arxiv.org/abs/2610.38691"}
 reason2000: {kind: source, text: "Reason J. Human error: models and management. BMJ. 2000.", url: "https://doi.org/10.1136/bmj.320.7237.768"}
+pham2026: {kind: source, text: "Pham P, Hy T-S. Evaluating agentic bioinformatics through function, evidence, and validation. arXiv:2607.27556 (2026, preprint).", url: "https://arxiv.org/abs/2607.27556"}
+trehan2026: {kind: source, text: "Trehan D, Chopra P. Why LLMs aren't scientists yet: lessons from four autonomous research attempts. arXiv:2601.03315 (2026, preprint).", url: "https://arxiv.org/abs/2601.03315"}
+hosseini2026: {kind: source, text: "Hosseini M, Murad M, Resnik DB. Benefits and risks of using AI agents in research. Hastings Cent Rep. 2026;56(1):13–17.", url: "https://doi.org/10.1002/hast.70025"}
+bainbridge1983: {kind: source, text: "Bainbridge L. Ironies of automation. Automatica. 1983;19(6):775–779.", url: "https://doi.org/10.1016/0005-1098(83)90046-8"}
+budzyn2025: {kind: source, text: "Budzyń K, et al. Endoscopist deskilling risk after exposure to artificial intelligence in colonoscopy: a multicentre, observational study. Lancet Gastroenterol Hepatol. 2025;10(10):896–903.", url: "https://doi.org/10.1016/S2468-1253(25)00133-5"}
+becker2025: {kind: source, text: "Becker J, Rush N, Barnes E, Rein D. Measuring the impact of early-2025 AI on experienced open-source developer productivity. arXiv:2507.09089 (2025, preprint).", url: "https://arxiv.org/abs/2507.09089"}
+bucinca2021: {kind: source, text: "Buçinca Z, Malaya MB, Gajos KZ. To trust or to think: cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making. Proc ACM Hum-Comput Interact. 2021;5(CSCW1):188.", url: "https://doi.org/10.1145/3449287"}
+vasconcelos2023: {kind: source, text: "Vasconcelos H, et al. Explanations can reduce overreliance on AI systems during decision-making. Proc ACM Hum-Comput Interact. 2023;7(CSCW1):129.", url: "https://doi.org/10.1145/3579605"}
+mitchell2026: {kind: source, text: "Mitchell M, Ghosh A, Passi S. AI agents push humans out of the loop. arXiv:2608.23642 (2026, preprint).", url: "https://arxiv.org/abs/2608.23642"}

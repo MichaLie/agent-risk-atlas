@@ -27,7 +27,7 @@
   type: A
   stage: acquire
   looks_like: "Mouse evidence used for human, a cell line for primary cells, IFN-γ papers cited for IFN-β."
-  refs: [proposal]
+  refs: [proposal, pham2026]
   defences: [fulltext]
   example: "For each cited claim, state the species, cell type and study type of the source, and flag any that differ from our system."
 - id: A4
@@ -99,7 +99,7 @@
   type: C
   stage: analyze
   looks_like: "The planned route failed; a subset, a cached file or a dropped covariate was used under the same label."
-  refs: [luo2025, obs-practice]
+  refs: [luo2025, trehan2026, obs-practice]
   defences: [declare, recompute]
   example: "If the planned approach fails, tell me before you switch to anything else, such as a subset of the data or an older file."
 - id: C3
@@ -168,7 +168,7 @@
   type: D
   stage: audit
   looks_like: "A worker agent reports that all checks passed; a rerun shows several failed."
-  refs: [obs-genomics]
+  refs: [obs-genomics, trehan2026]
   defences: [recompute, signoff]
   example: "When you report that checks passed, show me their actual output."
   twin: F2
@@ -197,7 +197,7 @@
   type: E
   stage: audit
   looks_like: "Software tests pass; nothing ever tested whether the claim is true."
-  refs: [obs-genomics]
+  refs: [obs-genomics, pham2026]
   defences: [controls]
   example: "Code tests only show that the code runs. Also check my positive and negative controls, and tell me if either fails."
 - id: E4
@@ -205,7 +205,7 @@
   type: E
   stage: across
   looks_like: "The instructions file says it; nothing shows that it happened."
-  refs: [obs-practice]
+  refs: [obs-practice, trehan2026]
   defences: [statusnote]
   example: "For each rule in my instructions, show me where in the results it was followed, or say that you can't."
 - id: E5
@@ -213,7 +213,7 @@
   type: E
   stage: handoff
   looks_like: "Identical numbers from a flawed design."
-  refs: [proposal]
+  refs: [pham2026, proposal]
   defences: [expert]
   example_from: expert
 
@@ -271,9 +271,17 @@
   type: F
   stage: across
   looks_like: "Twelve approvals in a row; a yes that attaches to nothing in particular."
-  refs: [obs-practice]
+  refs: [obs-practice, mitchell2026]
   defences: [questions]
   example_from: questions
+- id: F8
+  name: "It felt faster"
+  type: F
+  stage: across
+  looks_like: "You are sure the agent saves you time. In one randomised trial, experienced developers took 19% longer with AI tools, then estimated the tools had saved them 20%."
+  refs: [becker2025]
+  defences: [predict]
+  example: "Before we start, ask me how long this would take me alone. At the end, show the time it took and how many of your attempts I rejected."
 
 # G · You, over time
 - id: G1
@@ -296,8 +304,8 @@
   name: "Skill fades"
   type: G
   stage: across
-  looks_like: "A skill you had fades because the agent now does that step; how fast is not known."
-  refs: [proposal]
+  looks_like: "A skill you had fades because the agent now does that step. In one observational study, doctors' unaided adenoma detection fell from 28% to 22% within months of AI use."
+  refs: [bainbridge1983, hosseini2026, budzyn2025, proposal]
   defences: [rerun]
   example_from: rerun
 - id: G4
@@ -313,7 +321,7 @@
   type: G
   stage: audit
   looks_like: "Checking the agent's output feels like doing the analysis, and slowly replaces it."
-  refs: [obs-practice]
+  refs: [obs-practice, bainbridge1983]
   defences: [explain]
   example: "Before showing your analysis, ask me to sketch how I would do it, then show me where we differ."
 - id: G6
@@ -339,7 +347,7 @@
   type: H
   stage: across
   looks_like: "The tasks that built experts are delegated; trainees watch, and the team loses the people who can teach or challenge the work."
-  refs: [beane]
+  refs: [beane, hosseini2026]
   defences: [learning]
   example_from: learning
 - id: H2
@@ -363,7 +371,7 @@
   type: H
   stage: across
   looks_like: "Agent output grows much faster than human reading and checking can."
-  refs: [obs-genomics]
+  refs: [obs-genomics, becker2025]
   defences: []
   open: true
 
