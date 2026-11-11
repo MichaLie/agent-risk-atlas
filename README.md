@@ -28,7 +28,7 @@ The example requests are written in plain words, so adapt them to your own work.
 
 Click a risk or a defence to highlight it. Press Esc or click on empty space to clear it, and use the arrow keys to move from risk to risk. You can also link to a single risk, for example [#B5](https://michalie.github.io/agent-risk-atlas/#B5).
 
-An [introductory essay](https://michalie.github.io/agent-risk-atlas/essay.html) walks through the main argument and five practical habits in ~6 minutes. A standalone companion page follows seven example errors through checks and peer review [into print](https://michalie.github.io/agent-risk-atlas/paths.html#paper), and five skill tracks [into deskilling](https://michalie.github.io/agent-risk-atlas/paths.html#deskill), as you switch on the groups of defences.
+An [introductory essay](https://michalie.github.io/agent-risk-atlas/essay.html) walks through the main argument and five practical habits in ~10 minutes. A standalone companion page follows seven example errors through checks and peer review [into print](https://michalie.github.io/agent-risk-atlas/paths.html#paper), and five skill tracks [into deskilling](https://michalie.github.io/agent-risk-atlas/paths.html#deskill), as you switch on the groups of defences.
 
 ## Where the content comes from
 
