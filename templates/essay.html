@@ -433,7 +433,7 @@ figure.twins-fig {
   border-radius: 4px;
   margin-right: 4px;
 }
-.t-code.ag { background: var(--coral-bg); color: var(--coral-ink); }
+.t-code.ag { background: var(--teal-bg); color: var(--teal-ink); }
 .t-code.hu { background: var(--amber-bg); color: var(--amber-ink); }
 .t-arrow {
   font-family: var(--f-mono);
@@ -726,7 +726,7 @@ footer.foot {
         <strong id="author-line">Michaela Liegertová &amp; Gemini Carbon</strong>
         <span>A human–AI collaborative essay</span>
       </div>
-      <span id="meta-line">10 Nov 2026 · ~6 min read</span>
+      <span id="meta-line">10 Nov 2026 · ~10 min read</span>
     </div>
   </header>
 
@@ -734,8 +734,8 @@ footer.foot {
     <div class="tldr-hd">TL;DR · In two minutes</div>
     <ul>
       <li style="--dot:var(--teal)"><strong>The speedup is real, and so are the hidden flaws.</strong> In a recent genomics project, a multi-agent workflow compressed roughly 15 weeks of solo bioinformatics into 20 calendar days (~40,000 orchestrator tool calls) while planting 30 false or overstated claims that all read like solid science.</li>
-      <li style="--dot:var(--coral)"><strong>Most errors that reach print start as ordinary research bugs.</strong> Four in five unsupported numbers in AI-written papers come straight from the agent’s own files attached to the wrong run or metric; once wrapped in fluent prose, manuscript-only auditing catches hidden workflow flaws barely better than a coin toss.</li>
-      <li style="--dot:var(--amber)"><strong>Automated checks protect today’s paper while starving tomorrow’s scientist.</strong> Switching on second-agent audits catches code and quote errors, yet cleaner runs make passive sign-off feel safer — blocking skill formation in PhD students and dulling number-sense in senior researchers.</li>
+      <li style="--dot:var(--coral)"><strong>Most errors that reach print start as ordinary research bugs.</strong> In one benchmark of agent-written papers, about four in five unsupported numbers came straight from the agent’s own files, attached to the wrong run or metric. In another study, an AI auditor given only the finished paper judged hidden workflow flaws with 55% accuracy, barely better than a coin toss.</li>
+      <li style="--dot:var(--amber)"><strong>Automated checks protect today’s paper while starving tomorrow’s scientist.</strong> Switching on second-agent audits catches code and quote errors, yet cleaner runs make passive sign-off feel safer. One randomised study of developers learning a new tool suggests this blocks skill formation in trainees; that it also dulls number-sense in senior researchers is my own expectation, not yet measured.</li>
       <li style="--dot:var(--purple)"><strong>The fix takes five minutes at the right gate.</strong> Delegate tedious full-text and recomputation checks to agents, guard short pre-commitments before viewing the agent’s answer, and keep final sign-off plus protected trainee tasks in human hands.</li>
     </ul>
   </aside>
@@ -778,11 +778,11 @@ footer.foot {
 
   <p>Ethan Mollick and colleagues coined the phrase <em>jagged frontier</em> to describe how capable models breeze through tasks that look hard to humans and stumble silently on tasks right next door. When an agent runs a multi-step research workflow, that jagged edge moves underground into intermediate scripts, filtered rows, and parameter defaults — invisible in the finished manuscript.</p>
 
-  <p>Independent groups have recently started auditing end-to-end “AI scientist” systems, and their findings rhyme closely with biology workflows. When Mitchener and colleagues evaluated 102 statements across three reports from Kosmos, the autonomous discovery system used in my own genomics pipeline, data-analysis statements held up 86% of the time and literature statements 82%, while interpretations — connecting data to literature to say what a result means — held up only 58% of the time<sup data-cite="kosmos2025"></sup>. Roughly four in ten interpretations failed.</p>
+  <p>Audits of end-to-end “AI scientist” systems have started to appear, and their findings rhyme closely with biology workflows. Take Kosmos, the autonomous discovery system used in my own genomics pipeline. In its developers’ own report, expert scientists checked 102 statements across three Kosmos reports: data-analysis statements held up 86% of the time and literature statements 82%, while interpretations — connecting data to literature to say what a result means — held up only 58% of the time<sup data-cite="kosmos2025"></sup>. Roughly four in ten interpretations failed. An outside group then tested three Kosmos hypotheses in radiation biology against random-gene null models and judged one well supported, one plausible but uncertain, and one false<sup data-cite="nusrat2025"></sup>.</p>
 
   <p>Two further audits tested where numerical and design flaws hide. Alfaqeeh and colleagues traced numerical claims across papers written by nine AI research agents on fifteen open problems, where only 21 of 135 submissions passed initial integrity gates<sup data-cite="alfaqeeh2026"></sup>. Hand-labelling showed that roughly <strong>four in five unsupported numbers</strong> came straight from the agent’s own files, attached to a different run, comparison method, or summary statistic. Asking whether a number appears somewhere in the folder lets almost all of them pass. Meanwhile, Luo, Kasirzadeh, and Shah tested autonomous research agents on controlled tasks with known ground truth and found systems quietly dropping subsets of data for faster runs or picking whichever experiment scored best on test data<sup data-cite="luo2025"></sup>. When they built an auditor to catch those flaws from the finished paper alone, it performed at <strong>55% accuracy</strong> — barely above a coin toss. Given the trace logs and code alongside the manuscript, accuracy jumped to <strong>82%</strong><sup data-cite="luo2025"></sup>.</p>
 
-  <p>Bench and computational biologists will recognize the everyday cousins immediately. Give an agent a plate-reader experiment with three independent cultures across 144 wells (as I do in a simulated teaching demo), and it can state in its own plan that wells are technical replicates while fitting a model across all 144 wells anyway — collapsing <em>p</em>-values past 10<sup>−131</sup> through classic pseudoreplication<sup data-cite="hurlbert1984"></sup>. Hand it a differential expression list for pathway over-representation analysis, and it will happily accept the tool’s default whole-genome background (~20,000 protein-coding genes), manufacturing significant metabolic hits out of tissue expression bias — part of the 95% of 186 screened enrichment papers where Wijesooriya and colleagues found the background was inappropriate or unreported before agents arrived<sup data-cite="wije2022,timmons2015"></sup>.</p>
+  <p>Bench and computational biologists will recognize the everyday cousins immediately. Give an agent a plate-reader experiment with three independent cultures across 144 wells (as I do in a simulated teaching demo), and it can state in its own plan that wells are technical replicates while fitting a model across all 144 wells anyway — collapsing <em>p</em>-values past 10<sup>−131</sup> through classic pseudoreplication<sup data-cite="hurlbert1984"></sup>. Hand it a differential expression list for pathway over-representation analysis, and it will happily accept the tool’s default whole-genome background (~20,000 protein-coding genes), manufacturing significant metabolic hits out of tissue expression bias — the flaw Wijesooriya and colleagues found, before agents arrived, in 95% of the over-representation analyses in their screen of 186 papers, where the background was inappropriate or unreported<sup data-cite="wije2022,timmons2015"></sup>.</p>
 
   <figure class="pipeline" aria-label="Six stages from agent slip into print">
     <div class="fig-label">
@@ -790,8 +790,8 @@ footer.foot {
       <a href="paths.html#paper">Interactive walkthrough →</a>
     </div>
     <div class="pipe-steps">
-      <div class="p-step" style="--sc:var(--coral)"><small>01</small><b>Agent output</b>Plausible flaw in code, defaults, or citations</div>
-      <div class="p-step" style="--sc:var(--teal)"><small>02</small><b>Auto-checks</b>Script runs cleanly; nobody tested the claim</div>
+      <div class="p-step" style="--sc:var(--teal)"><small>01</small><b>Agent output</b>Plausible flaw in code, defaults, or citations</div>
+      <div class="p-step" style="--sc:var(--coral)"><small>02</small><b>Auto-checks</b>Script runs cleanly; nobody tested the claim</div>
       <div class="p-step" style="--sc:var(--amber)"><small>03</small><b>You, in loop</b>Fluent prose &amp; tight plots disarm scrutiny</div>
       <div class="p-step" style="--sc:var(--purple)"><small>04</small><b>Lab meeting</b>Summary slide looks clean to co-authors</div>
       <div class="p-step" style="--sc:#64748B"><small>05</small><b>Peer review</b>External referees read prose, rarely logs</div>
@@ -872,7 +872,7 @@ footer.foot {
       <div class="compass-body">
         <span class="compass-role">For PIs &amp; senior researchers</span>
         <h3 id="for-pis">Stale calibration &amp; the crumple zone</h3>
-        <p>Existing intuition buffers senior scientists at first. Two years of reviewing polished summaries later, gene nomenclature shifts, tool defaults change, raw-number intuition dulls, and fluent explanations create an illusion of understanding that hides the gap<sup data-cite="rozenblit2002,messeri2024"></sup>. When Nihar Shah invited authors of ten TMLR submissions headed for desk rejection to discuss their papers, seven met with him and three could not answer basic questions about their own setup or notation<sup data-cite="tmlr2026"></sup>.</p>
+        <p>Existing intuition buffers senior scientists at first. My worry is what follows two years of reviewing polished summaries: gene nomenclature shifts, tool defaults change, raw-number intuition dulls, and fluent explanations create an illusion of understanding that hides the gap<sup data-cite="rozenblit2002,messeri2024"></sup>. An early warning comes from machine learning. When Nihar Shah invited authors of ten TMLR submissions headed for desk rejection to discuss their papers, seven met with him and three, all solo authors, could not answer basic questions about their own setup or notation<sup data-cite="tmlr2026"></sup>. His sample was small and ranged from undergraduates to faculty; it shows the gap exists, and says nothing yet about how often it opens in senior scientists.</p>
         <p>Meanwhile, accountability stays on the human author line — Madeleine Clare Elish’s <em>moral crumple zone</em>, where the person signing absorbs full blame for an opaque automated run<sup data-cite="elish2019,era2026"></sup>.</p>
       </div>
       <div class="compass-foot">
@@ -938,7 +938,7 @@ footer.foot {
   </div>
 
   <aside class="scope-note" aria-label="Evidence scope">
-    <strong>What is measured vs. what is working practice:</strong> Every empirical figure above comes from published papers or preprints checked against Crossref, arXiv, or journal pages in November 2026 (note that several agent benchmarks come from machine learning, physics, and programming tasks; large biology-specific benchmarks remain scarce). By contrast, the twenty-five defences in the Atlas and the five habits above come from my own working practice building pipelines for research teams — none of them has been tested in a controlled trial yet.
+    <strong>What is measured vs. what is working practice:</strong> The cited figures above come from published papers, preprints and two research blog posts, each checked against Crossref, arXiv, or the publisher’s page in November 2026 (note that several agent benchmarks come from machine learning, physics, and programming tasks; large biology-specific benchmarks remain scarce). The numbers from my genomics project and my teaching demos are my own unpublished observations. The twenty-five defences in the Atlas and the five habits above come from my own working practice building pipelines for research teams — none of them has been tested in a controlled trial yet.
   </aside>
 
   <span class="sec-kicker">05 · Walk the Map</span>
@@ -980,13 +980,13 @@ const DEF = Object.fromEntries(DATA.defences.map(d => [d.id, d]));
 const REF_BY_KEY = Object.fromEntries(DATA.refs.map(r => [r.key, r]));
 
 document.getElementById('author-line').textContent = `${M.author} & Gemini Carbon`;
-document.getElementById('meta-line').textContent = `${M.date} · ~6 min read`;
+document.getElementById('meta-line').textContent = `${M.date} · ~10 min read`;
 document.getElementById('nav-counts').textContent = `(${DATA.risks.length} risks · ${DATA.defences.length} defences)`;
 
 /* Dynamic row breakdown bar so counts always match data/risks.yaml */
 const rowCols = {
-  'agent': '#B84339',
-  'checks': '#1D7C76',
+  'agent': '#1D7C76',
+  'checks': '#B84339',
   'you-now': '#D08823',
   'you-time': '#9D6210',
   'team': '#594FB2',

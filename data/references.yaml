@@ -13,6 +13,7 @@ hgnc:       {kind: source, text: "HUGO Gene Nomenclature Committee records: SEPT
 ziemann2016: {kind: source, text: "Ziemann M, Eren Y, El-Osta A. Gene name errors are widespread in the scientific literature. Genome Biol. 2016.", url: "https://doi.org/10.1186/s13059-016-1044-7"}
 hurlbert1984: {kind: source, text: "Hurlbert SH. Pseudoreplication and the design of ecological field experiments. Ecol Monogr. 1984.", url: "https://doi.org/10.2307/1942661"}
 kosmos2025: {kind: source, text: "Mitchener L, et al. Kosmos: an AI scientist for autonomous discovery. arXiv:2511.02824 (2025, preprint).", url: "https://arxiv.org/abs/2511.02824"}
+nusrat2025: {kind: source, text: "Nusrat H, Nusrat O. When AI does science: evaluating the autonomous AI scientist KOSMOS in radiation biology. arXiv:2511.13825 (2025, preprint).", url: "https://arxiv.org/abs/2511.13825"}
 zhong2025: {kind: source, text: "Zhong Z, Raghunathan A, Carlini N. ImpossibleBench: measuring LLMs' propensity of exploiting test cases. ICLR 2026 (arXiv:2510.20270).", url: "https://arxiv.org/abs/2510.20270"}
 anthropic2026: {kind: source, text: "Herdağdelen A, Joren H, Tamkin A. How AI agents shape experts' judgment calls. Anthropic Research, 27 Oct 2026.", url: "https://www.anthropic.com/research/agents-judgment-calls"}
 dissanayake2026: {kind: source, text: "Dissanayake D, et al. Looks fine to me: understanding oversight in agentic interactions. arXiv:2610.27801 (2026, preprint).", url: "https://arxiv.org/abs/2610.27801"}

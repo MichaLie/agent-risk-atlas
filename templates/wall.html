@@ -183,7 +183,7 @@ header.top .navpill:hover{filter:brightness(.95);text-decoration:underline}
   </section>
   <section>
     <h2>How to read it</h2>
-    <p>Columns follow the research loop; a risk sits at the step where the failure arises. Rows say who fails. Many are old failures that agents make faster and quieter. Click a risk to see the human failure that often lets it through (dark ring and dashed line) and the defences against it; click a defence to see what it covers; click empty space or press Esc to reset; arrow keys step through the risks. A ? marks an open question: nothing here convinces the author yet. Clicking a risk or a defence also shows an example you could adapt for your agent's instructions. For a six-minute narrative introduction aimed at researchers and PhD students, read <a href="essay.html">The Quiet Errors Inside Good-Looking Science</a>; a visual companion page also traces seven concrete errors <a href="paths.html#paper">into the paper</a> and five capability tracks <a href="paths.html#deskill">into deskilling</a> as you switch defence groups on.</p>
+    <p>Columns follow the research loop; a risk sits at the step where the failure arises. Rows say who fails. Many are old failures that agents make faster and quieter. Click a risk to see the human failure that often lets it through (dark ring and dashed line) and the defences against it; click a defence to see what it covers; click empty space or press Esc to reset; arrow keys step through the risks. A ? marks an open question: nothing here convinces the author yet. Clicking a risk or a defence also shows an example you could adapt for your agent's instructions. For a ten-minute narrative introduction aimed at researchers and PhD students, read <a href="essay.html">The Quiet Errors Inside Good-Looking Science</a>; a visual companion page also traces seven concrete errors <a href="paths.html#paper">into the paper</a> and five capability tracks <a href="paths.html#deskill">into deskilling</a> as you switch defence groups on.</p>
   </section>
   <section>
     <h2>Example instructions</h2>
@@ -289,7 +289,7 @@ function renderMobile(){
   ];
   let h = `<div class="mhdr"><h1>Agent Risk Atlas</h1><p>How research with AI agents goes wrong: who fails, where in the loop, and what protects you.</p>` +
     `<div class="mthesis">Checks protect the result. Thinking first protects you.</div>` +
-    `<div class="mnav"><a class="purple" href="essay.html">Read the 6-min introductory essay →</a><a href="paths.html#paper">1 · Into the paper →</a><a class="amber" href="paths.html#deskill">2 · Into deskilling →</a></div></div>` +
+    `<div class="mnav"><a class="purple" href="essay.html">Read the 10-min introductory essay →</a><a href="paths.html#paper">1 · Into the paper →</a><a class="amber" href="paths.html#deskill">2 · Into deskilling →</a></div></div>` +
     `<div class="mbar" role="tablist" aria-label="Filter risks or defences">` +
     filters.map(f => `<button type="button" class="mfbtn" data-mf="${f.id}" aria-pressed="${mfilter === f.id}">${esc(f.label)}</button>`).join('') +
     `</div><div class="mlist">`;

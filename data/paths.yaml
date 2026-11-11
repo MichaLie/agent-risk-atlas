@@ -74,7 +74,7 @@ paper:
           how: "A bioinformatician checks the universe of tested genes and removes the expression-bias artefact."
     review:
       open_title: "Background missing in Methods"
-      open_text: "Methods state 'GO enrichment (FDR < 0.05)' without the gene universe — 95% of surveyed ORA papers passed peer review this way."
+      open_text: "Methods state 'GO enrichment (FDR < 0.05)' without the gene universe — 95% of over-representation analyses in a 186-paper survey were published this way."
       why_passes: "Standard-looking FDR table satisfies referees."
     paper_claim:
       bad: "Paper claims IFN-β transcriptionally reprograms macrophage mTORC1 metabolism — an artefact of expressed-gene bias."
