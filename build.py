@@ -5,6 +5,7 @@ checks (every problem is listed with its file, record and field), numbers the re
 use, and writes self-contained pages into docs/ (served by GitHub Pages):
   docs/index.html   the wall: one 16:9 screen, click a risk to spotlight its twin and defences
   docs/paths.html   companion chains: 7 paper error paths + 5 deskilling tracks, defences switched on step by step
+  docs/essay.html   introductory narrative essay for researchers and PhD students, wired to the same data
   docs/cheese.html  redirect stub to paths.html so existing links and bookmarks keep working
 Why: one source of truth, so the wall, the companion views and the reference list cannot drift apart.
 Rerun: python3 build.py   (needs PyYAML; see requirements.txt)
@@ -256,6 +257,13 @@ for k in refs:
         warn(f"references.yaml '{k}': not cited anywhere")
 num = {k: i + 1 for i, k in enumerate(order)}
 
+# verify citation keys in templates/essay.html so essay footnotes never drift from references.yaml
+essay_tpl = (HERE / "templates" / "essay.html").read_text(encoding="utf-8")
+for raw in re.findall(r'data-cite="([^"]+)"', essay_tpl):
+    for k in (s.strip() for s in raw.split(",") if s.strip()):
+        if k not in refs:
+            err(f"templates/essay.html: unknown data-cite reference '{k}'")
+
 if errors:
     print("The data has problems; nothing was written:\n  " + "\n  ".join(errors))
     sys.exit(1)
@@ -275,20 +283,36 @@ def embed(obj):
 SITE = "https://michalie.github.io/agent-risk-atlas/"
 
 
+OG_META = {
+    "index.html": (
+        "Agent Risk Atlas",
+        "How research with AI agents goes wrong, who fails, and what protects you.",
+    ),
+    "paths.html": (
+        "Into the paper & into deskilling · Research with AI agents",
+        "Seven ways plausible errors reach print and five ways passive oversight erodes research judgement.",
+    ),
+    "essay.html": (
+        "The Quiet Errors Inside Good-Looking Science · Agent Risk Atlas",
+        "How AI agents slip plausible mistakes past smart researchers, how passive oversight deskills labs, and five habits that stop both.",
+    ),
+}
+
+
 def page(template_name, out_name):
     t = (HERE / "templates" / template_name).read_text(encoding="utf-8")
     if t.count("/*__DATA__*/null") != 1:
         sys.exit(f"templates/{template_name}: the data placeholder must appear exactly once")
     body = t.replace("/*__DATA__*/null", embed(data))
-    og_title = "Into the paper & into deskilling · Research with AI agents" if out_name == "paths.html" else "Agent Risk Atlas"
+    og_title, og_desc = OG_META.get(out_name, OG_META["index.html"])
     doc = ("<!doctype html>\n<html lang=\"en\">\n<meta charset=\"utf-8\">\n"
            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
-           "<meta name=\"description\" content=\"How research with AI agents goes wrong, who fails, and what protects you.\">\n"
+           f"<meta name=\"description\" content=\"{og_desc}\">\n"
            # link previews (chat, email, social): title, line and the wall image when someone pastes the address
            "<meta property=\"og:type\" content=\"website\">\n"
            f"<meta property=\"og:url\" content=\"{SITE}{'' if out_name == 'index.html' else out_name}\">\n"
            f"<meta property=\"og:title\" content=\"{og_title}\">\n"
-           "<meta property=\"og:description\" content=\"How research with AI agents goes wrong, who fails, and what protects you.\">\n"
+           f"<meta property=\"og:description\" content=\"{og_desc}\">\n"
            f"<meta property=\"og:image\" content=\"{SITE}preview.png\">\n"
            "<meta name=\"twitter:card\" content=\"summary_large_image\">\n"
            + body + "\n</html>\n")
@@ -305,6 +329,7 @@ def page(template_name, out_name):
 
 page("wall.html", "index.html")
 page("paths.html", "paths.html")
+page("essay.html", "essay.html")
 
 redirect = (
     "<!doctype html>\n<html lang=\"en\">\n<meta charset=\"utf-8\">\n"
@@ -321,4 +346,4 @@ for w in warnings:
     print("warning:", w)
 n_twin = sum(1 for r in risks if r["twin"])
 print(f"ok: {len(risks)} risks, {len(defences)} defences, {len(reflist)} references, {n_twin} twin pairs, "
-      f"{len(paths['paper'])} paper paths + {len(paths['deskill'])} deskill tracks -> docs/index.html, docs/paths.html, docs/cheese.html")
+      f"{len(paths['paper'])} paper paths + {len(paths['deskill'])} deskill tracks -> docs/index.html, docs/paths.html, docs/essay.html, docs/cheese.html")

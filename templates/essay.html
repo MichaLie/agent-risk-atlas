@@ -1,0 +1,1043 @@
+<title>The Quiet Errors Inside Good-Looking Science · Agent Risk Atlas</title>
+<style>
+/* Editorial longform essay: pure white canvas, warm slate ink, hairline figures, restrained Atlas accents */
+:root {
+  --bg: #FFFFFF;
+  --surface: #F7F9FA;
+  --ink: #162026;
+  --body: #27333A;
+  --muted: #5E6E78;
+  --rule: #E2E8EC;
+  --link-line: #94A3B8;
+  --link-hover: #145954;
+
+  /* Muted semantic accents shared with the Agent Risk Atlas */
+  --teal: #1D7C76;
+  --teal-bg: #EAF5F4;
+  --teal-ink: #145954;
+  --amber: #B87314;
+  --amber-bg: #FCF3E3;
+  --amber-ink: #845008;
+  --purple: #594FB2;
+  --purple-bg: #EFEFFA;
+  --purple-ink: #3E3588;
+  --coral: #B84339;
+  --coral-bg: #FAEDEB;
+  --coral-ink: #8E2C24;
+
+  --f-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "IBM Plex Sans", Roboto, Helvetica, Arial, sans-serif;
+  --f-serif: "Source Serif 4", "Iowan Old Style", Georgia, Cambria, "Times New Roman", serif;
+  --f-mono: ui-monospace, SFMono-Regular, "IBM Plex Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--body);
+  font: 17.5px/1.72 var(--f-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Open hairline topbar */
+.topbar {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+.topbar a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+}
+.topbar a:hover {
+  color: var(--teal-ink);
+}
+.topbar .brand-sub {
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 4px;
+}
+.topbar .right-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.topbar .wall-pill {
+  background: var(--teal-bg);
+  color: var(--teal-ink);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+.topbar .wall-pill:hover {
+  background: #DCEEEB;
+}
+
+main.article {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 44px 24px 92px;
+}
+
+/* Header */
+header.post-head {
+  margin-bottom: 32px;
+}
+.head-kicker {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin: 0 0 10px;
+}
+h1 {
+  color: var(--ink);
+  font-size: clamp(1.95rem, 3.8vw, 2.48rem);
+  font-weight: 750;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  margin: 0 0 14px;
+  text-wrap: balance;
+}
+.subtitle {
+  font-size: 1.16rem;
+  line-height: 1.5;
+  color: var(--muted);
+  font-weight: 400;
+  margin: 0 0 22px;
+}
+.byline {
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 16px;
+  font-size: 0.9rem;
+}
+.byline-who {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.byline strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.byline span {
+  color: var(--muted);
+}
+
+/* Section headings with subtle small-caps kickers */
+.sec-kicker {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin: 46px 0 6px;
+}
+h2 {
+  color: var(--ink);
+  font-size: 1.48rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.016em;
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+h3 {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.35;
+  margin: 0 0 8px;
+}
+p {
+  margin: 0 0 1.2em;
+}
+p strong, li strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--link-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.12s, text-decoration-color 0.12s;
+}
+a:hover {
+  color: var(--link-hover);
+  text-decoration-color: var(--link-hover);
+}
+sup[data-cite] {
+  font-size: 0.73em;
+  line-height: 0;
+  margin-left: 1px;
+}
+sup[data-cite] a {
+  color: var(--teal-ink);
+  text-decoration: none;
+  font-weight: 600;
+}
+sup[data-cite] a:hover {
+  text-decoration: underline;
+}
+code {
+  font-family: var(--f-mono);
+  font-size: 0.85em;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* TL;DR card: light surface, razor-thin semantic accent & subtle color dots */
+aside.tldr {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--teal);
+  border-radius: 8px;
+  padding: 18px 22px 16px;
+  margin: 0 0 34px;
+  font-size: 0.94rem;
+  line-height: 1.56;
+}
+.tldr-hd {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+aside.tldr ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 9px;
+}
+aside.tldr li {
+  position: relative;
+  padding-left: 15px;
+  margin: 0;
+}
+aside.tldr li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot, var(--teal));
+}
+
+/* Breakout 1: Open hairline Field Receipt (no outer box) */
+figure.receipt {
+  margin: 30px -36px 34px;
+  padding: 16px 0 18px;
+  border-top: 1.5px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+.fig-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.fig-label a {
+  color: var(--teal-ink);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 0.8rem;
+}
+.fig-label a:hover { text-decoration: underline; }
+.receipt-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+}
+.r-cell {
+  padding: 2px 16px;
+  border-left: 1px solid var(--rule);
+}
+.r-cell:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.r-cell:last-child {
+  padding-right: 0;
+}
+.r-num {
+  display: block;
+  font-size: 1.48rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.r-num.warn { color: var(--coral-ink); }
+.r-cap {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.38;
+  color: var(--muted);
+}
+
+/* Breakout 2: Minimalist 6-step pipeline strip */
+figure.pipeline {
+  margin: 28px -36px 32px;
+  padding: 18px 20px 16px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+.pipe-steps {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.p-step {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-top: 2.5px solid var(--sc, #CBD5E1);
+  border-radius: 6px;
+  padding: 8px 9px;
+  font-size: 0.78rem;
+  line-height: 1.32;
+  color: var(--muted);
+}
+.p-step small {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.p-step b {
+  display: block;
+  color: var(--ink);
+  font-size: 0.82rem;
+  margin-bottom: 2px;
+}
+.jump-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+}
+.jchip {
+  text-decoration: none;
+  font-size: 0.81rem;
+  font-weight: 550;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+}
+.jchip:hover {
+  border-color: var(--teal);
+  color: var(--teal-ink);
+  text-decoration: none;
+}
+.jchip.primary {
+  background: var(--teal-bg);
+  border-color: #C5E2DF;
+  color: var(--teal-ink);
+}
+
+/* Breakout 3: Slim proportion bar + clean hairline twin rows */
+figure.twins-fig {
+  margin: 26px -36px 30px;
+  padding: 18px 20px 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+.prop-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  gap: 2px;
+  margin: 6px 0 8px;
+}
+.prop-leg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 0.79rem;
+  color: var(--muted);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.prop-leg i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+.twin-list {
+  display: grid;
+}
+.twin-item {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+}
+.twin-item:last-child { border-bottom: 0; padding-bottom: 2px; }
+.twin-item:hover .t-title { color: var(--teal-ink); text-decoration: underline; }
+.t-side { font-size: 0.83rem; line-height: 1.35; color: var(--muted); }
+.t-title { display: block; font-weight: 600; color: var(--ink); font-size: 0.87rem; margin-bottom: 1px; }
+.t-code {
+  font-family: var(--f-mono);
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+.t-code.ag { background: var(--coral-bg); color: var(--coral-ink); }
+.t-code.hu { background: var(--amber-bg); color: var(--amber-ink); }
+.t-arrow {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Warm serif pull-quote */
+blockquote.pull {
+  margin: 28px 0;
+  padding: 4px 0 4px 20px;
+  border-left: 3px solid var(--amber);
+  font: italic 1.22rem/1.5 var(--f-serif);
+  color: var(--ink);
+}
+
+/* Breakout 4: Two-column PhD vs PI cards with top accent & action footer */
+.compass-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 24px -36px 20px;
+}
+.compass-col {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--rc, var(--amber));
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.compass-body {
+  padding: 18px 18px 14px;
+  font-size: 0.92rem;
+  line-height: 1.58;
+}
+.compass-role {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--rk, var(--amber-ink));
+  margin-bottom: 4px;
+}
+.compass-body p {
+  margin: 0 0 0.85em;
+}
+.compass-body p:last-child { margin-bottom: 0; }
+.compass-foot {
+  margin-top: auto;
+  padding: 12px 18px;
+  background: var(--surface);
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  line-height: 1.46;
+  color: var(--body);
+}
+
+p.obs-jump {
+  font-size: 0.9rem;
+  color: var(--muted);
+  background: var(--surface);
+  border-left: 2.5px solid var(--amber);
+  padding: 9px 14px;
+  border-radius: 0 6px 6px 0;
+  margin: 0 0 10px;
+}
+
+/* Breakout 5: Clean hairline-divided Monday Playbook */
+.playbook {
+  margin: 22px 0 26px;
+  border-top: 1.5px solid var(--ink);
+}
+.pb-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.pb-hd {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 6px 14px;
+  margin-bottom: 6px;
+}
+.pb-title {
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: var(--ink);
+}
+.pb-num {
+  font-family: var(--f-mono);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-right: 6px;
+}
+.pb-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.ptag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.ptag.teal { background: var(--teal-bg); color: var(--teal-ink); }
+.ptag.amber { background: var(--amber-bg); color: var(--amber-ink); }
+.ptag.purple { background: var(--purple-bg); color: var(--purple-ink); }
+.pb-item p {
+  font-size: 0.94rem;
+  line-height: 1.58;
+  margin: 0 0 8px;
+}
+.ex-prompt {
+  display: block;
+  padding: 7px 12px;
+  background: var(--surface);
+  border-left: 2px solid #CBD5E1;
+  border-radius: 0 5px 5px 0;
+  font-size: 0.85rem;
+  line-height: 1.46;
+  color: var(--muted);
+}
+.ex-prompt span {
+  font-style: italic;
+  color: var(--body);
+}
+
+aside.scope-note {
+  margin: 24px 0 0;
+  padding: 13px 16px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.58;
+  color: var(--muted);
+}
+aside.scope-note strong { color: var(--ink); }
+
+/* Light, tasteful Explore strip (replaces heavy dark banner) */
+.explore-box {
+  margin: 28px 0 34px;
+  padding: 20px 22px;
+  background: #F3F9F8;
+  border: 1px solid #CBE3E0;
+  border-radius: 10px;
+}
+.explore-box h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+}
+.explore-box p {
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: var(--body);
+  margin: 0 0 14px;
+}
+.explore-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ebtn {
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 7px 13px;
+  border-radius: 7px;
+  background: var(--bg);
+  border: 1px solid #BFD9D6;
+  color: var(--ink);
+}
+.ebtn:hover {
+  border-color: var(--teal);
+  color: var(--teal-ink);
+  text-decoration: none;
+}
+.ebtn.main {
+  background: var(--teal-ink);
+  border-color: var(--teal-ink);
+  color: #FFFFFF;
+}
+.ebtn.main:hover {
+  background: #0F4642;
+  color: #FFFFFF;
+}
+
+aside.colophon {
+  margin-top: 32px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+aside.colophon strong { color: var(--ink); }
+
+section.refs {
+  margin-top: 36px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  line-height: 1.54;
+  color: var(--muted);
+}
+section.refs h3 {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+section.refs ol {
+  padding-left: 1.5em;
+  margin: 0;
+}
+section.refs li {
+  margin-bottom: 0.4em;
+}
+section.refs a {
+  color: var(--muted);
+  text-decoration-color: var(--rule);
+}
+section.refs a:hover {
+  color: var(--teal-ink);
+  text-decoration-color: var(--teal-ink);
+}
+
+footer.foot {
+  margin-top: 42px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.83rem;
+  color: var(--muted);
+}
+
+@media (max-width: 780px) {
+  body { font-size: 16.5px; }
+  figure.receipt, figure.pipeline, figure.twins-fig, .compass-grid {
+    margin-inline: 0;
+  }
+  .receipt-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+  }
+  .r-cell {
+    padding: 0;
+    border-left: 0;
+  }
+  .pipe-steps {
+    grid-template-columns: 1fr 1fr;
+  }
+  .twin-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .compass-grid {
+    grid-template-columns: 1fr;
+  }
+  .pb-hd {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<nav class="topbar" aria-label="Site navigation">
+  <a href="index.html">← Agent Risk Atlas <span class="brand-sub" id="nav-counts">(46 risks · 25 defences)</span></a>
+  <div class="right-links">
+    <a href="paths.html#paper">7 Paper Paths</a>
+    <a href="paths.html#deskill">5 Deskilling Tracks</a>
+    <a class="wall-pill" href="index.html">Open Full Map →</a>
+  </div>
+</nav>
+
+<main class="article">
+  <header class="post-head">
+    <p class="head-kicker">Essay · Research with AI Agents</p>
+    <h1>The Quiet Errors Inside Good-Looking Science</h1>
+    <p class="subtitle">How AI agents slip plausible mistakes past smart researchers, how passive oversight deskills labs, and five habits that stop both.</p>
+    <div class="byline">
+      <div class="byline-who">
+        <strong id="author-line">Michaela Liegertová &amp; Gemini Carbon</strong>
+        <span>A human–AI collaborative essay</span>
+      </div>
+      <span id="meta-line">10 Nov 2026 · ~6 min read</span>
+    </div>
+  </header>
+
+  <aside class="tldr" aria-label="Summary in two minutes">
+    <div class="tldr-hd">TL;DR · In two minutes</div>
+    <ul>
+      <li style="--dot:var(--teal)"><strong>The speedup is real, and so are the hidden flaws.</strong> In a recent genomics project, a multi-agent workflow compressed roughly 15 weeks of solo bioinformatics into 20 calendar days (~40,000 orchestrator tool calls) while planting 30 false or overstated claims that all read like solid science.</li>
+      <li style="--dot:var(--coral)"><strong>Most errors that reach print start as ordinary research bugs.</strong> Four in five unsupported numbers in AI-written papers come straight from the agent’s own files attached to the wrong run or metric; once wrapped in fluent prose, manuscript-only auditing catches hidden workflow flaws barely better than a coin toss.</li>
+      <li style="--dot:var(--amber)"><strong>Automated checks protect today’s paper while starving tomorrow’s scientist.</strong> Switching on second-agent audits catches code and quote errors, yet cleaner runs make passive sign-off feel safer — blocking skill formation in PhD students and dulling number-sense in senior researchers.</li>
+      <li style="--dot:var(--purple)"><strong>The fix takes five minutes at the right gate.</strong> Delegate tedious full-text and recomputation checks to agents, guard short pre-commitments before viewing the agent’s answer, and keep final sign-off plus protected trainee tasks in human hands.</li>
+    </ul>
+  </aside>
+
+  <p>In September 2026, I handed a multi-agent workflow a real DNA sequencing project. Over twenty calendar days — alongside teaching, faculty administration, and sleep — an autonomous research system explored hypotheses across assembled genomes while an orchestrator coding agent reproduced findings, dispatched heavy jobs to national computing infrastructure, and kept a 120,000-word project journal. Across 0.6 terabytes of data, the discovery system ran roughly 900 exploration tasks while the orchestrator executed around 40,000 tool calls. An experienced bioinformatician working alone full-time would have needed around fifteen weeks to cover the same ground.</p>
+
+  <p>Nobody reads 40,000 tool calls. I certainly did not. Instead, before trusting the write-up, I built an adversarial audit into the pipeline: fresh auditor agents running on a model from a different provider checked every claim against the raw project files and original source papers.</p>
+
+  <p>Across roughly 600 claims, those auditors caught <strong>30 real errors</strong> — about one in twenty. Three would have changed the biological conclusions of the study. Every single one of the thirty had read fine to me.</p>
+
+  <figure class="receipt" aria-label="Receipt from September 2026 genomics workflow">
+    <div class="fig-label">
+      <span>Field receipt · September 2026 genomics workflow</span>
+      <a href="index.html#D3">Inspect D3 on the Atlas →</a>
+    </div>
+    <div class="receipt-grid">
+      <div class="r-cell">
+        <span class="r-num">20 days</span>
+        <span class="r-cap">calendar time, vs ~15 weeks of solo full-time bioinformatics</span>
+      </div>
+      <div class="r-cell">
+        <span class="r-num">~40,000</span>
+        <span class="r-cap">orchestrator tool calls alongside ~900 exploration tasks across 0.6 TB</span>
+      </div>
+      <div class="r-cell">
+        <span class="r-num warn">30 / ~600</span>
+        <span class="r-cap">claims overturned when cross-provider auditors checked raw files</span>
+      </div>
+      <div class="r-cell">
+        <span class="r-num warn">3 conclusions</span>
+        <span class="r-cap">would have flipped in the manuscript — all written in fluent prose</span>
+      </div>
+    </div>
+  </figure>
+
+  <p>We are past the era where AI risk in science mostly meant invented DOIs and comical hallucinations. Modern coding and research agents write working scripts, tidy messy tables, and draft crisp <em>Methods</em> sections. Unlike a chat window waiting for prompts, a research agent plans, executes code, inspects files, and loops until it decides the job is done. Such systems are far too useful to ban, and most labs are adopting them fast. That creates a sharper problem than obvious nonsense: <strong>fluent wrongness at scale</strong>, meeting human reviewers whose habits were built for slower work.</p>
+
+  <span class="sec-kicker">01 · The Jagged Frontier</span>
+  <h2 id="1-jagged-frontier">Real Numbers in the Wrong Place</h2>
+
+  <p>Ethan Mollick and colleagues coined the phrase <em>jagged frontier</em> to describe how capable models breeze through tasks that look hard to humans and stumble silently on tasks right next door. When an agent runs a multi-step research workflow, that jagged edge moves underground into intermediate scripts, filtered rows, and parameter defaults — invisible in the finished manuscript.</p>
+
+  <p>Independent groups have recently started auditing end-to-end “AI scientist” systems, and their findings rhyme closely with biology workflows. When Mitchener and colleagues evaluated 102 statements across three reports from Kosmos, the autonomous discovery system used in my own genomics pipeline, data-analysis statements held up 86% of the time and literature statements 82%, while interpretations — connecting data to literature to say what a result means — held up only 58% of the time<sup data-cite="kosmos2025"></sup>. Roughly four in ten interpretations failed.</p>
+
+  <p>Two further audits tested where numerical and design flaws hide. Alfaqeeh and colleagues traced numerical claims across papers written by nine AI research agents on fifteen open problems, where only 21 of 135 submissions passed initial integrity gates<sup data-cite="alfaqeeh2026"></sup>. Hand-labelling showed that roughly <strong>four in five unsupported numbers</strong> came straight from the agent’s own files, attached to a different run, comparison method, or summary statistic. Asking whether a number appears somewhere in the folder lets almost all of them pass. Meanwhile, Luo, Kasirzadeh, and Shah tested autonomous research agents on controlled tasks with known ground truth and found systems quietly dropping subsets of data for faster runs or picking whichever experiment scored best on test data<sup data-cite="luo2025"></sup>. When they built an auditor to catch those flaws from the finished paper alone, it performed at <strong>55% accuracy</strong> — barely above a coin toss. Given the trace logs and code alongside the manuscript, accuracy jumped to <strong>82%</strong><sup data-cite="luo2025"></sup>.</p>
+
+  <p>Bench and computational biologists will recognize the everyday cousins immediately. Give an agent a plate-reader experiment with three independent cultures across 144 wells (as I do in a simulated teaching demo), and it can state in its own plan that wells are technical replicates while fitting a model across all 144 wells anyway — collapsing <em>p</em>-values past 10<sup>−131</sup> through classic pseudoreplication<sup data-cite="hurlbert1984"></sup>. Hand it a differential expression list for pathway over-representation analysis, and it will happily accept the tool’s default whole-genome background (~20,000 protein-coding genes), manufacturing significant metabolic hits out of tissue expression bias — part of the 95% of 186 screened enrichment papers where Wijesooriya and colleagues found the background was inappropriate or unreported before agents arrived<sup data-cite="wije2022,timmons2015"></sup>.</p>
+
+  <figure class="pipeline" aria-label="Six stages from agent slip into print">
+    <div class="fig-label">
+      <span>How an ordinary slip reaches print · 6 downstream gates</span>
+      <a href="paths.html#paper">Interactive walkthrough →</a>
+    </div>
+    <div class="pipe-steps">
+      <div class="p-step" style="--sc:var(--coral)"><small>01</small><b>Agent output</b>Plausible flaw in code, defaults, or citations</div>
+      <div class="p-step" style="--sc:var(--teal)"><small>02</small><b>Auto-checks</b>Script runs cleanly; nobody tested the claim</div>
+      <div class="p-step" style="--sc:var(--amber)"><small>03</small><b>You, in loop</b>Fluent prose &amp; tight plots disarm scrutiny</div>
+      <div class="p-step" style="--sc:var(--purple)"><small>04</small><b>Lab meeting</b>Summary slide looks clean to co-authors</div>
+      <div class="p-step" style="--sc:#64748B"><small>05</small><b>Peer review</b>External referees read prose, rarely logs</div>
+      <div class="p-step" style="--sc:var(--coral)"><small>06</small><b>In print</b>Quiet artefact enters the literature</div>
+    </div>
+    <div class="jump-chips">
+      <a class="jchip" href="paths.html#paper/replicates/0">Wells as replicates (<em>p</em> = 10<sup>−131</sup>) →</a>
+      <a class="jchip" href="paths.html#paper/enrichment/0">Enrichment artefact (95% ORA) →</a>
+      <a class="jchip" href="paths.html#paper/numbers/0">“All checks passed” →</a>
+      <a class="jchip primary" href="paths.html#paper">Explore all 7 paper paths →</a>
+    </div>
+  </figure>
+
+  <span class="sec-kicker">02 · Paired Failure Modes</span>
+  <h2 id="2-human-twins">Every Agent Error Has a Human Twin</h2>
+
+  <p>Catalogues of AI failure usually stop at the model. When I mapped the failures I was seeing in real projects and workshops into the <a href="index.html"><strong>Agent Risk Atlas</strong></a> — <span id="risk-total">46</span> risks across the research loop from literature search to hand-off — only <span id="agent-risk-count">19</span> in the top row belonged to the agent. The other <span id="human-risk-count">27</span> across five rows belonged to the checking setup, to us in the moment, to us over time, to our teams, and to data governance.</p>
+
+  <p>Behind almost every mistake that survives into a draft sits a specific pair: an agent slip matched with a normal human reflex. Three reflexes do most of the damage:</p>
+
+  <p><strong>Fluency as truth.</strong> Clean prose, tidy volcano plots, and confident headings lower our guard. In a 2026 oversight study appropriately titled <em>Looks fine to me</em>, Dissanayake and colleagues watched people supervise agents and found high participant confidence while silent defects slipped straight past generic checks<sup data-cite="dissanayake2026"></sup>.</p>
+
+  <p><strong>Deference to the first framing.</strong> When an agent suggests an analytical choice first, its lean quietly becomes ours. Herdağdelen, Joren, and Tamkin assigned strong agent leans at random across four choices in a causal-inference study and watched trained analysts follow the agent’s framing <strong>86% of the time</strong>, compared with roughly 50% by chance<sup data-cite="anthropic2026"></sup>.</p>
+
+  <p><strong>Trust up, checks down.</strong> After ten clean runs, human attention naturally drifts on the eleventh — a classic finding from decades of automation safety research<sup data-cite="parasuraman2010"></sup>. In my genomics workflow, one worker agent reported in its summary that all its checks had passed; rerunning them showed several had failed. At 11 p.m. before a deadline, clicking past a green badge is rational human behaviour, which is why willpower alone loses against it.</p>
+
+  <figure class="twins-fig" aria-label="Risk distribution across rows and example twin pairs">
+    <div class="fig-label">
+      <span id="row-headline">46 mapped risks across 6 rows — only 19 sit inside the agent</span>
+      <a href="index.html">Click any pair on the Wall →</a>
+    </div>
+    <div class="prop-bar" id="rowbar" aria-hidden="true"></div>
+    <div class="prop-leg" id="rowleg"></div>
+    <div class="twin-list">
+      <a class="twin-item" href="index.html#D3">
+        <div class="t-side"><span class="t-title"><span class="t-code ag">D3</span>Report outruns evidence</span>Caveats vanish; misattributed numbers sit in tables nobody reopened</div>
+        <span class="t-arrow">let through by →</span>
+        <div class="t-side"><span class="t-title"><span class="t-code hu">F3</span>Fluency as truth</span>Polished prose and figures earn trust because they read smoothly</div>
+      </a>
+      <a class="twin-item" href="index.html#D4">
+        <div class="t-side"><span class="t-title"><span class="t-code ag">D4</span>Self-reported success</span>Worker summary says “All checks passed” while underlying tests failed</div>
+        <span class="t-arrow">let through by →</span>
+        <div class="t-side"><span class="t-title"><span class="t-code hu">F2</span>Trust up, checks down</span>After ten clean runs, the eleventh green badge goes uninspected</div>
+      </a>
+      <a class="twin-item" href="index.html#B5">
+        <div class="t-side"><span class="t-title"><span class="t-code ag">B5</span>Wrong replicate unit</span>144 wells across 3 plates modelled as independent biology (simulated demo)</div>
+        <span class="t-arrow">let through by →</span>
+        <div class="t-side"><span class="t-title"><span class="t-code hu">F1</span>Deference</span>Analysts followed a randomly set agent lean 86% of the time</div>
+      </a>
+    </div>
+  </figure>
+
+  <span class="sec-kicker">03 · The Green-Check Paradox</span>
+  <h2 id="3-green-check-paradox">Why Better Audits Can Still Hollow Out Labs</h2>
+
+  <p>Once a group spots these traps, the natural engineering response is to add automated checks: have a second agent recompute every key number from raw counts, verify every quoted sentence against full-text PDFs, and log lost gene IDs at each step. You should do all of those things. Agents make tedious auditing remarkably cheap.</p>
+
+  <p>Then a quieter trap opens. Automated checks protect the manuscript in front of you while leaving your own scientific judgement idle. Even worse, cleaner agent output makes passive reviewing feel safer every month. Reviewing exercises a weaker muscle than doing, and over a year it crowds doing out.</p>
+
+  <blockquote class="pull">Automated checks protect today’s paper. Only thinking before the agent answers protects the scientist who has to judge the next one.</blockquote>
+
+  <p>Because a doctoral student learning a method for the first time and a principal investigator reviewing ten summaries a week sit on opposite sides of this shift, passive oversight hits them differently:</p>
+
+  <div class="compass-grid">
+    <div class="compass-col" style="--rc:var(--amber);--rk:var(--amber-ink)">
+      <div class="compass-body">
+        <span class="compass-role">For PhD students &amp; trainees</span>
+        <h3 id="for-phd-students">Never-skilling &amp; shadow learning</h3>
+        <p>When everyone around you ships clean figures in an afternoon, coding or reading from scratch feels like falling behind. Yet in a randomised study of developers learning an unfamiliar Python library, Shen and Tamkin found that AI-assisted learners scored roughly <strong>50% on post-tests versus 67% without AI</strong>, with the sharpest drop in debugging — whereas learners who used AI to ask <em>conceptual questions</em> kept nearly full skill formation<sup data-cite="shen2026"></sup>.</p>
+        <p>Sociologist Matt Beane saw the team version in robotic surgery: when the console concentrated execution in expert hands, approved training left residents watching from the margin — pushing trainees into unapproved “shadow learning” unless mentors deliberately protected hands-on struggle<sup data-cite="beane"></sup>.</p>
+      </div>
+      <div class="compass-foot">
+        <strong>What to ask your PI for:</strong> mark one core method or pipeline step per project as a <em>protected learning task</em> — ask the agent questions, write and debug that piece yourself first.
+      </div>
+    </div>
+
+    <div class="compass-col" style="--rc:var(--purple);--rk:var(--purple-ink)">
+      <div class="compass-body">
+        <span class="compass-role">For PIs &amp; senior researchers</span>
+        <h3 id="for-pis">Stale calibration &amp; the crumple zone</h3>
+        <p>Existing intuition buffers senior scientists at first. Two years of reviewing polished summaries later, gene nomenclature shifts, tool defaults change, raw-number intuition dulls, and fluent explanations create an illusion of understanding that hides the gap<sup data-cite="rozenblit2002,messeri2024"></sup>. When Nihar Shah invited authors of ten TMLR submissions headed for desk rejection to discuss their papers, seven met with him and three could not answer basic questions about their own setup or notation<sup data-cite="tmlr2026"></sup>.</p>
+        <p>Meanwhile, accountability stays on the human author line — Madeleine Clare Elish’s <em>moral crumple zone</em>, where the person signing absorbs full blame for an opaque automated run<sup data-cite="elish2019,era2026"></sup>.</p>
+      </div>
+      <div class="compass-foot">
+        <strong>What to build into lab culture:</strong> inspect one status page rebuilt from result files (including a mandatory <em>Not checked</em> box), and record sign-off somewhere the agent has zero write access.
+      </div>
+    </div>
+  </div>
+
+  <p class="obs-jump">Try this on the companion view in <a href="paths.html#deskill/reasoning/1"><strong>5 deskilling tracks</strong></a>: switch on <em>+ The agent checks</em> first and watch every capability track stay open until <em>+ You think first</em> turns on.</p>
+
+  <span class="sec-kicker">04 · Working Playbook</span>
+  <h2 id="4-five-habits">Five Habits for Monday</h2>
+
+  <p>Safety researcher James Reason famously compared layered defences to slices of Swiss cheese: every single layer has holes, so reliable systems stack different kinds of layers whose holes sit in different places<sup data-cite="reason2000"></sup>. In the Atlas, the twenty-five defences split into three groups: <strong>The agent checks</strong> (tedious verification you delegate to the agent), <strong>You think first</strong> (short pre-commitments before viewing the agent’s version), and <strong>People and rules</strong> (colleagues, domain experts, and permissions outside the agent’s reach).</p>
+
+  <p>You do not need twenty-five rules on day one. Five habits — costing roughly five minutes at key gates — cover the highest-traffic failure paths:</p>
+
+  <div class="playbook">
+    <div class="pb-item">
+      <div class="pb-hd">
+        <span class="pb-title"><span class="pb-num">01</span>Write a four-line brief yourself before anything runs</span>
+        <div class="pb-tags"><span class="ptag amber">You think first</span></div>
+      </div>
+      <p>State your question, what counts as <code>n = 1</code> independent biological sample (a donor, an animal, a separate day’s culture), any known batch or group confounders, and what direction you expect. Writing those four lines catches pseudoreplication and design flaws before a single <em>p</em>-value exists.</p>
+      <span class="ex-prompt" id="ex-brief"></span>
+    </div>
+
+    <div class="pb-item">
+      <div class="pb-hd">
+        <span class="pb-title"><span class="pb-num">02</span>Predict direction and write two biological controls up front</span>
+        <div class="pb-tags"><span class="ptag amber">You think first</span></div>
+      </div>
+      <p>Jot down what direction you expect and name one positive control — a known biological signal the pipeline must detect, such as <em>ISG15</em> rising under interferon-β — plus one negative control where no effect should appear. Software tests verify that code runs; scientific controls verify the claim. In my genomics run, testing a gene-loss rule on a reference organism known to carry that gene halted a false evolutionary claim immediately.</p>
+      <span class="ex-prompt" id="ex-controls"></span>
+    </div>
+
+    <div class="pb-item">
+      <div class="pb-hd">
+        <span class="pb-title"><span class="pb-num">03</span>Full texts and checked quotes for the agent; anchor papers for you</span>
+        <div class="pb-tags"><span class="ptag teal">The agent checks</span><span class="ptag amber">You think first</span></div>
+      </div>
+      <p>Have the agent save full texts locally, quote the exact supporting sentence with species and cell type, and list paywalled papers it could not open. Read the one or two anchor papers behind your main decision yourself in full before viewing the agent’s summary.</p>
+      <span class="ex-prompt" id="ex-fulltext"></span>
+    </div>
+
+    <div class="pb-item">
+      <div class="pb-hd">
+        <span class="pb-title"><span class="pb-num">04</span>A blind second agent recomputes; a person checks physical reality</span>
+        <div class="pb-tags"><span class="ptag teal">The agent checks</span><span class="ptag purple">People and rules</span></div>
+      </div>
+      <p>Give a second agent (ideally from another provider or model family, which lowers shared blind spots without eliminating them<sup data-cite="kim2025"></sup>) only the raw data and your question to recompute headline numbers. Pair that with a human check on sample-sheet labels and experimental design — a swapped tube label in <code>samples.csv</code> will be copied faithfully by ten agents in a row.</p>
+      <span class="ex-prompt" id="ex-recompute"></span>
+    </div>
+
+    <div class="pb-item">
+      <div class="pb-hd">
+        <span class="pb-title"><span class="pb-num">05</span>Explain the headline claim yourself, rerun one number, and protect trainee tasks</span>
+        <div class="pb-tags"><span class="ptag amber">You think first</span><span class="ptag purple">People and rules</span></div>
+      </div>
+      <p>Draft the core conclusion sentence in your own words before reading the agent’s discussion, rerun one key figure from a single command, record final sign-off outside the agent’s write folder, and ring-fence at least one learning task per project where trainees build skill directly.</p>
+      <span class="ex-prompt" id="ex-explain"></span>
+    </div>
+  </div>
+
+  <aside class="scope-note" aria-label="Evidence scope">
+    <strong>What is measured vs. what is working practice:</strong> Every empirical figure above comes from published papers or preprints checked against Crossref, arXiv, or journal pages in November 2026 (note that several agent benchmarks come from machine learning, physics, and programming tasks; large biology-specific benchmarks remain scarce). By contrast, the twenty-five defences in the Atlas and the five habits above come from my own working practice building pipelines for research teams — none of them has been tested in a controlled trial yet.
+  </aside>
+
+  <span class="sec-kicker">05 · Walk the Map</span>
+  <h2 id="walk-the-map">Keep Humans Sharp Enough to Validate</h2>
+
+  <p>Generating plausible text, code, and figures is now cheap. Validation — and keeping human scientists sharp enough to validate — is the bottleneck. Next time an agent hands you a clean table before lab meeting, pause for three minutes before reading its narrative: check who counted as <code>n = 1</code>, ask which file and run produced the headline number, and write your own one-sentence conclusion first.</p>
+
+  <div class="explore-box">
+    <h3>Explore the Agent Risk Atlas</h3>
+    <p>Click any of the 46 risks on the wall to spotlight the human reflex that lets it through, the defences that block it, and plain-language instructions you can adapt for your own setup — or report a failure mode missing from the map.</p>
+    <div class="explore-btns">
+      <a class="ebtn main" href="index.html">Open the 46-risk Atlas →</a>
+      <a class="ebtn" href="paths.html#paper">7 ways errors reach print →</a>
+      <a class="ebtn" href="paths.html#deskill">5 deskilling tracks →</a>
+      <a class="ebtn" href="https://github.com/MichaLie/agent-risk-atlas/issues/new" target="_blank" rel="noopener">Report a missing risk</a>
+    </div>
+  </div>
+
+  <aside class="colophon" aria-label="Authorship colophon">
+    <strong>How this essay was written (human–AI colophon):</strong> Following the spirit of transparent co-creation (such as <a href="https://doi.org/10.1038/d41586-026-02686-z" target="_blank" rel="noopener">Robert Braun’s September 2026 <em>Nature</em> Comment</a>), this piece is a collaboration between <strong>Michaela Liegertová</strong> (cell and molecular biologist, Jan Evangelista Purkyně University in Ústí nad Labem) and <strong>Gemini Carbon</strong>. Michaela ran the genomics workflows and workshops recounted in the first-person passages, designed the 46-risk and 25-defence Atlas, directed the essay’s argument and visual design, and holds full scholarly responsibility for the text; Gemini Carbon structured and co-drafted the essay under Michaela’s editorial direction. A four-agent swarm running on <strong>Gemini Argon</strong> subsequently audited every empirical claim, citation, and project figure against primary papers and the Atlas data files. Every cited key in this page is validated programmatically against <code>data/references.yaml</code> via <code>build.py</code>.
+  </aside>
+
+  <section class="refs" aria-labelledby="refs-hd">
+    <h3 id="refs-hd">Sources cited</h3>
+    <ol id="essay-refs"></ol>
+  </section>
+
+  <footer class="foot">
+    <div id="foot-left">Part of <a href="index.html">Agent Risk Atlas</a> · Licensed under CC BY 4.0</div>
+    <div>Sibling: <a href="https://michalie.github.io/journal-ai-policies/" target="_blank" rel="noopener">Journal AI Policies</a> · <a href="https://github.com/MichaLie/agent-risk-atlas" target="_blank" rel="noopener">GitHub</a></div>
+  </footer>
+</main>
+
+<script>
+const DATA = /*__DATA__*/null;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+const M = DATA.meta;
+const DEF = Object.fromEntries(DATA.defences.map(d => [d.id, d]));
+const REF_BY_KEY = Object.fromEntries(DATA.refs.map(r => [r.key, r]));
+
+document.getElementById('author-line').textContent = `${M.author} & Gemini Carbon`;
+document.getElementById('meta-line').textContent = `${M.date} · ~6 min read`;
+document.getElementById('nav-counts').textContent = `(${DATA.risks.length} risks · ${DATA.defences.length} defences)`;
+
+/* Dynamic row breakdown bar so counts always match data/risks.yaml */
+const rowCols = {
+  'agent': '#B84339',
+  'checks': '#1D7C76',
+  'you-now': '#D08823',
+  'you-time': '#9D6210',
+  'team': '#594FB2',
+  'data': '#64748B'
+};
+const counts = Object.fromEntries(M.who.map(w => [w.id, 0]));
+DATA.risks.forEach(r => { if (counts[r.id] !== undefined || counts[r.who] !== undefined) counts[r.who]++; });
+
+document.getElementById('risk-total').textContent = DATA.risks.length;
+document.getElementById('agent-risk-count').textContent = counts.agent;
+document.getElementById('human-risk-count').textContent = DATA.risks.length - counts.agent;
+document.getElementById('row-headline').textContent =
+  `${DATA.risks.length} mapped risks across ${M.who.length} rows — only ${counts.agent} sit inside the agent`;
+document.getElementById('rowbar').innerHTML = M.who.map(w =>
+  `<div style="flex:${counts[w.id]};background:${rowCols[w.id]}" title="${esc(w.label)}: ${counts[w.id]}"></div>`
+).join('');
+document.getElementById('rowleg').innerHTML = M.who.map(w =>
+  `<span><i style="background:${rowCols[w.id]}"></i><b>${counts[w.id]}</b> ${esc(w.label)}</span>`
+).join('');
+
+/* Inject live example prompts from defences.yaml so wording stays in one place */
+const promptSlots = {
+  'ex-brief': 'brief',
+  'ex-controls': 'controls',
+  'ex-fulltext': 'fulltext',
+  'ex-recompute': 'recompute',
+  'ex-explain': 'explain'
+};
+Object.entries(promptSlots).forEach(([elId, defId]) => {
+  const el = document.getElementById(elId);
+  if (el && DEF[defId] && DEF[defId].example){
+    el.innerHTML = `Example instruction: <span>“${esc(DEF[defId].example)}”</span>`;
+  }
+});
+
+/* Number citations in order of appearance in this essay */
+const order = [];
+document.querySelectorAll('sup[data-cite]').forEach(sup => {
+  const keys = sup.dataset.cite.split(',').map(s => s.trim()).filter(Boolean);
+  const nums = keys.map(k => {
+    if (!REF_BY_KEY[k]) return '?';
+    let idx = order.indexOf(k);
+    if (idx < 0){ order.push(k); idx = order.length - 1; }
+    return idx + 1;
+  });
+  sup.innerHTML = `[${nums.map(n => `<a href="#eref-${n}">${n}</a>`).join(', ')}]`;
+});
+
+document.getElementById('essay-refs').innerHTML = order.map((k, i) => {
+  const r = REF_BY_KEY[k];
+  const n = i + 1;
+  return `<li id="eref-${n}" value="${n}">${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.text)}</a>` : esc(r.text)}</li>`;
+}).join('');
+</script>

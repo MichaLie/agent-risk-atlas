@@ -34,6 +34,7 @@ header.top .thesis{text-align:right;font-size:15px;color:var(--muted);line-heigh
 header.top .thesis b{color:var(--ink);font-weight:600}
 header.top .navpill{display:inline-block;font:600 12.5px/1.15 var(--f);color:var(--agent-t);background:var(--loop-tint);border:1px solid #BDDAD8;border-radius:999px;padding:2px 9px;text-decoration:none;margin-right:4px;vertical-align:1px}
 header.top .navpill.amber{color:var(--rep-t);background:var(--rep-tint);border-color:#ECD09C}
+header.top .navpill.purple{color:var(--people-t);background:var(--people-tint);border-color:#CFC8E8}
 header.top .navpill:hover{filter:brightness(.95);text-decoration:underline}
 
 /* grid */
@@ -120,6 +121,7 @@ header.top .navpill:hover{filter:brightness(.95);text-decoration:underline}
 .mnav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 10px}
 .mnav a{display:block;text-align:center;text-decoration:none;font:600 13.5px/1.25 var(--f);padding:9px 10px;border-radius:8px;border:1px solid #BDDAD8;background:var(--loop-tint);color:var(--loop-t)}
 .mnav a.amber{background:var(--rep-tint);border-color:#ECD09C;color:var(--rep-t)}
+.mnav a.purple{grid-column:1 / -1;background:var(--people-tint);border-color:#CFC8E8;color:var(--people-t)}
 .mbar{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 12px}
 .mfbtn{flex:none;border:1.5px solid var(--rule);background:#fff;border-radius:999px;padding:5px 11px;font:600 12.5px/1.15 var(--f);cursor:pointer}
 .mfbtn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -160,7 +162,7 @@ header.top .navpill:hover{filter:brightness(.95);text-decoration:underline}
         <h1>Agent Risk Atlas</h1>
         <p class="sub" id="sub"></p>
       </div>
-      <div class="thesis"><b>Checks protect the result. Thinking first protects you.</b><br><a class="navpill" href="paths.html#paper">Into the paper →</a><a class="navpill amber" href="paths.html#deskill">Into deskilling →</a> <span id="counts"></span></div>
+      <div class="thesis"><b>Checks protect the result. Thinking first protects you.</b><br><a class="navpill purple" href="essay.html">Read the essay →</a><a class="navpill" href="paths.html#paper">Into the paper →</a><a class="navpill amber" href="paths.html#deskill">Into deskilling →</a> <span id="counts"></span></div>
     </header>
     <div class="grid" id="grid"></div>
     <div class="sect" id="sect"></div>
@@ -181,7 +183,7 @@ header.top .navpill:hover{filter:brightness(.95);text-decoration:underline}
   </section>
   <section>
     <h2>How to read it</h2>
-    <p>Columns follow the research loop; a risk sits at the step where the failure arises. Rows say who fails. Many are old failures that agents make faster and quieter. Click a risk to see the human failure that often lets it through (dark ring and dashed line) and the defences against it; click a defence to see what it covers; click empty space or press Esc to reset; arrow keys step through the risks. A ? marks an open question: nothing here convinces the author yet. Clicking a risk or a defence also shows an example you could adapt for your agent's instructions. A companion page traces seven concrete errors <a href="paths.html#paper">into the paper</a> and five capability tracks <a href="paths.html#deskill">into deskilling</a> as you switch defence groups on.</p>
+    <p>Columns follow the research loop; a risk sits at the step where the failure arises. Rows say who fails. Many are old failures that agents make faster and quieter. Click a risk to see the human failure that often lets it through (dark ring and dashed line) and the defences against it; click a defence to see what it covers; click empty space or press Esc to reset; arrow keys step through the risks. A ? marks an open question: nothing here convinces the author yet. Clicking a risk or a defence also shows an example you could adapt for your agent's instructions. For a six-minute narrative introduction aimed at researchers and PhD students, read <a href="essay.html">The Quiet Errors Inside Good-Looking Science</a>; a visual companion page also traces seven concrete errors <a href="paths.html#paper">into the paper</a> and five capability tracks <a href="paths.html#deskill">into deskilling</a> as you switch defence groups on.</p>
   </section>
   <section>
     <h2>Example instructions</h2>
@@ -287,7 +289,7 @@ function renderMobile(){
   ];
   let h = `<div class="mhdr"><h1>Agent Risk Atlas</h1><p>How research with AI agents goes wrong: who fails, where in the loop, and what protects you.</p>` +
     `<div class="mthesis">Checks protect the result. Thinking first protects you.</div>` +
-    `<div class="mnav"><a href="paths.html#paper">1 · Into the paper →</a><a class="amber" href="paths.html#deskill">2 · Into deskilling →</a></div></div>` +
+    `<div class="mnav"><a class="purple" href="essay.html">Read the 6-min introductory essay →</a><a href="paths.html#paper">1 · Into the paper →</a><a class="amber" href="paths.html#deskill">2 · Into deskilling →</a></div></div>` +
     `<div class="mbar" role="tablist" aria-label="Filter risks or defences">` +
     filters.map(f => `<button type="button" class="mfbtn" data-mf="${f.id}" aria-pressed="${mfilter === f.id}">${esc(f.label)}</button>`).join('') +
     `</div><div class="mlist">`;

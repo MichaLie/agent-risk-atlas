@@ -63,8 +63,8 @@
 - id: controls
   kind: rep
   name: "Controls you write"
-  does: "One thing that must change, one that must not, and a design check; the agent runs them and they stop the pipeline when they fail."
-  example: "Before the analysis, ask me for a positive and a negative control: one result that must change and one that must not. Check them first and tell me if either fails."
+  does: "A known signal the analysis must detect (positive control), a null check where nothing should appear (negative control), and a design check; if any fails, the pipeline stops."
+  example: "Before the analysis, ask me for a positive control (a known signal we must see) and a negative control (where we should see no effect). Run both first and stop if either fails."
 - id: keypapers
   kind: rep
   name: "Read the key papers"

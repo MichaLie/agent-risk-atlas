@@ -2,7 +2,7 @@
 
 How research with AI agents goes wrong: who fails, at which step, and what protects you.
 
-**[Open the atlas](https://michalie.github.io/agent-risk-atlas/)** · [How errors reach print](https://michalie.github.io/agent-risk-atlas/paths.html#paper) · [How judgement erodes](https://michalie.github.io/agent-risk-atlas/paths.html#deskill)
+**[Open the atlas](https://michalie.github.io/agent-risk-atlas/)** · **[Read the essay](https://michalie.github.io/agent-risk-atlas/essay.html)** · [How errors reach print](https://michalie.github.io/agent-risk-atlas/paths.html#paper) · [How judgement erodes](https://michalie.github.io/agent-risk-atlas/paths.html#deskill)
 
 ![The atlas wall](docs/preview.png)
 
@@ -28,7 +28,7 @@ The example requests are written in plain words, so adapt them to your own work.
 
 Click a risk or a defence to highlight it. Press Esc or click on empty space to clear it, and use the arrow keys to move from risk to risk. You can also link to a single risk, for example [#B5](https://michalie.github.io/agent-risk-atlas/#B5).
 
-A standalone companion page follows seven example errors through checks and peer review [into print](https://michalie.github.io/agent-risk-atlas/paths.html#paper), and five skill tracks [into deskilling](https://michalie.github.io/agent-risk-atlas/paths.html#deskill), as you switch on the groups of defences.
+An [introductory essay](https://michalie.github.io/agent-risk-atlas/essay.html) walks through the main argument and five practical habits in ~6 minutes. A standalone companion page follows seven example errors through checks and peer review [into print](https://michalie.github.io/agent-risk-atlas/paths.html#paper), and five skill tracks [into deskilling](https://michalie.github.io/agent-risk-atlas/paths.html#deskill), as you switch on the groups of defences.
 
 ## Where the content comes from
 
@@ -46,7 +46,7 @@ I drafted the atlas with AI agents (Claude, by Anthropic), then checked and edit
 
 ## Reusing or changing it
 
-You are welcome to reuse and adapt it under the licence below. The content is in `data/` as plain YAML files. `build.py` checks them and writes the two pages into `docs/`:
+You are welcome to reuse and adapt it under the licence below. The content is in `data/` as plain YAML files. `build.py` checks them and writes the pages into `docs/`:
 
 ```
 pip install -r requirements.txt
@@ -57,7 +57,7 @@ Risk IDs stay fixed from version 1.0. If a risk is removed, its ID is not reused
 
 ## Citing
 
-Liegertová M. *Agent Risk Atlas*, version 1.3. 2026. https://github.com/MichaLie/agent-risk-atlas
+Liegertová M. *Agent Risk Atlas*, version 1.4. 2026. https://github.com/MichaLie/agent-risk-atlas
 
 ## Licence
 
