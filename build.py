@@ -248,7 +248,7 @@ for r in risks:
     for k in r.get("refs") or []:
         if k in refs and k not in order:
             order.append(k)
-extra = ["fei2026", "reason2000", "nusrat2025", "bucinca2021", "vasconcelos2023"]   # cited in the About text, on paths.html, or only in the essay
+extra = ["fei2026", "reason2000", "nusrat2025", "bucinca2021", "vasconcelos2023", "hosanagar2026"]   # cited in the About text, on paths.html, or only in the essay
 for k in extra:
     if k in refs and k not in order:
         order.append(k)

@@ -22,7 +22,7 @@ The defences come in three groups:
 - **You think first:** thinking only you can do, before the agent shows its version.
 - **People and rules:** colleagues, experts, lab rules and settings.
 
-The example requests are written in plain words, so adapt them to your own work. They and the defences come from my own practice; none of them has been tested in a study yet. Two ideas behind them have support from experiments in other settings: adding a step before the AI's answer is shown, so that people follow wrong answers less often ([Buçinca et al. 2021](https://doi.org/10.1145/3449287)), and making that answer quick to check ([Vasconcelos et al. 2023](https://doi.org/10.1145/3579605)).
+The example requests are written in plain words, so adapt them to your own work. They and the defences come from my own practice; none of them has been tested in a study yet. Three ideas behind them have support from experiments in other settings: adding a step before the AI's answer is shown, so that people follow wrong answers less often ([Buçinca et al. 2021](https://doi.org/10.1145/3449287)); making that answer quick to check ([Vasconcelos et al. 2023](https://doi.org/10.1145/3579605)); and keeping a real share of the creative work with the person, which cost no extra time and gave more satisfied writers and less uniform stories than approving the AI's work ([Hosanagar & Ahn 2026](https://doi.org/10.1093/pnasnexus/pgag353)).
 
 ## Finding your way
 
@@ -57,7 +57,7 @@ Risk IDs stay fixed from version 1.0. If a risk is removed, its ID is not reused
 
 ## Citing
 
-Liegertová M. *Agent Risk Atlas*, version 1.5. 2026. https://github.com/MichaLie/agent-risk-atlas
+Liegertová M. *Agent Risk Atlas*, version 1.5.1. 2026. https://github.com/MichaLie/agent-risk-atlas
 
 ## Licence
 
