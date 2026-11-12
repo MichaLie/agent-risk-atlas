@@ -42,7 +42,7 @@ Please tell me. [Open an issue](https://github.com/MichaLie/agent-risk-atlas/iss
 
 ## How it was made
 
-I drafted the atlas with AI agents (Claude, by Anthropic), then checked and edited it myself. Three of the cited works have authors at Anthropic: the study on analysts following an agent's suggestions (F1), the study on skill formation (G2) and ImpossibleBench (C6).
+I drafted the atlas with AI agents (Claude, by Anthropic), then checked and edited it myself. Three of the cited works have authors at Anthropic: the study on analysts following an agent's suggestions (F1, G7), the study on skill formation (G2) and ImpossibleBench (C6).
 
 ## Reusing or changing it
 
@@ -57,7 +57,7 @@ Risk IDs stay fixed from version 1.0. If a risk is removed, its ID is not reused
 
 ## Citing
 
-Liegertová M. *Agent Risk Atlas*, version 1.5.1. 2026. https://github.com/MichaLie/agent-risk-atlas
+Liegertová M. *Agent Risk Atlas*, version 1.6. 2026. https://github.com/MichaLie/agent-risk-atlas
 
 ## Licence
 

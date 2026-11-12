@@ -79,7 +79,7 @@
   type: B
   stage: plan
   looks_like: "Wells, lanes or cells counted as independent biology; p-values of 10⁻¹³¹ and smaller (demo, simulated data)."
-  refs: [hurlbert1984, obs-demo]
+  refs: [hurlbert1984, obs-demo, seto2026, passi2026]
   defences: [brief, expert]
   example: "Before any statistics, ask me what counts as one independent sample (an animal, a donor, a separate culture?) and state the n in every test."
   twin: F1
@@ -90,7 +90,7 @@
   type: C
   stage: analyze
   looks_like: "Nothing crashes: a sign flip, a bad join, swapped labels, numbers that look normal."
-  refs: [obs-practice]
+  refs: [obs-practice, seto2026, beel2025]
   defences: [recompute, humancheck]
   example_from: recompute
   twin: G2
@@ -123,7 +123,7 @@
   type: C
   stage: across
   looks_like: "A constraint given early in a long session is lost when the agent's working memory is compacted."
-  refs: [obs-practice]
+  refs: [obs-practice, trehan2026]
   defences: [statusnote]
   example: "When I give you a rule or decision in the chat, add it to your instructions file straight away and show me what you added."
 - id: C6
@@ -141,8 +141,8 @@
   name: "Overstated"
   type: D
   stage: write
-  looks_like: "\"Not detected\" becomes \"absent\"; reprocessing counts as replication; a relative change becomes absolute."
-  refs: [obs-practice]
+  looks_like: "\"Not detected\" becomes \"absent\"; reprocessing counts as replication; a relative change becomes absolute; a 1% difference is reported as a success."
+  refs: [obs-practice, beel2025]
   defences: [sentaudit]
   example: "Before I read the draft, check each sentence against the results. List sentences that say more than the data show, and ones you could not check."
 - id: D2
@@ -150,7 +150,7 @@
   type: D
   stage: write
   looks_like: "\"All checks passed\", \"HIGH confidence\", \"COMPLETE\" read as scientific verdicts."
-  refs: [obs-genomics]
+  refs: [obs-genomics, passi2026]
   defences: [sentaudit, knownerror]
   example: "Instead of 'all checks passed', tell me what each check actually tested and what it did not."
   twin: F2
@@ -159,7 +159,7 @@
   type: D
   stage: write
   looks_like: "A fluent write-up: caveats vanish, weak signals become specific claims, and the errors sit in tables nobody reopened."
-  refs: [kosmos2025, alfaqeeh2026, obs-genomics]
+  refs: [kosmos2025, alfaqeeh2026, obs-genomics, seto2026, beel2025]
   defences: [sentaudit, recompute]
   example: "Before I read the draft, list sentences that say more than the data show, and any caveat from the analysis that went missing."
   twin: F3
@@ -197,7 +197,7 @@
   type: E
   stage: audit
   looks_like: "Software tests pass; nothing ever tested whether the claim is true."
-  refs: [obs-genomics, pham2026]
+  refs: [obs-genomics, pham2026, passi2026]
   defences: [controls]
   example: "Code tests only show that the code runs. Also check my positive and negative controls, and tell me if either fails."
 - id: E4
@@ -231,7 +231,7 @@
   type: F
   stage: audit
   looks_like: "Confident sign-off while silent defects slip through; you check less after a run of clean results."
-  refs: [dissanayake2026, parasuraman2010]
+  refs: [dissanayake2026, parasuraman2010, ye2026]
   defences: [predict, rerun]
   example_from: predict
 - id: F3
@@ -271,7 +271,7 @@
   type: F
   stage: across
   looks_like: "Twelve approvals in a row; a yes that attaches to nothing in particular."
-  refs: [obs-practice, mitchell2026]
+  refs: [obs-practice, mitchell2026, ye2026]
   defences: [questions]
   example_from: questions
 - id: F8
@@ -297,15 +297,15 @@
   type: G
   stage: analyze
   looks_like: "Learning a new library with AI help left weaker understanding, code reading and debugging; those who asked it conceptual questions kept their learning."
-  refs: [shen2026]
+  refs: [shen2026, bastani2025]
   defences: [explain, rerun]
   example: "When I say I'm learning a tool, don't write the code for me: answer my questions and let me write it."
 - id: G3
   name: "Skill fades"
   type: G
   stage: across
-  looks_like: "A skill you had fades because the agent now does that step. In one observational study, doctors' unaided adenoma detection fell from 28% to 22% within months of AI use."
-  refs: [bainbridge1983, hosseini2026, budzyn2025]
+  looks_like: "A skill you had fades because the agent now does that step. In colonoscopy, an observational study saw detection fall from 28% to 22%; a later trial saw no drop."
+  refs: [bainbridge1983, hosseini2026, budzyn2025, pedersen2026]
   defences: [rerun]
   example_from: rerun
 - id: G4
@@ -337,7 +337,7 @@
   type: G
   stage: write
   looks_like: "The agent builds the argument and weighs the alternative explanations; you approve the prose and stop practising the reasoning."
-  refs: [lee2025, kosmyna2025, obs-practice]
+  refs: [lee2025, kosmyna2025, obs-practice, anthropic2026]
   defences: [argument, explain]
   example_from: argument
 

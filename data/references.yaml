@@ -47,3 +47,10 @@ vasconcelos2023: {kind: source, text: "Vasconcelos H, et al. Explanations can re
 mitchell2026: {kind: source, text: "Mitchell M, Ghosh A, Passi S. AI agents push humans out of the loop. arXiv:2608.23642 (2026, preprint).", url: "https://arxiv.org/abs/2608.23642"}
 hosanagar2026: {kind: source, text: "Hosanagar K, Ahn D. Designing human and generative AI collaboration: trade-offs in productivity, satisfaction, and creative diversity. PNAS Nexus. 2026;5(11):pgag353.", url: "https://doi.org/10.1093/pnasnexus/pgag353"}
 mit2026: {kind: source, text: "MIT Ad Hoc Committee on AI Use in Teaching, Learning, and Research Training (Klopfer E, Madden S, co-chairs). Report, 13 Aug 2026.", url: "https://aiandeducation.mit.edu/report/"}
+
+seto2026: {kind: source, text: "Seto E. Agentic artificial intelligence for reproducible human-in-the-loop environmental health research. arXiv:2608.06771 (2026, preprint).", url: "https://arxiv.org/abs/2608.06771"}
+beel2025: {kind: source, text: "Beel J, Kan M-Y, Baumgart M. Evaluating Sakana's AI Scientist: bold claims, mixed results, and a promising future? ACM SIGIR Forum. 2025;59(1):1–20.", url: "https://doi.org/10.1145/3769733.3769747"}
+passi2026: {kind: source, text: "Passi S, Singh R. The oversight fallacy: why AI agents require more than humans-in-the-loop. Data & Society report, 29 Jul 2026.", url: "https://doi.org/10.69985/VWCK1626"}
+ye2026: {kind: source, text: "Ye J, Zou H, Yu S, Shi W. Coding with the enemy: can human developers detect AI agent sabotage? arXiv:2606.05647 (2026, preprint; accepted at NeurIPS 2026).", url: "https://arxiv.org/abs/2606.05647"}
+bastani2025: {kind: source, text: "Bastani H, et al. Generative AI without guardrails can harm learning: evidence from high school mathematics. Proc Natl Acad Sci U S A. 2025;122(26):e2422633122.", url: "https://doi.org/10.1073/pnas.2422633122"}
+pedersen2026: {kind: source, text: "Pedersen TA, et al. Learning and deskilling effects of artificial intelligence in colonoscopy among endoscopists with different levels of experience: a pragmatic, prospective trial. Endoscopy. 2026;58(9):1003–1014.", url: "https://doi.org/10.1055/a-2858-7084"}
