@@ -347,15 +347,15 @@
   type: H
   stage: across
   looks_like: "The tasks that built experts are delegated; trainees watch, and the team loses the people who can teach or challenge the work."
-  refs: [beane, hosseini2026]
+  refs: [beane, hosseini2026, mit2026]
   defences: [learning]
   example_from: learning
 - id: H2
   name: "Monoculture"
   type: H
   stage: plan
-  looks_like: "Many labs' independent analyses defer to models that share one prior."
-  refs: [kim2025, messeri2024]
+  looks_like: "Many labs' independent analyses defer to models that share one prior. In one writing experiment, stories were most alike when the AI supplied the ideas."
+  refs: [kim2025, messeri2024, hosanagar2026]
   defences: [humancheck]
   example_from: humancheck
 - id: H3

@@ -1,6 +1,6 @@
 # Reference list. The build numbers these in order of first use, so never write numbers yourself.
 # kind: source (a published work; give url) · observation (the author's first-hand observation) · proposal (reasoned, not yet observed or measured)
-# Every source below was checked against Crossref, arXiv or the publisher's page on 7–11 Nov 2026.
+# Every source below was checked against Crossref, arXiv or the publisher's page on 7–12 Nov 2026.
 
 obs-practice: {kind: observation, text: "Author's observation from building agentic research workflows, 2023–2026."}
 obs-genomics: {kind: observation, text: "Author's observation in a multi-agent genomics project (autonomous AI researcher plus orchestrator agent), 2026."}
@@ -45,3 +45,5 @@ becker2025: {kind: source, text: "Becker J, Rush N, Barnes E, Rein D. Measuring 
 bucinca2021: {kind: source, text: "Buçinca Z, Malaya MB, Gajos KZ. To trust or to think: cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making. Proc ACM Hum-Comput Interact. 2021;5(CSCW1):188.", url: "https://doi.org/10.1145/3449287"}
 vasconcelos2023: {kind: source, text: "Vasconcelos H, et al. Explanations can reduce overreliance on AI systems during decision-making. Proc ACM Hum-Comput Interact. 2023;7(CSCW1):129.", url: "https://doi.org/10.1145/3579605"}
 mitchell2026: {kind: source, text: "Mitchell M, Ghosh A, Passi S. AI agents push humans out of the loop. arXiv:2608.23642 (2026, preprint).", url: "https://arxiv.org/abs/2608.23642"}
+hosanagar2026: {kind: source, text: "Hosanagar K, Ahn D. Designing human and generative AI collaboration: trade-offs in productivity, satisfaction, and creative diversity. PNAS Nexus. 2026;5(11):pgag353.", url: "https://doi.org/10.1093/pnasnexus/pgag353"}
+mit2026: {kind: source, text: "MIT Ad Hoc Committee on AI Use in Teaching, Learning, and Research Training (Klopfer E, Madden S, co-chairs). Report, 13 Aug 2026.", url: "https://aiandeducation.mit.edu/report/"}
