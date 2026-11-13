@@ -57,7 +57,7 @@ Risk IDs stay fixed from version 1.0. If a risk is removed, its ID is not reused
 
 ## Citing
 
-Liegertová M. *Agent Risk Atlas*, version 1.6. 2026. https://github.com/MichaLie/agent-risk-atlas
+Liegertová M. *Agent Risk Atlas*, version 1.7. 2026. https://github.com/MichaLie/agent-risk-atlas
 
 ## Licence
 

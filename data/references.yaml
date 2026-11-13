@@ -1,6 +1,6 @@
 # Reference list. The build numbers these in order of first use, so never write numbers yourself.
 # kind: source (a published work; give url) · observation (the author's first-hand observation) · proposal (reasoned, not yet observed or measured)
-# Every source below was checked against Crossref, arXiv or the publisher's page on 7–12 Nov 2026.
+# Every source below was checked against Crossref, arXiv or the publisher's page on 7–13 Nov 2026.
 
 obs-practice: {kind: observation, text: "Author's observation from building agentic research workflows, 2023–2026."}
 obs-genomics: {kind: observation, text: "Author's observation in a multi-agent genomics project (autonomous AI researcher plus orchestrator agent), 2026."}
@@ -54,3 +54,10 @@ passi2026: {kind: source, text: "Passi S, Singh R. The oversight fallacy: why AI
 ye2026: {kind: source, text: "Ye J, Zou H, Yu S, Shi W. Coding with the enemy: can human developers detect AI agent sabotage? arXiv:2606.05647 (2026, preprint; accepted at NeurIPS 2026).", url: "https://arxiv.org/abs/2606.05647"}
 bastani2025: {kind: source, text: "Bastani H, et al. Generative AI without guardrails can harm learning: evidence from high school mathematics. Proc Natl Acad Sci U S A. 2025;122(26):e2422633122.", url: "https://doi.org/10.1073/pnas.2422633122"}
 pedersen2026: {kind: source, text: "Pedersen TA, et al. Learning and deskilling effects of artificial intelligence in colonoscopy among endoscopists with different levels of experience: a pragmatic, prospective trial. Endoscopy. 2026;58(9):1003–1014.", url: "https://doi.org/10.1055/a-2858-7084"}
+banik2026: {kind: source, text: "Banik D, Chowdhury K, Shamim SI. All smoke, no alarm: oracle signals in agent-authored test code. 2026 IEEE International Conference on Artificial Intelligence Testing (AITest). 2026:197–200.", url: "https://doi.org/10.1109/aitest70988.2026.00038"}
+long2026: {kind: source, text: "Long T, et al. ParallelPilot: supporting coordination and monitoring in parallel AI coding. arXiv:2609.33113 (2026, preprint).", url: "https://arxiv.org/abs/2609.33113"}
+gartenberg2026: {kind: source, text: "Gartenberg C, Hasan S, Murray A, Pierce L. More versus better: artificial intelligence, incentives, and the emerging crisis in peer review. Organ Sci. 2026;37(3):795–812.", url: "https://doi.org/10.1287/orsc.2026.ed.v37.n3"}
+iop2025: {kind: source, text: "IOP Publishing. Reviewers increasingly divided on the use of generative AI in peer review. News release, 10 Sep 2025.", url: "https://ioppublishing.org/news/reviewers-increasingly-divided-on-the-use-of-generative-ai-in-peer-review/"}
+sumner2014: {kind: source, text: "Sumner P, et al. The association between exaggeration in health related science news and academic press releases: retrospective observational study. BMJ. 2014;349:g7015.", url: "https://doi.org/10.1136/bmj.g7015"}
+gilad2015: {kind: source, text: "Gilad Y, Mizrahi-Man O. A reanalysis of mouse ENCODE comparative gene expression data. F1000Research. 2015;4:121.", url: "https://doi.org/10.12688/f1000research.6536.1"}
+wadi2016: {kind: source, text: "Wadi L, et al. Impact of outdated gene annotations on pathway enrichment analysis. Nat Methods. 2016;13(9):705–706.", url: "https://doi.org/10.1038/nmeth.3963"}

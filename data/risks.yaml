@@ -27,7 +27,7 @@
   type: A
   stage: acquire
   looks_like: "Mouse evidence used for human, a cell line for primary cells, IFN-γ papers cited for IFN-β."
-  refs: [proposal]
+  refs: [sumner2014, proposal]
   defences: [fulltext]
   example: "For each cited claim, state the species, cell type and study type of the source, and flag any that differ from our system."
 - id: A4
@@ -71,7 +71,7 @@
   type: B
   stage: plan
   looks_like: "Treatment confounded with processing day, or three donors carrying the whole comparison, analysed without a flag."
-  refs: [obs-demo]
+  refs: [gilad2015, obs-demo]
   defences: [brief, expert]
   example: "Before analysing, check the sample sheet for anything else that differs between groups, or too few replicates, and tell me before you go on."
 - id: B5
@@ -179,7 +179,7 @@
   type: E
   stage: audit
   looks_like: "A check that has never been shown a failure passes everything, calmly."
-  refs: [obs-practice]
+  refs: [banik2026, obs-practice]
   defences: [knownerror]
   example_from: knownerror
   twin: F2
@@ -255,7 +255,7 @@
   type: F
   stage: across
   looks_like: "After a long or unattended run you cannot say what changed, what is uncertain, or what needs you."
-  refs: [obs-practice]
+  refs: [long2026, obs-practice]
   defences: [statusnote]
   example_from: statusnote
 - id: F6
@@ -313,7 +313,7 @@
   type: G
   stage: plan
   looks_like: "Returning to a method after years, you do not know what changed, so you cannot catch it."
-  refs: [proposal]
+  refs: [wadi2016, proposal]
   defences: [sincelast, keypapers]
   example_from: sincelast
 - id: G5
@@ -371,7 +371,7 @@
   type: H
   stage: across
   looks_like: "Agent output grows much faster than human reading and checking can."
-  refs: [obs-genomics]
+  refs: [obs-genomics, gartenberg2026]
   defences: []
   open: true
 
@@ -381,7 +381,7 @@
   type: I
   stage: across
   looks_like: "Patient data, unpublished results, or a manuscript or grant you are reviewing, sent to a cloud model; access terms and confidentiality ignored."
-  refs: [proposal]
+  refs: [iop2025, proposal]
   defences: [datatiers]
   no_example: "Which data may go to which tool is a permission setting, decided before the project."
 - id: I2

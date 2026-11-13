@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use the Agent Risk Atlas, please cite it as below."
 title: "Agent Risk Atlas"
-version: "1.6"
-date-released: 2026-11-12
+version: "1.7"
+date-released: 2026-11-13
 authors:
   - family-names: "Liegertová"
     given-names: "Michaela"
