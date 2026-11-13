@@ -10,6 +10,8 @@ If you use AI agents in your research, or are about to, this is for you. Agents 
 
 I made it for an ELIXIR hands-on training session on AI agents in life-science research. Project it to start a discussion with your group, or explore it on your own.
 
+Related: [Publishing Under AI](https://michalie.github.io/publishing-under-ai/): how scientific writing and peer review are coping with AI, where researchers disagree, and what is being tried · [What journals actually require](https://michalie.github.io/journal-ai-policies/): what publishers say about generative AI.
+
 ## How to read it
 
 Each box is one risk. The rows show who fails: the agent, the checks around it, you in the moment, you over time, your team and field, and data governance. The columns follow a research project, from searching the literature to handing the work on.
