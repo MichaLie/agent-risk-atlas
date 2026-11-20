@@ -9,7 +9,7 @@
   type: A
   stage: acquire
   looks_like: "A neat summary built on abstracts; methods and supplements unread, and nothing said about the papers it could not open."
-  refs: [obs-practice]
+  refs: [obs-practice, gopalan2026, singharoy2026]
   defences: [fulltext, keypapers]
   example_from: fulltext
   twin: G1
@@ -18,7 +18,7 @@
   type: A
   stage: search
   looks_like: "A real-looking reference that does not exist, or a real paper that says something else."
-  refs: [walters2023, obs-practice]
+  refs: [walters2023, saqlain2026, obs-practice]
   defences: [fulltext]
   example: "Check that every reference exists before you cite it: give its DOI or link and quote the sentence that supports the claim."
   twin: G1
@@ -45,7 +45,7 @@
   type: B
   stage: plan
   looks_like: "The most common method, often a generation behind, presented as the obvious choice."
-  refs: [obs-practice]
+  refs: [obs-practice, rong2026]
   defences: [options, sincelast]
   example: "Before choosing a method, show me two to four recent options with their papers and years, not only the most common one. Don't recommend one yet."
   twin: G4
@@ -135,6 +135,15 @@
   defences: [knownerror, recompute]
   example: "If a check fails, leave it as it is and tell me why it failed; change a check or threshold only after I agree."
   twin: F2
+- id: C7
+  name: "Answer in the input"
+  type: C
+  stage: acquire
+  looks_like: "A model scores well because the answer leaked in: values recorded after the moment of prediction, IDs that give away the label, or test data left in reach."
+  refs: [luo2025, bao2026, liu2026, queen2026]
+  defences: [controls, safesetup]
+  example: "Before fitting a model, tell me which inputs would not be known at prediction time. Then rerun without IDs and show me how far the score drops."
+  twin: F2
 
 # D · Interpreting and reporting (the agent)
 - id: D1
@@ -142,7 +151,7 @@
   type: D
   stage: write
   looks_like: "\"Not detected\" becomes \"absent\"; reprocessing counts as replication; a relative change becomes absolute; a 1% difference is reported as a success."
-  refs: [obs-practice, beel2025]
+  refs: [obs-practice, beel2025, abedrabbo2026, singharoy2026]
   defences: [sentaudit]
   example: "Before I read the draft, check each sentence against the results. List sentences that say more than the data show, and ones you could not check."
 - id: D2
@@ -168,7 +177,7 @@
   type: D
   stage: audit
   looks_like: "A worker agent reports that all checks passed; a rerun shows several failed."
-  refs: [obs-genomics, trehan2026]
+  refs: [obs-genomics, trehan2026, kim2026]
   defences: [recompute, signoff]
   example: "When you report that checks passed, show me their actual output."
   twin: F2
@@ -205,7 +214,7 @@
   type: E
   stage: across
   looks_like: "The instructions file says it; nothing shows that it happened."
-  refs: [obs-practice, trehan2026]
+  refs: [obs-practice, trehan2026, baker2026]
   defences: [statusnote]
   example: "For each rule in my instructions, show me where in the results it was followed, or say that you can't."
 - id: E5
@@ -213,7 +222,7 @@
   type: E
   stage: handoff
   looks_like: "Identical numbers from a flawed design."
-  refs: [pham2026, proposal]
+  refs: [pham2026, baker2026]
   defences: [expert]
   example_from: expert
 
@@ -223,7 +232,7 @@
   type: F
   stage: plan
   looks_like: "The agent's lean becomes your judgment: in one study, with leans set by the researchers, analysts followed the agent 86% of the time, where chance would give about 50%."
-  refs: [anthropic2026]
+  refs: [anthropic2026, grunde2026]
   defences: [choose]
   example_from: choose
 - id: F2
@@ -255,7 +264,7 @@
   type: F
   stage: across
   looks_like: "After a long or unattended run you cannot say what changed, what is uncertain, or what needs you."
-  refs: [long2026, obs-practice]
+  refs: [long2026, hugie2026, obs-practice]
   defences: [statusnote]
   example_from: statusnote
 - id: F6
@@ -355,7 +364,7 @@
   type: H
   stage: plan
   looks_like: "Many labs' independent analyses defer to models that share one prior. In one writing experiment, stories were most alike when the AI supplied the ideas."
-  refs: [kim2025, messeri2024, hosanagar2026]
+  refs: [kim2025, messeri2024, hosanagar2026, bisht2026]
   defences: [humancheck]
   example_from: humancheck
 - id: H3
@@ -371,7 +380,7 @@
   type: H
   stage: across
   looks_like: "Agent output grows much faster than human reading and checking can."
-  refs: [obs-genomics, gartenberg2026]
+  refs: [obs-genomics, gartenberg2026, mitchell2026, gopalan2026]
   defences: []
   open: true
 
@@ -389,7 +398,7 @@
   type: I
   stage: acquire
   looks_like: "Instructions hidden in a paper, a data file or a web page are followed as if you wrote them."
-  refs: [lin2025, greshake2023]
+  refs: [lin2025, greshake2023, hutton2026]
   defences: [safesetup]
   example_from: safesetup
 - id: I3

@@ -1,6 +1,6 @@
 # Reference list. The build numbers these in order of first use, so never write numbers yourself.
 # kind: source (a published work; give url) · observation (the author's first-hand observation) · proposal (reasoned, not yet observed or measured)
-# Every source below was checked against Crossref, arXiv or the publisher's page on 7–13 Nov 2026.
+# Every source below was checked against Crossref, arXiv or the publisher's page on 7–20 Nov 2026.
 
 obs-practice: {kind: observation, text: "Author's observation from building agentic research workflows, 2023–2026."}
 obs-genomics: {kind: observation, text: "Author's observation in a multi-agent genomics project (autonomous AI researcher plus orchestrator agent), 2026."}
@@ -61,3 +61,18 @@ iop2025: {kind: source, text: "IOP Publishing. Reviewers increasingly divided on
 sumner2014: {kind: source, text: "Sumner P, et al. The association between exaggeration in health related science news and academic press releases: retrospective observational study. BMJ. 2014;349:g7015.", url: "https://doi.org/10.1136/bmj.g7015"}
 gilad2015: {kind: source, text: "Gilad Y, Mizrahi-Man O. A reanalysis of mouse ENCODE comparative gene expression data. F1000Research. 2015;4:121.", url: "https://doi.org/10.12688/f1000research.6536.1"}
 wadi2016: {kind: source, text: "Wadi L, et al. Impact of outdated gene annotations on pathway enrichment analysis. Nat Methods. 2016;13(9):705–706.", url: "https://doi.org/10.1038/nmeth.3963"}
+
+gopalan2026: {kind: source, text: "Gopalan S, Narayanan S. Verification debt in automated biological research workflows: a proof-of-concept. bioRxiv 2026.09.29.755250 (2026, preprint).", url: "https://doi.org/10.64898/2026.09.29.755250"}
+singharoy2026: {kind: source, text: "Singha Roy T, Wadhwa M, Durrett G. Quantifying claim smoothing by LLM research agents. arXiv:2610.35793 (2026, preprint).", url: "https://arxiv.org/abs/2610.35793"}
+rong2026: {kind: source, text: "Rong Z, et al. DE-Rigor-Agent: an agentic workflow for assumption-aware differential expression analysis of bulk RNA-seq data. bioRxiv 2026.11.09.765522 (2026, preprint).", url: "https://doi.org/10.64898/2026.11.09.765522"}
+saqlain2026: {kind: source, text: "Saqlain M. Real PMIDs, wrong papers: harness design for biomedical claim-verification agents. arXiv:2610.29812 (2026, preprint).", url: "https://arxiv.org/abs/2610.29812"}
+abedrabbo2026: {kind: source, text: "Abedrabbo S, et al. BioResearchBench: 50 long horizon biology research tasks. bioRxiv 2026.10.28.762290 (2026, preprint).", url: "https://doi.org/10.64898/2026.10.28.762290"}
+kim2026: {kind: source, text: "Kim S, et al. Into the unknown: benchmarking AI agents on open scientific research problems. arXiv:2610.19159 (2026, preprint).", url: "https://arxiv.org/abs/2610.19159"}
+baker2026: {kind: source, text: "Baker D, et al. Verifiable agentic science on public infrastructure. bioRxiv 2026.10.26.761864 (2026, preprint).", url: "https://doi.org/10.64898/2026.10.26.761864"}
+grunde2026: {kind: source, text: "Grunde-McLaughlin M, et al. Agentic path maps: exposing an agent's traversal through the garden of forking paths. arXiv:2611.04183 (2026, preprint).", url: "https://arxiv.org/abs/2611.04183"}
+hugie2026: {kind: source, text: "Hugie E, et al. How spatial biologists direct and verify AI-assisted analyses. arXiv:2609.28723 (2026, preprint).", url: "https://arxiv.org/abs/2609.28723"}
+bisht2026: {kind: source, text: "Bisht H, et al. Agentic AI scientists are not built for autonomous scientific discovery. arXiv:2605.08956 (2026, preprint).", url: "https://arxiv.org/abs/2605.08956"}
+hutton2026: {kind: source, text: "Hutton A, Meyer JG. Omics data discovery agents: agent-supported retrieval, reanalysis, and synthesis of published omics data. PLoS Comput Biol. 2026;22(10):e1014822.", url: "https://doi.org/10.1371/journal.pcbi.1014822"}
+bao2026: {kind: source, text: "Bao X, et al. LeakBench: auditing reward hacking through prediction-time leakage in clinical modeling agents. arXiv:2610.26088 (2026, preprint).", url: "https://arxiv.org/abs/2610.26088"}
+liu2026: {kind: source, text: "Liu J, et al. Auditing tool traces in agentic LLMs: source localization and counterfactual dependence testing. arXiv:2610.25540 (2026, preprint).", url: "https://arxiv.org/abs/2610.25540"}
+queen2026: {kind: source, text: "Queen O, et al. DiscoveryAgent: a framework for scientist-centric agentic AI. arXiv:2611.21950 (2026, preprint).", url: "https://arxiv.org/abs/2611.21950"}
