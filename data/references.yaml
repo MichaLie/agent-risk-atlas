@@ -1,6 +1,6 @@
 # Reference list. The build numbers these in order of first use, so never write numbers yourself.
 # kind: source (a published work; give url) · observation (the author's first-hand observation) · proposal (reasoned, not yet observed or measured)
-# Every source below was checked against Crossref, arXiv or the publisher's page on 7–20 Nov 2026.
+# Every source below was checked against Crossref, arXiv or the publisher's page on 7–23 Nov 2026.
 
 obs-practice: {kind: observation, text: "Author's observation from building agentic research workflows, 2023–2026."}
 obs-genomics: {kind: observation, text: "Author's observation in a multi-agent genomics project (autonomous AI researcher plus orchestrator agent), 2026."}
@@ -76,3 +76,6 @@ hutton2026: {kind: source, text: "Hutton A, Meyer JG. Omics data discovery agent
 bao2026: {kind: source, text: "Bao X, et al. LeakBench: auditing reward hacking through prediction-time leakage in clinical modeling agents. arXiv:2610.26088 (2026, preprint).", url: "https://arxiv.org/abs/2610.26088"}
 liu2026: {kind: source, text: "Liu J, et al. Auditing tool traces in agentic LLMs: source localization and counterfactual dependence testing. arXiv:2610.25540 (2026, preprint).", url: "https://arxiv.org/abs/2610.25540"}
 queen2026: {kind: source, text: "Queen O, et al. DiscoveryAgent: a framework for scientist-centric agentic AI. arXiv:2611.21950 (2026, preprint).", url: "https://arxiv.org/abs/2611.21950"}
+
+wu2026: {kind: source, text: "Wu Z, Li Y, Tafjord O, Kim B. XYEval: agents say yes to bad advice. arXiv:2609.23939 (2026, preprint).", url: "https://arxiv.org/abs/2609.23939"}
+dolgin2026: {kind: source, text: "Dolgin E. AI co-scientists are revolutionizing how research is done. Nature. 2026;657(8133):1108–1110.", url: "https://doi.org/10.1038/d41586-026-02931-5"}

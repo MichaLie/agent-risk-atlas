@@ -83,6 +83,15 @@
   defences: [brief, expert]
   example: "Before any statistics, ask me what counts as one independent sample (an animal, a donor, a separate culture?) and state the n in every test."
   twin: F1
+- id: B6
+  name: "Your hunch, adopted"
+  type: B
+  stage: across
+  looks_like: "You mention a suspected cause; the agent builds on it without checking. In one benchmark study, a single confident wrong hint cut task success by up to 47%."
+  refs: [wu2026]
+  defences: [foragainst, options]
+  example: "When I suggest a cause or a fix, treat it as a guess: check it first, and tell me plainly if it does not hold."
+  twin: F6
 
 # C · Running the analysis (the agent)
 - id: C1
@@ -356,7 +365,7 @@
   type: H
   stage: across
   looks_like: "The tasks that built experts are delegated; trainees watch, and the team loses the people who can teach or challenge the work."
-  refs: [beane, hosseini2026, mit2026]
+  refs: [beane, hosseini2026, mit2026, dolgin2026]
   defences: [learning]
   example_from: learning
 - id: H2
